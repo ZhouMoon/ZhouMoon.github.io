@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>Log4j 配置祥解 | 周海军的博客</title>
+  <meta name="description" content="转载：http://www.360doc.com/content/17/0824/16/46744981_681796916.shtml Log4J的配置文件(Configuration File)就是用来设置记录器的级别、存放器和布局的，它可接key=value格式的设置或xml格式的设置信息。通过配置，可以创建出Log4J的运行环境。  配置文件Log4J配置文件的基本格式如下：  12345">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Log4j 配置祥解">
+<meta property="og:url" content="http://zhoumoon.github.io/2020/03/10/Log4j配置详解/index.html">
+<meta property="og:site_name" content="Zhou_Moon">
+<meta property="og:description" content="转载：http://www.360doc.com/content/17/0824/16/46744981_681796916.shtml Log4J的配置文件(Configuration File)就是用来设置记录器的级别、存放器和布局的，它可接key=value格式的设置或xml格式的设置信息。通过配置，可以创建出Log4J的运行环境。  配置文件Log4J配置文件的基本格式如下：  12345">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-06-16T14:25:21.385Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Log4j 配置祥解">
+<meta name="twitter:description" content="转载：http://www.360doc.com/content/17/0824/16/46744981_681796916.shtml Log4J的配置文件(Configuration File)就是用来设置记录器的级别、存放器和布局的，它可接key=value格式的设置或xml格式的设置信息。通过配置，可以创建出Log4J的运行环境。  配置文件Log4J配置文件的基本格式如下：  12345">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://zhoumoon.github.io/2020/03/10/Log4j配置详解/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Zhou_Moon" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ZhouMoon" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">ZhouMoon</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">三人行必有我师</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZhouMoon" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://twitter.com/ZHJTime" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>善用<b style=" color:red; font-size:16px;">搜索</b>效率翻倍!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Http/" style="font-size: 13px;">Http</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/MySQL/" style="font-size: 13.5px;">MySQL</a> <a href="/tags/Vim/" style="font-size: 13px;">Vim</a> <a href="/tags/Windows/" style="font-size: 13.5px;">Windows</a>
+    </div>
+  </div>
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Set-root-logger-level-to-DEBUG-and-its-only-appender-to-A1"><span class="toc-number">1.</span> <span class="toc-text">Set root logger level to DEBUG and its only appender to A1</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#A1-is-set-to-be-a-ConsoleAppender"><span class="toc-number">2.</span> <span class="toc-text">A1 is set to be a ConsoleAppender.</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#A1-使用的输出布局，其中log4j提供4种布局-org-apache-log4j-HTMLLayout（以HTML表格形式布局）"><span class="toc-number">3.</span> <span class="toc-text">A1 使用的输出布局，其中log4j提供4种布局. org.apache.log4j.HTMLLayout（以HTML表格形式布局）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#保存一个备份文件"><span class="toc-number">4.</span> <span class="toc-text">保存一个备份文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Configuration-for-receiving-e-mails-when-ERROR-messages-occur"><span class="toc-number">5.</span> <span class="toc-text">Configuration for receiving e-mails when ERROR messages occur.</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#当输出信息于回滚文件时"><span class="toc-number">6.</span> <span class="toc-text">当输出信息于回滚文件时</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Log4j配置详解" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Log4j 配置祥解
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/03/10/Log4j配置详解/" class="article-date">
+	  <time datetime="2020-03-10T12:12:01.000Z" itemprop="datePublished">2020-03-10</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/Java/">Java</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2020/03/10/Log4j配置详解/" class="leancloud_visitors"  data-flag-title="Log4j 配置祥解">
+			<span class="leancloud-visitors-count">0</span>
+		</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/03/10/Log4j配置详解/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>转载：<a href="http://www.360doc.com/content/17/0824/16/46744981_681796916.shtml" target="_blank" rel="noopener">http://www.360doc.com/content/17/0824/16/46744981_681796916.shtml</a></p>
+<p>Log4J的配置文件(Configuration File)就是用来设置记录器的级别、存放器和布局的，它可接key=value格式的设置或xml格式的设置信息。通过配置，可以创建出Log4J的运行环境。</p>
+<ol>
+<li>配置文件<br>Log4J配置文件的基本格式如下：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> #配置根Logger</span><br><span class="line">log4j.rootLogger  =   [ level ]   ,  appenderName1 ,  appenderName2 ,  …</span><br><span class="line"></span><br><span class="line">#配置日志信息输出目的地Appender</span><br><span class="line">log4j.appender.appenderName  =  fully.qualified.name.of.appender.class </span><br><span class="line">　　log4j.appender.appenderName.option1  =  value1 </span><br><span class="line">　　… </span><br><span class="line">　　log4j.appender.appenderName.optionN  =  valueN </span><br><span class="line"></span><br><span class="line">#配置日志信息的格式（布局）</span><br><span class="line">log4j.appender.appenderName.layout  =  fully.qualified.name.of.layout.class </span><br><span class="line">　　log4j.appender.appenderName.layout.option1  =  value1 </span><br><span class="line">　　… </span><br><span class="line">　　log4j.appender.appenderName.layout.optionN  =  valueN</span><br></pre></td></tr></table></figure>
+
+<p>其中 [level] 是日志输出级别，共有5级：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FATAL      0  </span><br><span class="line">ERROR      3  </span><br><span class="line">WARN       4  </span><br><span class="line">INFO       6  </span><br><span class="line">DEBUG      7</span><br></pre></td></tr></table></figure>
+
+<p>Appender 为日志输出目的地，Log4j提供的appender有以下几种：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">org.apache.log4j.ConsoleAppender（控制台），</span><br><span class="line">org.apache.log4j.FileAppender（文件），</span><br><span class="line">org.apache.log4j.DailyRollingFileAppender（每天产生一个日志文件），</span><br><span class="line">org.apache.log4j.RollingFileAppender（文件大小到达指定尺寸的时候产生一个新的文件），</span><br><span class="line">org.apache.log4j.WriterAppender（将日志信息以流格式发送到任意指定的地方）</span><br></pre></td></tr></table></figure>
+
+<p>Layout：日志输出格式，Log4j提供的layout有以下几种：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">org.apache.log4j.HTMLLayout（以HTML表格形式布局），</span><br><span class="line">org.apache.log4j.PatternLayout（可以灵活地指定布局模式），</span><br><span class="line">org.apache.log4j.SimpleLayout（包含日志信息的级别和信息字符串），</span><br><span class="line">org.apache.log4j.TTCCLayout（包含日志产生的时间、线程、类别等等信息）</span><br></pre></td></tr></table></figure>
+
+<p>打印参数: Log4J采用类似C语言中的printf函数的打印格式格式化日志信息，如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">%m   输出代码中指定的消息</span><br><span class="line"> %p   输出优先级，即DEBUG，INFO，WARN，ERROR，FATAL </span><br><span class="line"> %r   输出自应用启动到输出该log信息耗费的毫秒数 </span><br><span class="line"> %c   输出所属的类目，通常就是所在类的全名 </span><br><span class="line"> %t   输出产生该日志事件的线程名 </span><br><span class="line"> %n   输出一个回车换行符，Windows平台为“\r\n”，Unix平台为“\n” </span><br><span class="line"> %d   输出日志时间点的日期或时间，默认格式为ISO8601，也可以在其后指定格式，比如：%d&#123;yyy MMM dd HH:mm:ss , SSS&#125;，输出类似：2002年10月18日  22 ： 10 ： 28 ， 921  </span><br><span class="line"> %l   输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数。举例：Testlog4.main(TestLog4.java: 10 )</span><br></pre></td></tr></table></figure>
+
+<p>2.在代码中初始化Logger:<br>1）在程序中调用BasicConfigurator.configure()方法：给根记录器增加一个ConsoleAppender，输出格式通过PatternLayout设为”%-4r [%t] %-5p %c %x - %m%n”，还有根记录器的默认级别是Level.DEBUG.<br>2）配置放在文件里，通过命令行参数传递文件名字，通过PropertyConfigurator.configure(args[x])解析并配置；<br>3）配置放在文件里，通过环境变量传递文件名等信息，利用log4j默认的初始化过程解析并配置；<br>4）配置放在文件里，通过应用服务器配置传递文件名等信息，利用一个特殊的servlet来完成配置。</p>
+<p>3.为不同的 Appender 设置日志输出级别：<br>当调试系统时，我们往往注意的只是异常级别的日志输出，但是通常所有级别的输出都是放在一个文件里的，如果日志输出的级别是BUG！？那就慢慢去找吧。<br>这时我们也许会想要是能把异常信息单独输出到一个文件里该多好啊。当然可以，Log4j已经提供了这样的功能，我们只需要在配置中修改Appender的Threshold 就能实现,比如下面的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">### set log levels ###</span><br><span class="line">log4j.rootLogger = debug ,  stdout ,  D ,  E</span><br><span class="line"></span><br><span class="line">### 输出到控制台 ###</span><br><span class="line">log4j.appender.stdout = org.apache.log4j.ConsoleAppender</span><br><span class="line">log4j.appender.stdout.Target = System.out</span><br><span class="line">log4j.appender.stdout.layout = org.apache.log4j.PatternLayout</span><br><span class="line">log4j.appender.stdout.layout.ConversionPattern =  %d&#123;ABSOLUTE&#125; %5p %c&#123; 1 &#125;:%L - %m%n</span><br><span class="line"></span><br><span class="line">### 输出到日志文件 ###</span><br><span class="line">log4j.appender.D = org.apache.log4j.DailyRollingFileAppender</span><br><span class="line">log4j.appender.D.File = logs/log.log</span><br><span class="line">log4j.appender.D.Append = true</span><br><span class="line">log4j.appender.D.Threshold = DEBUG ## 输出DEBUG级别以上的日志</span><br><span class="line">log4j.appender.D.layout = org.apache.log4j.PatternLayout</span><br><span class="line">log4j.appender.D.layout.ConversionPattern = %-d&#123;yyyy-MM-dd HH:mm:ss&#125;  [ %t:%r ] - [ %p ]  %m%n</span><br><span class="line"></span><br><span class="line">### 保存异常信息到单独文件 ###</span><br><span class="line">log4j.appender.D = org.apache.log4j.DailyRollingFileAppender</span><br><span class="line">log4j.appender.D.File = logs/error.log ## 异常日志文件名</span><br><span class="line">log4j.appender.D.Append = true</span><br><span class="line">log4j.appender.D.Threshold = ERROR ## 只输出ERROR级别以上的日志!!!</span><br><span class="line">log4j.appender.D.layout = org.apache.log4j.PatternLayout</span><br><span class="line">log4j.appender.D.layout.ConversionPattern = %-d&#123;yyyy-MM-dd HH:mm:ss&#125;  [ %t:%r ] - [ %p ]  %m%n</span><br><span class="line">```</span><br></pre></td></tr></table></figure>
+
+<p>public   class  TestLog4j  {<br>     public   static   void  main(String[] args)  {<br>        PropertyConfigurator.configure( “ D:/Code/conf/log4j.properties “ );<br>        Logger logger  =  Logger.getLogger(TestLog4j. class );<br>        logger.debug( “ debug “ );<br>        logger.error( “ error “ );<br>    } </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">运行一下，看看异常信息是不是保存在了一个单独的文件error.log中。</span><br><span class="line"></span><br><span class="line">\=====================================================================</span><br><span class="line"></span><br><span class="line">资料：</span><br><span class="line"></span><br><span class="line">1.  log4j.properties文件例子，这个文件就是本文的重点，也就是log4j的配置文件:</span><br></pre></td></tr></table></figure>
+
+<h1 id="Set-root-logger-level-to-DEBUG-and-its-only-appender-to-A1"><a href="#Set-root-logger-level-to-DEBUG-and-its-only-appender-to-A1" class="headerlink" title="Set root logger level to DEBUG and its only appender to A1"></a>Set root logger level to DEBUG and its only appender to A1</h1><p>#log4j中有五级logger </p>
+<p>#FATAL 0 </p>
+<p>#ERROR 3 </p>
+<p>#WARN 4 </p>
+<p>#INFO 6 </p>
+<p>#DEBUG 7 </p>
+<p>#配置根Logger，其语法为：</p>
+<p>#log4j.rootLogger = [ level ] , appenderName, appenderName, …<br>log4j.rootLogger=INFO, A1 ,R</p>
+<p>#这一句设置以为着所有的log都输出</p>
+<p>#如果为log4j.rootLogger=WARN, 则意味着只有WARN,ERROR,FATAL</p>
+<p>#被输出，DEBUG,INFO将被屏蔽掉.</p>
+<h1 id="A1-is-set-to-be-a-ConsoleAppender"><a href="#A1-is-set-to-be-a-ConsoleAppender" class="headerlink" title="A1 is set to be a ConsoleAppender."></a>A1 is set to be a ConsoleAppender.</h1><p>#log4j中Appender有几层如控制台、文件、GUI组件、甚至是套接口服务器、NT的事件记录器、UNIX Syslog守护进程等</p>
+<p>#ConsoleAppender输出到控制台<br>log4j.appender.A1=org.apache.log4j.ConsoleAppender </p>
+<h1 id="A1-使用的输出布局，其中log4j提供4种布局-org-apache-log4j-HTMLLayout（以HTML表格形式布局）"><a href="#A1-使用的输出布局，其中log4j提供4种布局-org-apache-log4j-HTMLLayout（以HTML表格形式布局）" class="headerlink" title="A1 使用的输出布局，其中log4j提供4种布局. org.apache.log4j.HTMLLayout（以HTML表格形式布局）"></a>A1 使用的输出布局，其中log4j提供4种布局. org.apache.log4j.HTMLLayout（以HTML表格形式布局）</h1><p>#org.apache.log4j.PatternLayout（可以灵活地指定布局模式），</p>
+<p>#org.apache.log4j.SimpleLayout（包含日志信息的级别和信息字符串），</p>
+<p>#org.apache.log4j.TTCCLayout（包含日志产生的时间、线程、类别等等信息）</p>
+<p>log4j.appender.A1.layout=org.apache.log4j.PatternLayout </p>
+<p>#灵活定义输出格式 具体查看log4j javadoc org.apache.log4j.PatternLayout </p>
+<p>#d 时间 ….<br>log4j.appender.A1.layout.ConversionPattern=%-d{yyyy-MM-dd HH:mm:ss} [%c]-[%p] %m%n </p>
+<p>#R 输出到文件 RollingFileAppender的扩展，可以提供一种日志的备份功能。<br>log4j.appender.R=org.apache.log4j.RollingFileAppender </p>
+<p>#日志文件的名称<br>log4j.appender.R.File=log4j.log </p>
+<p>#日志文件的大小<br>log4j.appender.R.MaxFileSize=100KB </p>
+<h1 id="保存一个备份文件"><a href="#保存一个备份文件" class="headerlink" title="保存一个备份文件"></a>保存一个备份文件</h1><p>log4j.appender.R.MaxBackupIndex=1</p>
+<p>log4j.appender.R.layout=org.apache.log4j.TTCCLayout</p>
+<p>#log4j.appender.R.layout.ConversionPattern=%-d{yyyy-MM-dd HH:mm:ss} [%c]-[%p] %m%n</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2.下面我给出一个在weblogic下使用log4j的配置过程，首先给出这个配置文件的完整信息。</span><br></pre></td></tr></table></figure>
+
+<p>#log4j.rootLogger=INFO,A1,R //这一句指定了日志输出的级别为info,A1和R分别代表日志输出到什么地方。<br>log4j.category.hybl_wshabcm=debug,A1,R //这一句指定了日志具体输出哪个包的信息，以及输出位置<br>log4j.appender.A1=org.apache.log4j.ConsoleAppender //这里指定了日志输出的第一个位置A1是控制台ConsoleAppender<br>/*<br>*其中，Log4j提供的appender有以下几种：<br>*org.apache.log4j.ConsoleAppender（控制台），<br>*org.apache.log4j.FileAppender（文件），<br>*org.apache.log4j.DailyRollingFileAppender（每天产生一个日志文件），<br>*org.apache.log4j.RollingFileAppender（文件大小到达指定尺寸的时候产生一个新的文件），<br>*org.apache.log4j.WriterAppender（将日志信息以流格式发送到任意指定的地方）<br>*<br>*/<br>log4j.appender.A1.layout=org.apache.log4j.PatternLayout //指定A1的布局模式</p>
+<p>/*<br>*其中，Log4j提供的layout有以下几种：<br>×org.apache.log4j.HTMLLayout（以HTML表格形式布局），<br>*org.apache.log4j.PatternLayout（可以灵活地指定布局模式），<br>*org.apache.log4j.SimpleLayout（包含日志信息的级别和信息字符串），<br>*org.apache.log4j.TTCCLayout（包含日志产生的时间、线程、类别等等信息）<br>*/<br>log4j.appender.A1.layout.ConversionPattern=%-d{yyyy-MM-dd HH:mm:ss,SSS} [%c]-[%p] %m%n //指定日志的输出格式</p>
+<p>log4j.appender.R=org.apache.log4j.RollingFileAppender //指定以文件的方式输出日志<br>log4j.appender.R.File=c:/sys.html //文件位置<br>log4j.appender.R.MaxFileSize=500KB //文件最大尺寸<br>log4j.appender.R.MaxBackupIndex=1 //备份数<br>log4j.appender.R.layout=org.apache.log4j.HTMLLayout //文件的格式为Html格式</p>
+<p>#log4j.appender.R.layout=org.apache.log4j.PatternLayout<br>log4j.appender.R.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss,SSS} [%t] [%c] [%p] - %m%n</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">\============================================================  </span><br><span class="line">**错误日志发送email**</span><br><span class="line"></span><br><span class="line">1.  打开log4j.properties文件</span><br><span class="line">2.  rootLogger加上一个Appender, 即MAIL, 如log4j.rootLogger=ERROR,A1,MAIL</span><br><span class="line">3.  配置Appender信息,在文件的末尾加上以下部分</span><br></pre></td></tr></table></figure>
+
+<h1 id="Configuration-for-receiving-e-mails-when-ERROR-messages-occur"><a href="#Configuration-for-receiving-e-mails-when-ERROR-messages-occur" class="headerlink" title="Configuration for receiving e-mails when ERROR messages occur."></a>Configuration for receiving e-mails when ERROR messages occur.</h1><p>#自定义的Appender<br>log4j.appender.MAIL=org.apache.log4j.net.SMTPAppender</p>
+<p>#日志的错误级别<br>log4j.appender.MAIL.Threshold=ERROR </p>
+<p>#缓存文件大小，日志达到512K时发送Email<br>log4j.appender.MAIL.BufferSize=512</p>
+<p>#发件人<br>log4j.appender.MAIL.From=test@163.com</p>
+<p>#发送邮件的服务器<br>log4j.appender.MAIL.SMTPHost=smtp.163.com</p>
+<p>#邮件的标题<br>log4j.appender.MAIL.Subject=Log4J Message</p>
+<p>#日志邮件的接收者<br>log4j.appender.MAIL.To=test@163.com</p>
+<p>#日志PatternLayout<br>log4j.appender.MAIL.layout=org.apache.log4j.PatternLayout</p>
+<p>#日志的格式<br>log4j.appender.MAIL.layout.ConversionPattern=[framework] %d - %c -%-4r [%t] %-5p %c %x - %m%n</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">以上文件皆测试通过，如不通过请查看自己的email发送环境.</span><br><span class="line"></span><br><span class="line">\==============================================================================================</span><br><span class="line"></span><br><span class="line">查看了SMTPAppender.java的源代码，才发现Log4J缺省提供的SMTPAppender并不支持SMTP的认证功能。难道现在匿名的SMTP邮件服务器很多吗？我手头的是Log4J的 1.2.8版本，去logging.apache.org看，发现已经有新的版本了： 1.2.11，呵呵，窃喜。这样的简单、基本的需求Log4J开发组应该已经添加上了吧。</span><br><span class="line"></span><br><span class="line">下载、查看，再次失望之极！</span><br><span class="line"></span><br><span class="line">看来只有自己动手添加了。本来应该重新定义一个名字，算做一个自定义Appender吧，但为了使我很多应用中的log4j.properties不用修改过多，就直接在原来的SMTPAppender.java上做了修改。另外一个更重要的原因是：</span><br></pre></td></tr></table></figure>
+
+<p>我认为：这是一个基本的、必须的SMTPAppender应该具有的功能。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">主要在SMTPAppender.java中添加了如下代码：</span><br><span class="line"></span><br><span class="line">a. 添加实例变量</span><br></pre></td></tr></table></figure>
+
+<p> private String smtpUsername;<br>  private String smtpPassword;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">b. 将 activateOptions() 方法中的</span><br></pre></td></tr></table></figure>
+
+<p>Session session = Session.getInstance(props, null);</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">修改为：</span><br></pre></td></tr></table></figure>
+
+<p>if(smtpPassword != null &amp;&amp; smtpUsername != null) {<br>      // Setup mail server authentication<br>      props.put(“mail.smtp.auth”, “true”);<br>   // props.put(“mail.transport.protocol”, “smtp”);</p>
+<pre><code>  authenticator = new Authenticator() {
+    protected PasswordAuthentication getPasswordAuthentication() {
+      return new PasswordAuthentication(smtpUsername, smtpPassword);
+    }
+  };
+}
+
+// Get session
+Session session = Session.getDefaultInstance(props,authenticator);</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">c. 添加Set方法</span><br></pre></td></tr></table></figure>
+
+<p> public void setSMTPPassword(String smtpPassword) {<br>    this.smtpPassword = smtpPassword;<br>  }</p>
+<p>  public void setSMTPUsername(String smtpUsername) {<br>    this.smtpUsername = smtpUsername;<br>  }</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">编译，并重新打包log4j-1.2.8.jar。在应用中替换原log4j-1.2.8.jar包，并修改log4j.properties文件，在SMTPAppender的配置中添加如下两行：</span><br></pre></td></tr></table></figure>
+
+<p>log4j.appender.MAIL.SMTPUsername=<br>log4j.appender.MAIL.SMTPPassword=</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">OK，现在这个SMTPAppender就可以使用需要用户名、密码验证的SMTP服务器（现在绝大多数SMTP服务器）进行Email报警发送了。</span><br><span class="line"></span><br><span class="line">* * *</span><br><span class="line"></span><br><span class="line">log4j详解  </span><br><span class="line">根据网络资料整理</span><br><span class="line"></span><br><span class="line">&gt; &gt; &gt; &gt; 1.  概述&lt;&lt;&lt;&lt;  </span><br><span class="line">&gt; &gt; &gt; &gt;     　　1.1. 背景  </span><br><span class="line">&gt; &gt; &gt; &gt;     　　  </span><br><span class="line">&gt; &gt; &gt; &gt;     　　在应用程序中添加日志记录总的来说基于三个目的：监视代码中变量的变化情况，周期性的记录到文件中供其他应用进行统计分析工作；跟踪代码运行时轨迹，作为日后审计的依据；担当集成开发环境中的调试器的作用，向文件或控制台打印代码的调试信息。  </span><br><span class="line">&gt; &gt; &gt; &gt;     　　  </span><br><span class="line">&gt; &gt; &gt; &gt;     　　最普通的做法就是在代码中嵌入许多的打印语句，这些打印语句可以输出到控制台或文件中，比较好的做法就是构造一个日志操作类来封装此类操作，而不是让一系列的打印语句充斥了代码的主体。  </span><br><span class="line">&gt; &gt; &gt; &gt;     　　  </span><br><span class="line">&gt; &gt; &gt; &gt;     　　1.2. Log4j简介  </span><br><span class="line">&gt; &gt; &gt; &gt;     　　  </span><br><span class="line">&gt; &gt; &gt; &gt;     　　在强调可重用组件开发的今天，除了自己从头到尾开发一个可重用的日志操作类外，Apache为我们提供了一个强有力的日志操作包-Log4j。  </span><br><span class="line">&gt; &gt; &gt; &gt;     　　  </span><br><span class="line">&gt; &gt; &gt; &gt;     　 　Log4j是Apache的一个开放源代码项目，通过使用Log4j，我们可以控制日志信息输送的目的地是控制台、文件、GUI组件、甚至是套接口服务 器、NT的事件记录器、UNIX Syslog守护进程等；我们也可以控制每一条日志的输出格式；通过定义每一条日志信息的级别，我们能够更加细致地控制日志的生成过程。最令人感兴趣的就 是，这些可以通过一个配置文件来灵活地进行配置，而不需要修改应用的代码。  </span><br><span class="line">&gt; &gt; &gt; &gt;     　　  </span><br><span class="line">&gt; &gt; &gt; &gt;     　　此外，通过Log4j其他语言接口，您可以在C、C+ +、.Net、PL/SQL程序中使用Log4j，其语法和用法与在Java程序中一样，使得多语言分布式系统得到一个统一一致的日志组件模块。而且，通 过使用各种第三方扩展，您可以很方便地将Log4j集成到J2EE、JINI甚至是SNMP应用中。  </span><br><span class="line">&gt; &gt; &gt; &gt;     　　  </span><br><span class="line">&gt; &gt; &gt; &gt;     　　本文介绍的Log4j版本是 1.2.3。作者试图通过一个简单的客户/服务器Java程序例子对比使用与不使用Log4j 1.2.3的差别，并详细讲解了在实践中最常使用Log4j的方法和步骤。在强调可重用组件开发的今天，相信Log4j将会给广大的设计开发人员带来方 便。加入到Log4j的队伍来吧！  </span><br><span class="line">&gt; &gt; &gt; &gt;     　　</span><br><span class="line">&gt; &gt; &gt; &gt; 2.  一个简单的例子 &lt;&lt;&lt;&lt;</span><br><span class="line"></span><br><span class="line">　　我们先来看一个简单的例子，它是一个用Java实现的客户/服务器网络程序。刚开始我们不使用Log4j，而是使用了一系列的打印语句，然后我们将使用Log4j来实现它的日志功能。这样，大家就可以清楚地比较出前后两个代码的差别。  </span><br><span class="line">　　  </span><br><span class="line">　　2.1. 不使用Log4j  </span><br><span class="line">　　  </span><br><span class="line">　　2.1.1. 客户程序</span><br></pre></td></tr></table></figure>
+
+<p>package log4j ;<br>　　<br>　　import java.io.* ;<br>　　import java.net.* ;<br>　　<br>　　/**<br>　　 *<br>　　 * </p><p> Client Without Log4j </p><br>　　 * <p> Description: a sample with log4j</p><br>　　 * @version 1.0<br>　　 */<br>　　public class ClientWithoutLog4j {<p></p>
+<p>　　　　/**<br>　　　　 *<br>　　　　 * @param args<br>　　　　 */<br>　　　　public static void main ( String args [] ) {</p>
+<p>　　　　　　String welcome = null;<br>　　　　　　String response = null;<br>　　　　　　BufferedReader reader = null;<br>　　　　　　PrintWriter writer = null;<br>　　　　　　InputStream in = null;<br>　　　　　　OutputStream out = null;<br>　　　　　　Socket client = null;<br>　　<br>　　　　　　try {<br>　　　　　　　　client = new Socket ( “localhost”, 8001 ) ;<br>　　　　　　　　System.out.println ( “info: Client socket: “ + client ) ;<br>　　　　　　　　in = client.getInputStream () ;<br>　　　　　　　　out = client.getOutputStream () ;<br>　　　　　　} catch ( IOException e ) {<br>　　　　　　　　System.out.println ( “error: IOException : “ + e ) ;<br>　　　　　　　　System.exit ( 0 ) ;<br>　　　　　　}<br>　　<br>　　　　　　try{<br>　　　　　　　　reader = new BufferedReader( new InputStreamReader ( in ) ) ;<br>　　　　　　　　writer = new PrintWriter ( new OutputStreamWriter ( out ), true ) ;<br>　　<br>　　　　　　　　welcome = reader.readLine () ;<br>　　　　　　　　System.out.println ( “debug: Server says: ‘“ + welcome + “‘“ ) ;<br>　　<br>　　　　　　　　System.out.println ( “debug: HELLO” ) ;<br>　　　　　　　　writer.println ( “HELLO” ) ;<br>　　　　　　　　response = reader.readLine () ;<br>　　　　　　　　System.out.println ( “debug: Server responds: ‘“ + response + “‘“) ;<br>　　<br>　　　　　　　　System.out.println ( “debug: HELP” ) ;<br>　　　　　　　　writer.println ( “HELP” ) ;<br>　　　　　　　　response = reader.readLine () ;<br>　　　　　　　　System.out.println ( “debug: Server responds: ‘“ + response + “‘“ ) ;<br>　　<br>　　　　　　　　System.out.println ( “debug: QUIT” ) ;<br>　　　　　　　　writer.println ( “QUIT” ) ;<br>　　　　　　} catch ( IOException e ) {<br>　　　　　　　　System.out.println ( “warn: IOException in client.in.readln()” ) ;<br>　　　　　　　　System.out.println ( e ) ;<br>　　　　　　}<br>　　　　　　try{<br>　　　　　　　　Thread.sleep ( 2000 ) ;<br>　　　　　　} catch ( Exception ignored ) {}<br>　　　　}<br>　　}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">　　  </span><br><span class="line">　　2.1.2. 服务器程序</span><br></pre></td></tr></table></figure>
+
+<p>package log4j ;<br>　　<br>　　import java.util.* ;<br>　　import java.io.* ;<br>　　import java.net.* ;<br>　　<br>　　/**<br>　　 *<br>　　 * </p><p> Server Without Log4j </p><br>　　 * <p> Description: a sample with log4j</p><br>　　 * @version 1.0<br>　　 */<br>　　public class ServerWithoutLog4j {<p></p>
+<p>　　　　final static int SERVER_PORT = 8001 ; // this server’s port<br>　　<br>　　　　/**<br>　　　　 *<br>　　　　 * @param args<br>　　　　 */<br>　　　　public static void main ( String args [] ) {<br>　　　　　　String clientRequest = null;<br>　　　　　　BufferedReader reader = null;<br>　　　　　　PrintWriter writer = null;<br>　　　　　　ServerSocket server = null;<br>　　　　　　Socket socket = null;<br>　　　　　　InputStream in = null;<br>　　　　　　OutputStream out = null;</p>
+<p>　　　　　　try {<br>　　　　　　　　server = new ServerSocket ( SERVER_PORT ) ;<br>　　　　　　　　System.out.println ( “info: ServerSocket before accept: “ + server ) ;<br>　　　　　　　　System.out.println ( “info: Java server without log4j, on-line!” ) ;<br>　　<br>　　　　　　　　// wait for client’s connection<br>　　　　　　　　socket = server.accept () ;<br>　　　　　　　　System.out.println ( “info: ServerSocket after accept: “ + server )　;<br>　　<br>　　　　　　　　in = socket.getInputStream () ;<br>　　　　　　　　out = socket.getOutputStream () ;<br>　　<br>　　　　　　} catch ( IOException e ) {<br>　　　　　　　　System.out.println( “error: Server constructor IOException: “ + e ) ;<br>　　　　　　　　System.exit ( 0 ) ;<br>　　　　　　}<br>　　　　　　reader = new BufferedReader ( new InputStreamReader ( in ) ) ;<br>　　　　　　writer = new PrintWriter ( new OutputStreamWriter ( out ) , true ) ;<br>　　<br>　　　　　　// send welcome string to client<br>　　　　　　writer.println ( “Java server without log4j, “ + new Date () ) ;<br>　　<br>　　　　　　while ( true ) {<br>　　　　　　　　try {<br>　　　　　　　　　　// read from client<br>　　　　　　　　　　clientRequest = reader.readLine () ;<br>　　　　　　　　　　System.out.println ( “debug: Client says: “ + clientRequest ) ;<br>　　　　　　　　　　if ( clientRequest.startsWith ( “HELP” ) ) {<br>　　　　　　　　　　　　System.out.println ( “debug: OK!” ) ;<br>　　　　　　　　　　　　writer.println ( “Vocabulary: HELP QUIT” ) ;<br>　　　　　　　　　　}<br>　　　　　　　　　　else {<br>　　　　　　　　　　　　if ( clientRequest.startsWith ( “QUIT” ) ) {<br>　　　　　　　　　　　　　　System.out.println ( “debug: OK!” ) ;<br>　　　　　　　　　　　　　　System.exit ( 0 ) ;<br>　　　　　　　　　　　　}<br>　　　　　　　　　　　　else{<br>　　　　　　　　　　　　　　System.out.println ( “warn: Command ‘“ +<br>　　 clientRequest + “‘ not understood.” ) ;<br>　　　　　　　　　　　　　　writer.println ( “Command ‘“ + clientRequest<br>　　 + “‘ not understood.” ) ;<br>　　　　　　　　　　　　}<br>　　　　　　　　　　}<br>　　　　　　　　} catch ( IOException e ) {<br>　　　　　　　　　　System.out.println ( “error: IOException in Server “ + e ) ;<br>　　　　　　　　　　System.exit ( 0 ) ;<br>　　　　　　　　}<br>　　　　　　}<br>　　　　}<br>　　}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">　　  </span><br><span class="line">　　2.2. 迁移到Log4j  </span><br><span class="line">　　  </span><br><span class="line">　　2.2.1. 客户程序</span><br></pre></td></tr></table></figure>
+
+<p>package log4j ;<br>　　<br>　　import java.io.* ;<br>　　import java.net.* ;<br>　　<br>　　// add for log4j: import some package<br>　　import org.apache.log4j.PropertyConfigurator ;<br>　　import org.apache.log4j.Logger ;<br>　　import org.apache.log4j.Level ;<br>　　<br>　　/**<br>　　 *<br>　　 * </p><p> Client With Log4j </p><br>　　 * <p> Description: a sample with log4j</p><br>　　 * @version 1.0<br>　　 */<br>　　public class ClientWithLog4j {<p></p>
+<p>　　　　/*<br>　　　　add for log4j: class Logger is the central class in the log4j package.<br>　　　　we can do most logging operations by Logger except configuration.<br>　　　　getLogger(…): retrieve a logger by name, if not then create for it.<br>　　　　<em>/<br>　　　　static Logger logger = Logger.getLogger<br>　　 ( ClientWithLog4j.class.getName () ) ;<br>　　<br>　　　　/*</em><br>　　　　 *<br>　　　　 * @param args : configuration file name<br>　　　　 */<br>　　　　public static void main ( String args [] ) {</p>
+<p>　　　　　　String welcome = null ;<br>　　　　　　String response = null ;<br>　　　　　　BufferedReader reader = null ;<br>　　　　　　PrintWriter writer = null ;<br>　　　　　　InputStream in = null ;<br>　　　　　　OutputStream out = null ;<br>　　　　　　Socket client = null ;<br>　　<br>　　　　　　/*<br>　　　　　　add for log4j: class BasicConfigurator can quickly configure the package.<br>　　　　　　print the information to console.<br>　　　　　　*/<br>　　　　　　PropertyConfigurator.configure ( “ClientWithLog4j.properties” ) ;<br>　　<br>　　　　　　// add for log4j: set the level<br>　　//　　　　logger.setLevel ( ( Level ) Level.DEBUG ) ;<br>　　<br>　　　　　　try{<br>　　　　　　　　client = new Socket( “localhost” , 8001 ) ;<br>　　<br>　　　　　　　　// add for log4j: log a message with the info level<br>　　　　　　　　logger.info ( “Client socket: “ + client ) ;<br>　　<br>　　　　　　　　in = client.getInputStream () ;<br>　　　　　　　　out = client.getOutputStream () ;<br>　　　　　　} catch ( IOException e ) {<br>　　<br>　　　　　　　　// add for log4j: log a message with the error level<br>　　　　　　　　logger.error ( “IOException : “ + e ) ;<br>　　<br>　　　　　　　　System.exit ( 0 ) ;<br>　　　　　　}<br>　　<br>　　　　　　try{<br>　　　　　　　　reader = new BufferedReader ( new InputStreamReader ( in ) ) ;<br>　　　　　　　　writer = new PrintWriter ( new OutputStreamWriter ( out ), true ) ;<br>　　<br>　　　　　　　　welcome = reader.readLine () ;<br>　　<br>　　　　　　　　// add for log4j: log a message with the debug level<br>　　　　　　　　logger.debug ( “Server says: ‘“ + welcome + “‘“ ) ;<br>　　<br>　　　　　　　　// add for log4j: log a message with the debug level<br>　　　　　　　　logger.debug ( “HELLO” ) ;<br>　　<br>　　　　　　　　writer.println ( “HELLO” ) ;<br>　　　　　　　　response = reader.readLine () ;<br>　　<br>　　　　　　　　// add for log4j: log a message with the debug level<br>　　　　　　　　logger.debug ( “Server responds: ‘“ + response + “‘“ ) ;<br>　　<br>　　　　　　　　// add for log4j: log a message with the debug level<br>　　　　　　　　logger.debug ( “HELP” ) ;<br>　　<br>　　　　　　　　writer.println ( “HELP” ) ;<br>　　　　　　　　response = reader.readLine () ;<br>　　<br>　　　　　　　　// add for log4j: log a message with the debug level<br>　　　　　　　　logger.debug ( “Server responds: ‘“ + response + “‘“) ;<br>　　<br>　　　　　　　　// add for log4j: log a message with the debug level<br>　　　　　　　　logger.debug ( “QUIT” ) ;<br>　　<br>　　　　　　　　writer.println ( “QUIT” ) ;<br>　　　　　　} catch ( IOException e ) {<br>　　<br>　　　　　　　　// add for log4j: log a message with the warn level<br>　　　　　　　　logger.warn ( “IOException in client.in.readln()” ) ;<br>　　<br>　　　　　　　　System.out.println ( e ) ;<br>　　　　　　}<br>　　　　　　try {<br>　　　　　　　　Thread.sleep ( 2000 ) ;<br>　　　　　　} catch ( Exception ignored ) {}<br>　　　　}<br>　　}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">　　  </span><br><span class="line">　　2.2.2. 服务器程序</span><br></pre></td></tr></table></figure>
+
+<p>package log4j;<br>　　<br>　　import java.util.* ;<br>　　import java.io.* ;<br>　　import java.net.* ;<br>　　<br>　　// add for log4j: import some package<br>　　import org.apache.log4j.PropertyConfigurator ;<br>　　import org.apache.log4j.Logger ;<br>　　import org.apache.log4j.Level ;<br>　　<br>　　/**<br>　　 *<br>　　 * </p><p> Server With Log4j </p><br>　　 * <p> Description: a sample with log4j</p><br>　　 * @version 1.0<br>　　 */<br>　　public class ServerWithLog4j {<p></p>
+<p>　　　　final static int SERVER_PORT = 8001 ; // this server’s port<br>　　<br>　　　　/*<br>　　　　add for log4j: class Logger is the central class in the log4j package.<br>　　　　we can do most logging operations by Logger except configuration.<br>　　　　getLogger(…): retrieve a logger by name, if not then create for it.<br>　　　　<em>/<br>　　　　static Logger logger = Logger.getLogger<br>　　 ( ServerWithLog4j.class.getName () ) ;<br>　　<br>　　　　/*</em><br>　　　　 *<br>　　　　 * @param args<br>　　　　 */<br>　　　　public static void main ( String args[]) {<br>　　　　　　String clientRequest = null ;<br>　　　　　　BufferedReader reader = null ;<br>　　　　　　PrintWriter writer = null ;<br>　　　　　　ServerSocket server = null ;<br>　　　　　　Socket socket = null ;</p>
+<p>　　　　　　InputStream in = null ;<br>　　　　　　OutputStream out = null ;<br>　　<br>　　　　　　/*<br>　　　　　　add for log4j: class BasicConfigurator can quickly configure the package.<br>　　　　　　print the information to console.<br>　　　　　　*/<br>　　　　　　PropertyConfigurator.configure ( “ServerWithLog4j.properties” ) ;<br>　　<br>　　　　　　// add for log4j: set the level<br>　　//　　　　logger.setLevel ( ( Level ) Level.DEBUG ) ;<br>　　<br>　　　　　　try{<br>　　　　　　　　server = new ServerSocket ( SERVER_PORT ) ;<br>　　<br>　　　　　　　　// add for log4j: log a message with the info level<br>　　　　　　　　logger.info ( “ServerSocket before accept: “ + server ) ;<br>　　<br>　　　　　　　　// add for log4j: log a message with the info level<br>　　　　　　　　logger.info ( “Java server with log4j, on-line!” ) ;<br>　　<br>　　　　　　　　// wait for client’s connection<br>　　　　　　　　socket = server.accept() ;<br>　　<br>　　　　　　　　// add for log4j: log a message with the info level<br>　　　　　　　　logger.info ( “ServerSocket after accept: “ + server ) ;<br>　　<br>　　　　　　　　in = socket.getInputStream() ;<br>　　　　　　　　out = socket.getOutputStream() ;<br>　　<br>　　　　　　} catch ( IOException e ) {<br>　　<br>　　　　　　　　// add for log4j: log a message with the error level<br>　　　　　　　　logger.error ( “Server constructor IOException: “ + e ) ;<br>　　　　　　　　System.exit ( 0 ) ;<br>　　　　　　}<br>　　　　　　reader = new BufferedReader ( new InputStreamReader ( in ) ) ;<br>　　　　　　writer = new PrintWriter ( new OutputStreamWriter ( out ), true ) ;<br>　　<br>　　　　　　// send welcome string to client<br>　　　　　　writer.println ( “Java server with log4j, “ + new Date () ) ;<br>　　<br>　　　　　　while ( true ) {<br>　　　　　　　　try {<br>　　　　　　　　　　// read from client<br>　　　　　　　　　　clientRequest = reader.readLine () ;<br>　　<br>　　　　　　　　　　// add for log4j: log a message with the debug level<br>　　　　　　　　　　logger.debug ( “Client says: “ + clientRequest ) ;<br>　　<br>　　　　　　　　　　if ( clientRequest.startsWith ( “HELP” ) ) {<br>　　<br>　　　　　　　　　　　　// add for log4j: log a message with the debug level<br>　　　　　　　　　　　　logger.debug ( “OK!” ) ;<br>　　<br>　　　　　　　　　　　　writer.println ( “Vocabulary: HELP QUIT” ) ;<br>　　　　　　　　　　}<br>　　　　　　　　　　else {<br>　　　　　　　　　　　　if ( clientRequest.startsWith ( “QUIT” ) ) {<br>　　<br>　　　　　　　　　　　　　　// add for log4j: log a message with the debug level<br>　　　　　　　　　　　　　　logger.debug ( “OK!” ) ;<br>　　<br>　　　　　　　　　　　　　　System.exit ( 0 ) ;<br>　　　　　　　　　　　　}<br>　　　　　　　　　　　　else {<br>　　<br>　　　　　　　　　　　　　　// add for log4j: log a message with the warn level<br>　　　　　　　　　　　　　　logger.warn ( “Command ‘“<br>　　 + clientRequest + “‘ not understood.” ) ;</p>
+<p>　　　　　　　　　　　　　　writer.println ( “Command ‘“<br>　　 + clientRequest + “‘ not understood.” ) ;<br>　　　　　　　　　　　　}<br>　　　　　　　　　　}<br>　　　　　　　　} catch ( IOException e ) {</p>
+<p>　　　　　　　　　　// add for log4j: log a message with the error level<br>　　　　　　　　　　logger.error( “IOException in Server “ + e ) ;<br>　　<br>　　　　　　　　　　System.exit ( 0 ) ;<br>　　　　　　　　}<br>　　　　　　}<br>　　　　}<br>　　}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">　　  </span><br><span class="line">　　2.2.3. 配置文件  </span><br><span class="line">　　  </span><br><span class="line">　　2.2.3.1. 客户程序配置文件</span><br></pre></td></tr></table></figure>
+
+<p>log4j.rootLogger=INFO, A1<br>　　<br>　　log4j.appender.A1=org.apache.log4j.ConsoleAppender<br>　　<br>　　log4j.appender.A1.layout=org.apache.log4j.PatternLayout<br>　　<br>　　log4j.appender.A1.layout.ConversionPattern=%-4r %-5p [%t] %37c %3x - %m%n</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">　　  </span><br><span class="line">　　2.2.3.2. 服务器程序配置文件</span><br></pre></td></tr></table></figure>
+
+<p>log4j.rootLogger=INFO, A1<br>　　<br>　　log4j.appender.A1=org.apache.log4j.ConsoleAppender<br>　　<br>　　log4j.appender.A1.layout=org.apache.log4j.PatternLayout<br>　　<br>　　log4j.appender.A1.layout.ConversionPattern=%-4r %-5p [%t] %37c %3x - %m%n</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">　　  </span><br><span class="line">　　2.3. 比较  </span><br><span class="line">　　  </span><br><span class="line">　 　比较这两个应用可以看出，采用Log4j进行日志操作的整个过程相当简单明了，与直接使用System.out.println语句进行日志信息输出的 方式相比，基本上没有增加代码量，同时能够清楚地理解每一条日志信息的重要程度。通过控制配置文件，我们还可以灵活地修改日志信息的格式，输出目的地等等 方面，而单纯依靠System.out.println语句，显然需要做更多的工作。</span><br><span class="line"></span><br><span class="line">&gt; &gt; &gt; &gt; 3 . Log4j日志管理系统简单使用说明 &lt;&lt;&lt;&lt;</span><br></pre></td></tr></table></figure>
+
+<p>通常，我们都提供一个名为 log4j.properties的文件，在第一次调用到Log4J时，Log4J会在类路径（../web-inf/class/当然也可以放到其它任何目录，只要该目录被包含到类路径中即可）中定位这个文件，并读入这个文件完成的配置。这个配置文件告 诉Log4J以什么样的格式、把什么样的信息、输出到什么地方。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">　　Log4j有三个主要的组件：Loggers(记录器)，Appenders(输出源)和Layouts(布局)，这里可简单理解为日志类别，日志要输出的地方和日志以何种形式输出。综合使用这三个组件可以轻松的记录信息的类型和级别，并可以在运行时控制日志输出的样式和位置。下面对三个组件分别进行说明：  </span><br><span class="line">　　  </span><br><span class="line">　　1、 Loggers  </span><br><span class="line">　 　Loggers组件在此系统中被分为五个级别：DEBUG、INFO、WARN、ERROR和FATAL。这五个级别是有顺序的，DEBUG &lt; INFO &lt; WARN &lt; ERROR &lt; FATAL，分别用来指定这条日志信息的重要程度,明白这一点很重要，这里Log4j有一个规则：假设Loggers级别为P，如果在Loggers中发生了一个级别Q比P高，则可以启动，否则屏蔽掉。  </span><br><span class="line">假设你定义的级别是info，那么error和warn的日志可以显示而比他低的debug信息就不显示了。  </span><br><span class="line">　  </span><br><span class="line">　　Java程序举例来说：  </span><br><span class="line">　　  </span><br><span class="line">　　//建立Logger的一个实例，命名为“com.foo”  </span><br><span class="line">　　　Logger　logger = Logger.getLogger(“com.foo”); //”com.foo”是实例进行命名，也可以任意  </span><br><span class="line">　　//设置logger的级别。通常不在程序中设置logger的级别。一般在配置文件中设置。</span><br></pre></td></tr></table></figure>
+
+<p>logger.setLevel(Level.INFO);<br>　　Logger barlogger = Logger.getLogger(“com.foo.Bar”);<br>　　//下面这个请求可用，因为WARN &gt;= INFO<br>　　logger.warn(“Low fuel level.”);<br>　　//下面这个请求不可用，因为DEBUG &lt; INFO<br>　　logger.debug(“Starting search for nearest gas station.”);<br>　　//命名为“com.foo.bar”的实例barlogger会继承实例“com.foo”的级别。因此，下面这个请求可用，因为INFO &gt;= INFO<br>　　barlogger.info(“Located nearest gas station.”);<br>　　//下面这个请求不可用，因为DEBUG &lt; INFO<br>　　barlogger.debug(“Exiting gas station search”);</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">　　这里“是否可用”的意思是能否输出Logger信息。  </span><br><span class="line">　　　　在对Logger实例进行命名时，没有限制，可以取任意自己感兴趣的名字。一般情况下建议以类的所在位置来命名Logger实例，这是目前来讲比较有效的Logger命名方式。这样可以使得每个类建立自己的日志信息，便于管理。比如：  </span><br><span class="line">　　  </span><br><span class="line">　　static Logger logger = Logger.getLogger(ClientWithLog4j.class.getName());  </span><br><span class="line">　　  </span><br><span class="line">　　2、Appenders  </span><br><span class="line">　　禁用与使用日志请求只是Log4j其中的一个小小的地方，Log4j日志系统允许把日志输出到不同的地方，如控制台（Console）、文件（Files）、根据天数或者文件大小产生新的文件、以流的形式发送到其它地方等等。  </span><br><span class="line">　　  </span><br><span class="line">　　其语法表示为：  </span><br><span class="line">　　  </span><br><span class="line">　　org.apache.log4j.ConsoleAppender（控制台）  </span><br><span class="line">　　org.apache.log4j.FileAppender（文件）  </span><br><span class="line">　　org.apache.log4j.DailyRollingFileAppender（每天产生一个日志文件）  </span><br><span class="line">org.apache.log4j.RollingFileAppender（文件大小到达指定尺寸的时候产生一个新的文件）  </span><br><span class="line">　　org.apache.log4j.WriterAppender（将日志信息以流格式发送到任意指定的地方）  </span><br><span class="line">　　  </span><br><span class="line">　　配置时使用方式为：  </span><br><span class="line">　　log4j.appender.appenderName = fully.qualified.name.of.appender.class  </span><br><span class="line">　　log4j.appender.appenderName.option1 = value1  </span><br><span class="line">　　…  </span><br><span class="line">log4j.appender.appenderName.option = valueN  </span><br><span class="line">　　这样就为日志的输出提供了相当大的便利。  </span><br><span class="line">　　  </span><br><span class="line">　　3、Layouts  </span><br><span class="line">　 　有时用户希望根据自己的喜好格式化自己的日志输出。Log4j可以在Appenders的后面附加Layouts来完成这个功能。Layouts提供了 四种日志输出样式，如根据HTML样式、自由指定样式、包含日志级别与信息的样式和包含日志时间、线程、类别等信息的样式等等。  </span><br><span class="line">　　  </span><br><span class="line">　　其语法表示为：  </span><br><span class="line">　　  </span><br><span class="line">　　org.apache.log4j.HTMLLayout（以HTML表格形式布局），  </span><br><span class="line">　　org.apache.log4j.PatternLayout（可以灵活地指定布局模式），  </span><br><span class="line">　　org.apache.log4j.SimpleLayout（包含日志信息的级别和信息字符串），  </span><br><span class="line">　　org.apache.log4j.TTCCLayout（包含日志产生的时间、线程、类别等等信息）  </span><br><span class="line">　　  </span><br><span class="line">　　配置时使用方式为：  </span><br><span class="line">　　  </span><br><span class="line">　　log4j.appender.appenderName.layout =fully.qualified.name.of.layout.class  </span><br><span class="line">　　log4j.appender.appenderName.layout.option1 = value1  </span><br><span class="line">　　…  </span><br><span class="line">　　log4j.appender.appenderName.layout.option = valueN</span><br><span class="line"></span><br><span class="line">&gt; &gt; &gt; &gt; 4 . Log4j的配置 &lt;&lt;&lt;&lt;　　  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　以上是从原理方面说明Log4j的使用方法，在具体Java编程使用Log4j可以参照以下示例：  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　1、 建立Logger实例：  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　语法表示：public static Logger getLogger( String name)  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　实际使用：static Logger logger = Logger.getLogger(ServerWithLog4j.class.getName ()) ;  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　2、 读取配置文件：  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　获得了Logger的实例之后，接下来将配置Log4j使用环境：  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　语法表示：  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　BasicConfigurator.configure()：自动快速地使用缺省Log4j环境。  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　PropertyConfigurator.configure(String configFilename)：读取使用Java的特性文件编写的配置文件。  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　DOMConfigurator.configure(String filename)：读取XML形式的配置文件。  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　实际使用：  </span><br><span class="line">&gt; &gt; &gt; &gt; PropertyConfigurator.configure(“ServerWithLog4j.properties”);  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　3、 插入日志信息  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　完成了以上连个步骤以后，下面就可以按日志的不同级别插入到你要记录日志的任何地方了。  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　语法表示：  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　Logger.debug(Object message);//调试信息  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　Logger.info(Object message);//一般信息  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　Logger.warn(Object message);//警告信息  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　Logger.error(Object message);//错误信息  </span><br><span class="line">&gt; &gt; &gt; &gt; 　　Logger.fatal(Object message);//致命错误信息</span><br><span class="line"></span><br><span class="line">　　实际使用：logger.info(“ServerSocket before accept: ” + server);  </span><br><span class="line">　　  </span><br><span class="line">　&gt;&gt;&gt;&gt; 5. 配置过程 &lt;&lt;&lt;&lt;</span><br><span class="line"></span><br><span class="line">　在实际编程时，要使Log4j真正在系统中运行事先还要对配置文件进行定义。定义步骤就是对Logger、Appender及Layout的分别使用。  </span><br><span class="line">Log4j支持两种配置文件格式，一种是XML格式的文件，一种是java properties（key=value）【Java特性文件（键=值）】。下面我们介绍使用Java特性文件做为配置文件的方法  </span><br><span class="line">具体如下：  </span><br><span class="line">　　  </span><br><span class="line">　　1、配置根Logger，其语法为：  </span><br><span class="line">　　log4j.rootLogger = \[ level \] , appenderName1, appenderName2, …  </span><br><span class="line">level : 是日志记录的优先级，分为OFF、FATAL、ERROR、WARN、INFO、DEBUG、ALL或者您定义的级别。Log4j建议只使用四个级别，优先级从高到低分别是ERROR、WARN、INFO、DEBUG。通过在这里定义的级别，您可以控制到应用程序中相应级别的日志信息的开关。比如在这里定 义了INFO级别，则应用程序中所有DEBUG级别的日志信息将不被打印出来。  </span><br><span class="line">　　 appenderName:就是指定日志信息输出到哪个地方。您可以同时指定多个输出目的地。  </span><br><span class="line">例如：log4j.rootLogger＝info,A1,B2,C3  </span><br><span class="line">　　  </span><br><span class="line">　　2、配置日志信息输出目的地，其语法为：  </span><br><span class="line">　　log4j.appender.appenderName = fully.qualified.name.of.appender.class //  </span><br><span class="line">　　 “fully.qualified.name.of.appender.class” 可以指定下面五个目的地中的一个：  </span><br><span class="line">1.org.apache.log4j.ConsoleAppender（控制台）  </span><br><span class="line">2.org.apache.log4j.FileAppender（文件）  </span><br><span class="line">3.org.apache.log4j.DailyRollingFileAppender（每天产生一个日志文件）  </span><br><span class="line">4.org.apache.log4j.RollingFileAppender（文件大小到达指定尺寸的时候产生一个新的文件）  </span><br><span class="line">5.org.apache.log4j.WriterAppender（将日志信息以流格式发送到任意指定的地方）  </span><br><span class="line">1.ConsoleAppender选项  </span><br><span class="line">Threshold=WARN:指定日志消息的输出最低层次。  </span><br><span class="line">ImmediateFlush=true:默认值是true,意谓着所有的消息都会被立即输出。  </span><br><span class="line">Target=System.err：默认情况下是：System.out,指定输出控制台  </span><br><span class="line">2.FileAppender 选项  </span><br><span class="line">Threshold=WARN:指定日志消息的输出最低层次。  </span><br><span class="line">ImmediateFlush=true:默认值是true,意谓着所有的消息都会被立即输出。  </span><br><span class="line">File=mylog.txt:指定消息输出到mylog.txt文件。  </span><br><span class="line">Append=false:默认值是true,即将消息增加到指定文件中，false指将消息覆盖指定的文件内容。  </span><br><span class="line">3.DailyRollingFileAppender 选项  </span><br><span class="line">Threshold=WARN:指定日志消息的输出最低层次。  </span><br><span class="line">ImmediateFlush=true:默认值是true,意谓着所有的消息都会被立即输出。  </span><br><span class="line">File=mylog.txt:指定消息输出到mylog.txt文件。  </span><br><span class="line">Append=false:默认值是true,即将消息增加到指定文件中，false指将消息覆盖指定的文件内容。  </span><br><span class="line">DatePattern=’.’yyyy-ww:每周滚动一次文件，即每周产生一个新的文件。当然也可以指定按月、周、天、时和分。即对应的格式如下：  </span><br><span class="line">1)’.’yyyy-MM: 每月  </span><br><span class="line">2)’.’yyyy-ww: 每周  </span><br><span class="line">3)’.’yyyy-MM-dd: 每天  </span><br><span class="line">4)’.’yyyy-MM-dd-a: 每天两次  </span><br><span class="line">5)’.’yyyy-MM-dd-HH: 每小时  </span><br><span class="line">6)’.’yyyy-MM-dd-HH-mm: 每分钟  </span><br><span class="line">4.RollingFileAppender 选项  </span><br><span class="line">Threshold=WARN:指定日志消息的输出最低层次。  </span><br><span class="line">ImmediateFlush=true:默认值是true,意谓着所有的消息都会被立即输出。  </span><br><span class="line">File=mylog.txt:指定消息输出到mylog.txt文件。  </span><br><span class="line">Append=false:默认值是true,即将消息增加到指定文件中，false指将消息覆盖指定的文件内容。  </span><br><span class="line">MaxFileSize=100KB: 后缀可以是KB, MB 或者是 GB. 在日志文件到达该大小时，将会自动滚动，即将原来的内容移到mylog.log.1文件。  </span><br><span class="line">MaxBackupIndex=2:指定可以产生的滚动文件的最大数。</span><br><span class="line"></span><br><span class="line">实际应用：  </span><br><span class="line">　　log4j.appender.A1=org.apache.log4j.ConsoleAppender //这里指定了日志输出的第一个位置A1是控制台ConsoleAppender  </span><br><span class="line">　　  </span><br><span class="line">　　3、配置日志信息的格式，其语法为：  </span><br><span class="line">　　A. log4j.appender.appenderName.layout = fully.qualified.name.of.layout.class  </span><br><span class="line">“fully.qualified.name.of.layout.class” 可以指定下面4个格式中的一个：  </span><br><span class="line">1.org.apache.log4j.HTMLLayout（以HTML表格形式布局），  </span><br><span class="line">　　 2.org.apache.log4j.PatternLayout（可以灵活地指定布局模式），  </span><br><span class="line">　　 3.org.apache.log4j.SimpleLayout（包含日志信息的级别和信息字符串），  </span><br><span class="line">　　 4.org.apache.log4j.TTCCLayout（包含日志产生的时间、线程、类别等等信息）  </span><br><span class="line">1.HTMLLayout 选项  </span><br><span class="line">LocationInfo=true:默认值是false,输出java文件名称和行号  </span><br><span class="line">Title=my app file: 默认值是 Log4J Log Messages.  </span><br><span class="line">2.PatternLayout 选项  </span><br><span class="line">ConversionPattern=%m%n :指定怎样格式化指定的消息。  </span><br><span class="line">3.XMLLayout 选项  </span><br><span class="line">LocationInfo=true:默认值是false,输出java文件和行号  </span><br><span class="line">实际应用：  </span><br><span class="line">　　log4j.appender.A1.layout=org.apache.log4j.PatternLayout</span><br></pre></td></tr></table></figure>
+
+<p> B. log4j.appender.A1.layout.ConversionPattern=%-4r %-5p %d{yyyy-MM-dd HH:mm:ssS} %c %m%n<br>       这里需要说明的就是日志信息格式中几个符号所代表的含义： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">　　 －X号: X信息输出时左对齐；  </span><br><span class="line">%p: 输出日志信息优先级，即DEBUG，INFO，WARN，ERROR，FATAL,  </span><br><span class="line">%d: 输出日志时间点的日期或时间，默认格式为ISO8601，也可以在其后指定格式，比如：%d&#123;yyy MMM dd HH:mm:ss,SSS&#125;，输出类似：2002年10月18日 22：10：28，921  </span><br><span class="line">%r: 输出自应用启动到输出该log信息耗费的毫秒数  </span><br><span class="line">%c: 输出日志信息所属的类目，通常就是所在类的全名  </span><br><span class="line">%t: 输出产生该日志事件的线程名  </span><br><span class="line">%l: 输出日志事件的发生位置，相当于%C.%M(%F:%L)的组合,包括类目名、发生的线程，以及在代码中的行数。举例：Testlog4.main(TestLog4.java:10)  </span><br><span class="line">%x: 输出和当前线程相关联的NDC(嵌套诊断环境),尤其用到像java servlets这样的多客户多线程的应用中。  </span><br><span class="line">%%: 输出一个”%”字符  </span><br><span class="line">%F: 输出日志消息产生时所在的文件名称  </span><br><span class="line">%L: 输出代码中的行号  </span><br><span class="line">%m: 输出代码中指定的消息,产生的日志具体信息  </span><br><span class="line">%n: 输出一个回车换行符，Windows平台为”\\r\\n”，Unix平台为”\\n”输出日志信息换行  </span><br><span class="line">可以在%与模式字符之间加上修饰符来控制其最小宽度、最大宽度、和文本的对齐方式。如：  </span><br><span class="line">1)%20c：指定输出category的名称，最小的宽度是20，如果category的名称小于20的话，默认的情况下右对齐。  </span><br><span class="line">2)%-20c:指定输出category的名称，最小的宽度是20，如果category的名称小于20的话，”-“号指定左对齐。  </span><br><span class="line">3)%.30c:指定输出category的名称，最大的宽度是30，如果category的名称大于30的话，就会将左边多出的字符截掉，但小于30的话也不会有空格。  </span><br><span class="line">4)%20.30c:如果category的名称小于20就补空格，并且右对齐，如果其名称长于30字符，就从左边交远销出的字符截掉。</span><br><span class="line"></span><br><span class="line">　　这里上面三个步骤是对前面Log4j组件说明的一个简化；下面给出一个具体配置例子，在程序中可以参照执行：  </span><br><span class="line">　　log4j.rootLogger=INFO,A1，B2  </span><br><span class="line">　　log4j.appender.A1=org.apache.log4j.ConsoleAppender  </span><br><span class="line">　　log4j.appender.A1.layout=org.apache.log4j.PatternLayout  </span><br><span class="line">　　log4j.appender.A1.layout.ConversionPattern=%-4r %-5p %d&#123;yyyy-MM-dd HH:mm:ssS&#125; %c %m%n  </span><br><span class="line">　　根据上面的日志格式，某一个程序的输出结果如下：  </span><br><span class="line">　　0　　INFO　2003-06-13 13:23:46968 ClientWithLog4j Client socket: Socket\[addr=localhost/127.0.0.1,port=8002,localport=2014\]  </span><br><span class="line">16　 DEBUG 2003-06-13 13:23:46984 ClientWithLog4j Server says: ‘Java server with log4j, Fri Jun 13 13:23:46 CST 2003’  </span><br><span class="line">　　16　 DEBUG 2003-06-13 13:23:46984 ClientWithLog4j GOOD  </span><br><span class="line">　　16　 DEBUG 2003-06-13 13:23:46984 ClientWithLog4j Server responds: ‘Command ‘HELLO’ not understood.’  </span><br><span class="line">　　16　 DEBUG 2003-06-13 13:23:46984 ClientWithLog4j HELP  </span><br><span class="line">　　16　 DEBUG 2003-06-13 13:23:46984 ClientWithLog4j Server responds: ‘Vocabulary: HELP QUIT’  </span><br><span class="line">　　16　 DEBUG 2003-06-13 13:23:46984 ClientWithLog4j QUIT</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><h1 id="当输出信息于回滚文件时"><a href="#当输出信息于回滚文件时" class="headerlink" title="当输出信息于回滚文件时"></a>当输出信息于回滚文件时</h1><p>  log4j.appender.ROLLING_FILE=org.apache.log4j.RollingFileAppender   //指定以文件的方式输出日志<br>   log4j.appender.ROLLING_FILE.Threshold=ERROR<br>   log4j.appender.ROLLING_FILE.File=rolling.log  //文件位置,也可以用变量${java.home}、rolling.log<br>   log4j.appender.ROLLING_FILE.Append=true<br>   log4j.appender.ROLLING_FILE.MaxFileSize=10KB  //文件最大尺寸<br>   log4j.appender.ROLLING_FILE.MaxBackupIndex=1  //备份数<br>   log4j.appender.ROLLING_FILE.layout=org.apache.log4j.PatternLayout<br>   log4j.appender.ROLLING_FILE.layout.ConversionPattern=[framework] %d - %c -%-4r [%t] %-5p %c %x - %m%n </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">××××××××××××××××××××××××××××××××××××××××××××××××</span><br><span class="line"></span><br><span class="line">&gt; &gt; &gt; &gt; 1.  Log4j比较全面的配置 &lt;&lt;&lt;&lt;</span><br><span class="line"></span><br><span class="line">LOG4J的配置之简单使它遍及于越来越多的应用中了：Log4J配置文件实现了输出到控制台、文件、回滚文件、发送日志邮件、输出到数据库日志表、自定义标签等全套功能。择其一二使用就够用了，</span><br><span class="line"></span><br><span class="line">log4j.rootLogger=DEBUG,CONSOLE,A1,im  </span><br><span class="line">log4j.addivity.org.apache=true</span><br><span class="line"></span><br><span class="line">\# 应用于控制台</span><br><span class="line"></span><br><span class="line">log4j.appender.CONSOLE=org.apache.log4j.ConsoleAppender  </span><br><span class="line">log4j.appender.Threshold=DEBUG  </span><br><span class="line">log4j.appender.CONSOLE.Target=System.out  </span><br><span class="line">log4j.appender.CONSOLE.layout=org.apache.log4j.PatternLayout  </span><br><span class="line">log4j.appender.CONSOLE.layout.ConversionPattern=\[framework\] %d - %c -%-4r \[%t\] %-5p %c %x - %m%n  </span><br><span class="line">#log4j.appender.CONSOLE.layout.ConversionPattern=\[start\]%d&#123;DATE&#125;\[DATE\]%n%p\[PRIORITY\]%n%x\[NDC\]%n%t\[THREAD\] n%c\[CATEGORY\]%n%m\[MESSAGE\]%n%n</span><br><span class="line"></span><br><span class="line">#应用于文件</span><br><span class="line"></span><br><span class="line">log4j.appender.FILE=org.apache.log4j.FileAppender  </span><br><span class="line">log4j.appender.FILE.File=file.log  </span><br><span class="line">log4j.appender.FILE.Append=false  </span><br><span class="line">log4j.appender.FILE.layout=org.apache.log4j.PatternLayout  </span><br><span class="line">log4j.appender.FILE.layout.ConversionPattern=\[framework\] %d - %c -%-4r \[%t\] %-5p %c %x - %m%n  </span><br><span class="line">\# Use this layout for LogFactor 5 analysis</span><br><span class="line"></span><br><span class="line">\# 应用于文件回滚</span><br><span class="line"></span><br><span class="line">log4j.appender.ROLLING\_FILE=org.apache.log4j.RollingFileAppender  </span><br><span class="line">log4j.appender.ROLLING\_FILE.Threshold=ERROR  </span><br><span class="line">log4j.appender.ROLLING\_FILE.File=rolling.log //文件位置,也可以用变量$&#123;java.home&#125;、rolling.log  </span><br><span class="line">log4j.appender.ROLLING\_FILE.Append=true //true:添加 false:覆盖  </span><br><span class="line">log4j.appender.ROLLING\_FILE.MaxFileSize=10KB //文件最大尺寸  </span><br><span class="line">log4j.appender.ROLLING\_FILE.MaxBackupIndex=1 //备份数  </span><br><span class="line">log4j.appender.ROLLING\_FILE.layout=org.apache.log4j.PatternLayout  </span><br><span class="line">log4j.appender.ROLLING\_FILE.layout.ConversionPattern=\[framework\] %d - %c -%-4r \[%t\] %-5p %c %x - %m%n</span><br><span class="line"></span><br><span class="line">#应用于socket  </span><br><span class="line">log4j.appender.SOCKET=org.apache.log4j.RollingFileAppender  </span><br><span class="line">log4j.appender.SOCKET.RemoteHost=localhost  </span><br><span class="line">log4j.appender.SOCKET.Port=5001  </span><br><span class="line">log4j.appender.SOCKET.LocationInfo=true  </span><br><span class="line">\# Set up for Log Facter 5  </span><br><span class="line">log4j.appender.SOCKET.layout=org.apache.log4j.PatternLayout  </span><br><span class="line">log4j.appender.SOCET.layout.ConversionPattern=\[start\]%d&#123;DATE&#125;\[DATE\]%n%p\[PRIORITY\]%n%x\[NDC\]%n%t\[THREAD\]%n%c\[CATEGORY\]%n%m\[MESSAGE\]%n%n</span><br><span class="line"></span><br><span class="line">\# Log Factor 5 Appender  </span><br><span class="line">log4j.appender.LF5\_APPENDER=org.apache.log4j.lf5.LF5Appender  </span><br><span class="line">log4j.appender.LF5\_APPENDER.MaxNumberOfRecords=2000</span><br><span class="line"></span><br><span class="line">\# 发送日志给邮件</span><br><span class="line"></span><br><span class="line">log4j.appender.MAIL=org.apache.log4j.net.SMTPAppender  </span><br><span class="line">log4j.appender.MAIL.Threshold=FATAL  </span><br><span class="line">log4j.appender.MAIL.BufferSize=10  </span><br><span class="line">log4j.appender.MAIL.From=web@www.wuset.com  </span><br><span class="line">log4j.appender.MAIL.SMTPHost=www.wusetu.com  </span><br><span class="line">log4j.appender.MAIL.Subject=Log4J Message  </span><br><span class="line">log4j.appender.MAIL.To=web@www.wusetu.com  </span><br><span class="line">log4j.appender.MAIL.layout=org.apache.log4j.PatternLayout  </span><br><span class="line">log4j.appender.MAIL.layout.ConversionPattern=\[framework\] %d - %c -%-4r \[%t\] %-5p %c %x - %m%n</span><br><span class="line"></span><br><span class="line">\# 用于数据库  </span><br><span class="line">log4j.appender.DATABASE=org.apache.log4j.jdbc.JDBCAppender  </span><br><span class="line">log4j.appender.DATABASE.URL=jdbc:mysql://localhost:3306/test  </span><br><span class="line">log4j.appender.DATABASE.driver=com.mysql.jdbc.Driver  </span><br><span class="line">log4j.appender.DATABASE.user=root  </span><br><span class="line">log4j.appender.DATABASE.password=  </span><br><span class="line">log4j.appender.DATABASE.sql=INSERT INTO LOG4J (Message) VALUES (‘\[framework\] %d - %c -%-4r \[%t\] %-5p %c %x - %m%n’)  </span><br><span class="line">log4j.appender.DATABASE.layout=org.apache.log4j.PatternLayout  </span><br><span class="line">log4j.appender.DATABASE.layout.ConversionPattern=\[framework\] %d - %c -%-4r \[%t\] %-5p %c %x - %m%n</span><br><span class="line"></span><br><span class="line">log4j.appender.A1=org.apache.log4j.DailyRollingFileAppender  </span><br><span class="line">log4j.appender.A1.File=SampleMessages.log4j  </span><br><span class="line">log4j.appender.A1.DatePattern=yyyyMMdd-HH’.log4j’  </span><br><span class="line">log4j.appender.A1.layout=org.apache.log4j.xml.XMLLayout</span><br><span class="line"></span><br><span class="line">#自定义Appender</span><br><span class="line"></span><br><span class="line">log4j.appender.im = net.cybercorlin.util.logger.appender.IMAppender</span><br><span class="line"></span><br><span class="line">log4j.appender.im.host = mail.cybercorlin.net  </span><br><span class="line">log4j.appender.im.username = username  </span><br><span class="line">log4j.appender.im.password = password  </span><br><span class="line">log4j.appender.im.recipient = corlin@cybercorlin.net</span><br><span class="line"></span><br><span class="line">log4j.appender.im.layout=org.apache.log4j.PatternLayout  </span><br><span class="line">log4j.appender.im.layout.ConversionPattern =\[framework\] %d - %c -%-4r \[%t\] %-5p %c %x - %m%n</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://zhoumoon.github.io/2020/03/10/Log4j配置详解/" title="Log4j 配置祥解" target="_blank" rel="external">http://zhoumoon.github.io/2020/03/10/Log4j配置详解/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ZhouMoon" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ZhouMoon" target="_blank"><span class="text-dark">ZhouMoon</span><small class="ml-1x">三人行必有我师</small></a></h3>
+        <div>周海军的博客</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2021/06/12/vim/Vi_多行匹配字符/" title="Vim 多行匹配字符&#34;\_."><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/09/11/为什么 Java 中只有值传递？/" title="为什么 Java 中只有值传递？"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZhouMoon" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://twitter.com/ZHJTime" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
