@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Ubuntu 常用配置及软件 | Moon-Blog</title>
+  <meta name="description" content="Ubuntu 常用配置及软件   创建用户 12345678910111213141516171819# 切root用户su root sudo useradd -r -m -s &#x2F;bin&#x2F;bash moon# 设置密码sudo passwd# -r：建立系统账号# -m：自动建立用户的登入目录# -s：指定用户登入后所使用的shell# 设置sudo# 修改&#x2F;etc&#x2F;sudoers 权限chm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu 常用配置及软件">
+<meta property="og:url" content="http://zhoumoon.github.io/2022/05/04/Linux/Ubuntu%20%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E5%8F%8A%E8%BD%AF%E4%BB%B6/index.html">
+<meta property="og:site_name" content="ZhouMoon">
+<meta property="og:description" content="Ubuntu 常用配置及软件   创建用户 12345678910111213141516171819# 切root用户su root sudo useradd -r -m -s &#x2F;bin&#x2F;bash moon# 设置密码sudo passwd# -r：建立系统账号# -m：自动建立用户的登入目录# -s：指定用户登入后所使用的shell# 设置sudo# 修改&#x2F;etc&#x2F;sudoers 权限chm">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-04T14:02:00.000Z">
+<meta property="article:modified_time" content="2023-08-01T01:45:09.868Z">
+<meta property="article:author" content="ZhouMoon">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://zhoumoon.github.io/2022/05/04/Linux/Ubuntu%20%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E5%8F%8A%E8%BD%AF%E4%BB%B6/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    <link href="//cdn.jsdelivr.net/npm/katex@0.9.0/dist/katex.min.css" rel="stylesheet">
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ZhouMoon" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">ZhouMoon</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">邮箱[ com_moon@163.com ]</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZhouMoon" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://space.bilibili.com/40356921" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="https://twitter.com/ZHJTime" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>使用<b style=" color:red; font-size:18px;">搜索</b>效率翻倍!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Docker/" style="font-size: 13.33px;">Docker</a> <a href="/tags/Git/" style="font-size: 13px;">Git</a> <a href="/tags/Http/" style="font-size: 13px;">Http</a> <a href="/tags/IDE/" style="font-size: 13.17px;">IDE</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Linux/" style="font-size: 13.83px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 13.33px;">MySQL</a> <a href="/tags/Oracle/" style="font-size: 13.17px;">Oracle</a> <a href="/tags/Vim/" style="font-size: 13.33px;">Vim</a> <a href="/tags/Windows/" style="font-size: 13.67px;">Windows</a> <a href="/tags/Work/" style="font-size: 13px;">Work</a> <a href="/tags/%E7%90%86%E8%B4%A2/" style="font-size: 13.5px;">理财</a>
+    </div>
+  </div>
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ubuntu-%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E5%8F%8A%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text"> Ubuntu 常用配置及软件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7"><span class="toc-number">1.0.1.</span> <span class="toc-text"> 创建用户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E6%A0%A1%E5%87%86"><span class="toc-number">1.0.2.</span> <span class="toc-text"> 时间校准</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#clash%E9%BB%98%E8%AE%A4%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86"><span class="toc-number">1.0.3.</span> <span class="toc-text"> Clash默认系统代理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E6%BA%90%E9%85%8D%E7%BD%AE"><span class="toc-number">1.0.4.</span> <span class="toc-text"> 软件源配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.0.5.</span> <span class="toc-text"> 常用软件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E4%BD%93%E5%AE%89%E8%A3%85"><span class="toc-number">1.0.6.</span> <span class="toc-text"> 字体安装</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%AA%E6%80%A7%E5%8C%96%E9%85%8D%E7%BD%AE"><span class="toc-number">1.0.6.1.</span> <span class="toc-text"> 个性化配置</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ssh%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.0.7.</span> <span class="toc-text"> ssh服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#jdk-%E5%AE%89%E8%A3%85"><span class="toc-number">1.0.8.</span> <span class="toc-text"> JDK 安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#maven-%E5%AE%89%E8%A3%85"><span class="toc-number">1.0.9.</span> <span class="toc-text"> Maven 安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#frp-%E8%BF%9C%E7%A8%8B%E5%B7%A5%E5%85%B7%E5%AE%89%E8%A3%85"><span class="toc-number">1.0.10.</span> <span class="toc-text"> frp 远程工具安装</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%AF%E8%83%BD%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.0.10.1.</span> <span class="toc-text"> 可能出现的问题</span></a></li></ol></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Linux/Ubuntu 常用配置及软件" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Ubuntu 常用配置及软件
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2022/05/04/Linux/Ubuntu%20%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E5%8F%8A%E8%BD%AF%E4%BB%B6/" class="article-date">
+	  <time datetime="2022-05-04T14:02:00.000Z" itemprop="datePublished">2022-05-04</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Linux/" rel="tag">Linux</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2022/05/04/Linux/Ubuntu%20%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E5%8F%8A%E8%BD%AF%E4%BB%B6/" class="leancloud_visitors"  data-flag-title="Ubuntu 常用配置及软件">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2022/05/04/Linux/Ubuntu%20%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E5%8F%8A%E8%BD%AF%E4%BB%B6/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="ubuntu-常用配置及软件"><a class="markdownIt-Anchor" href="#ubuntu-常用配置及软件"></a> Ubuntu 常用配置及软件</h2>
+<hr />
+<h4 id="创建用户"><a class="markdownIt-Anchor" href="#创建用户"></a> 创建用户</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">切root用户</span></span><br><span class="line">su root </span><br><span class="line">sudo useradd -r -m -s /bin/bash moon</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置密码</span></span><br><span class="line">sudo passwd</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-r：建立系统账号</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-m：自动建立用户的登入目录</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-s：指定用户登入后所使用的shell</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置sudo</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改/etc/sudoers 权限</span></span><br><span class="line">chmod +w /etc/sudoers</span><br><span class="line">vim /etc/sudoers</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">增加moon用户权限</span></span><br><span class="line">moon    ALL=(ALL:ALL) ALL</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">env_reset下添加, 使sudo 执行命令时走代理</span></span><br><span class="line">Defaults env_keep += &quot;http_proxy https_proxy ftp_proxy all_proxy no_proxy&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">还原权限(否则不生效)</span></span><br><span class="line">chmod 440 /etc/sudoers</span><br></pre></td></tr></table></figure>
+<h4 id="时间校准"><a class="markdownIt-Anchor" href="#时间校准"></a> 时间校准</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ntp</span><br><span class="line">ntpdate cn.pool.ntp.org</span><br></pre></td></tr></table></figure>
+<h4 id="clash默认系统代理"><a class="markdownIt-Anchor" href="#clash默认系统代理"></a> Clash默认系统代理</h4>
+<p><a target="_blank" rel="noopener" href="http://clash.razord.top/#/proxies">管理页面</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置代理</span></span><br><span class="line">export https_proxy=http://127.0.0.1:19527 http_proxy=http://127.0.0.1:19527 all_proxy=socks5://127.0.0.1:19527</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看代理</span></span><br><span class="line">env |grep -i proxy</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">清除代理</span></span><br><span class="line">unset http_proxy</span><br><span class="line">unset https_proxy</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">通过图形界面设置的代理清除</span></span><br><span class="line">sudo vi /etc/apt/apt.conf</span><br><span class="line">sudo vi ~/.bashrc</span><br><span class="line">sudo vi /etc/enviroment</span><br></pre></td></tr></table></figure>
+<h4 id="软件源配置"><a class="markdownIt-Anchor" href="#软件源配置"></a> 软件源配置</h4>
+<p>编辑文件<code>sudo  vi /etc/apt/sources.list</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">清华源</span> </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释</span></span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal main restricted universe multiverse</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal main restricted universe multiverse</span></span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates main restricted universe multiverse</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates main restricted universe multiverse</span></span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-backports main restricted universe multiverse</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-backports main restricted universe multiverse</span></span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted universe multiverse</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted universe multiverse</span></span><br><span class="line"><span class="meta prompt_"> </span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">预发布软件源，不建议启用</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">中科大源</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释</span></span><br><span class="line">deb https://mirrors.ustc.edu.cn/ubuntu/ xenial main restricted universe multiverse</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">deb-src https://mirrors.ustc.edu.cn/ubuntu/ xenial main main restricted universe multiverse</span></span><br><span class="line">deb https://mirrors.ustc.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">deb-src https://mirrors.ustc.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse</span></span><br><span class="line">deb https://mirrors.ustc.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">deb-src https://mirrors.ustc.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse</span></span><br><span class="line">deb https://mirrors.ustc.edu.cn/ubuntu/ xenial-security main restricted universe multiverse</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">deb-src https://mirrors.ustc.edu.cn/ubuntu/ xenial-security main restricted universe multiverse</span></span><br><span class="line"><span class="meta prompt_"> </span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">预发布软件源，不建议启用</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">deb https://mirrors.ustc.edu.cn/ubuntu/ xenial-proposed main restricted universe multiverse</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">deb-src https://mirrors.ustc.edu.cn/ubuntu/ xenial-proposed main restricted universe multiverseo</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">阿里源</span></span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse</span><br><span class="line"> </span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse</span><br><span class="line"> </span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse</span><br><span class="line"> </span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse</span><br><span class="line"> </span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+<h4 id="常用软件"><a class="markdownIt-Anchor" href="#常用软件"></a> 常用软件</h4>
+<p><code>sudo apt install git zsh tmux neovim tree ranger fzf </code></p>
+<h4 id="字体安装"><a class="markdownIt-Anchor" href="#字体安装"></a> 字体安装</h4>
+<p><a target="_blank" rel="noopener" href="https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/JetBrainsMono/Ligatures/Regular/complete">Nerd字体下载</a><br />
+<strong>字体目录:</strong>  <code>/usr/share/fonts</code><br />
+<strong>建立字体缓存信息</strong><br />
+<code>sudo fc-cache -fv</code><br />
+<strong>配置终端</strong></p>
+<h5 id="个性化配置"><a class="markdownIt-Anchor" href="#个性化配置"></a> 个性化配置</h5>
+<p><strong>克隆配置</strong><br />
+<code>git clone https://github.com/ZhouMoon/dotfiles</code></p>
+<h4 id="ssh服务"><a class="markdownIt-Anchor" href="#ssh服务"></a> ssh服务</h4>
+<p><strong>服务安装</strong><br />
+<code>sudo apt-get install openssh-server </code><br />
+<strong>创建authorized_keys</strong><br />
+<code>sudo touch ~/.ssh/authorized_keys</code><br />
+<strong>客户端生成密钥</strong><br />
+<code>ssh-keygen</code><br />
+将公钥写入远程机器中的 authorized_keys 文件中</p>
+<h4 id="jdk-安装"><a class="markdownIt-Anchor" href="#jdk-安装"></a> JDK 安装</h4>
+<p><a href="https://zhoumoon.github.io/2016/09/23/Linux/Linux_%E5%AE%89%E8%A3%85JDK/">JDK安装</a></p>
+<h4 id="maven-安装"><a class="markdownIt-Anchor" href="#maven-安装"></a> Maven 安装</h4>
+<p><code>sudo apt install maven</code></p>
+<h4 id="frp-远程工具安装"><a class="markdownIt-Anchor" href="#frp-远程工具安装"></a> frp 远程工具安装</h4>
+<ul>
+<li>下载: <a target="_blank" rel="noopener" href="https://github.com/fatedier/frp/releases/tag/v0.42.0">frp 软件下载</a></li>
+<li>配置: <a target="_blank" rel="noopener" href="https://gofrp.org/docs/examples/ssh/">frp ssh 示例</a></li>
+</ul>
+<hr />
+<h5 id="可能出现的问题"><a class="markdownIt-Anchor" href="#可能出现的问题"></a> 可能出现的问题</h5>
+<blockquote>
+<p>nvim 启动后报错</p>
+</blockquote>
+<ul>
+<li>尝试安装g++ gcc</li>
+<li>尝试重新安装插件</li>
+</ul>
+<hr />
+<p><strong>关于</strong></p>
+<blockquote>
+<p>时不时重装懒的备份了, 直接重新下载, 持续更新</p>
+</blockquote>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://zhoumoon.github.io/2022/05/04/Linux/Ubuntu%20%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E5%8F%8A%E8%BD%AF%E4%BB%B6/" title="Ubuntu 常用配置及软件" target="_blank" rel="external">http://zhoumoon.github.io/2022/05/04/Linux/Ubuntu%20%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E5%8F%8A%E8%BD%AF%E4%BB%B6/</a>
+    </li>
+    
+    <!-- <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li> -->
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ZhouMoon" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ZhouMoon" target="_blank"><span class="text-dark">ZhouMoon</span><small class="ml-1x">邮箱[ com_moon@163.com ]</small></a></h3>
+        <div>周海军的博客</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2022/05/14/Windows/Windows%E8%BF%90%E8%A1%8Cjava-jar%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99/" title="Windows运行java-jar启动报错"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2022/03/12/IDE/IDEA%20%E4%B8%ADVIM%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6ideavimrc%E6%96%87%E4%BB%B6%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80%E9%97%AE%E9%A2%98/" title="IDEA 中VIM配置文件ideavimrc文件无法打开问题"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZhouMoon" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://space.bilibili.com/40356921" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="https://twitter.com/ZHJTime" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+</html>

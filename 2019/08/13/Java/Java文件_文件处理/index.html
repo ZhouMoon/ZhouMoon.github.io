@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Java 文件处理 | Moon-Blog</title>
+  <meta name="description" content="Java 文件处理   1、获取文件-文件夹 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748public class UtilFile &amp;#123;	&#x2F;**	 * 递归获取某个文件夹下的所有文件	 *	 * @param fileNameList	 *">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 文件处理">
+<meta property="og:url" content="http://zhoumoon.github.io/2019/08/13/Java/Java%E6%96%87%E4%BB%B6_%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="ZhouMoon">
+<meta property="og:description" content="Java 文件处理   1、获取文件-文件夹 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748public class UtilFile &amp;#123;	&#x2F;**	 * 递归获取某个文件夹下的所有文件	 *	 * @param fileNameList	 *">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-08-13T01:13:11.000Z">
+<meta property="article:modified_time" content="2023-08-01T01:45:09.865Z">
+<meta property="article:author" content="ZhouMoon">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://zhoumoon.github.io/2019/08/13/Java/Java%E6%96%87%E4%BB%B6_%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ZhouMoon" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">ZhouMoon</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">邮箱[ com_moon@163.com ]</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZhouMoon" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://space.bilibili.com/40356921" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="https://twitter.com/ZHJTime" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>使用<b style=" color:red; font-size:18px;">搜索</b>效率翻倍!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Docker/" style="font-size: 13.33px;">Docker</a> <a href="/tags/Git/" style="font-size: 13px;">Git</a> <a href="/tags/Http/" style="font-size: 13px;">Http</a> <a href="/tags/IDE/" style="font-size: 13.17px;">IDE</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Linux/" style="font-size: 13.83px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 13.33px;">MySQL</a> <a href="/tags/Oracle/" style="font-size: 13.17px;">Oracle</a> <a href="/tags/Vim/" style="font-size: 13.33px;">Vim</a> <a href="/tags/Windows/" style="font-size: 13.67px;">Windows</a> <a href="/tags/Work/" style="font-size: 13px;">Work</a> <a href="/tags/%E7%90%86%E8%B4%A2/" style="font-size: 13.5px;">理财</a>
+    </div>
+  </div>
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#java-%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text"> Java 文件处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E8%8E%B7%E5%8F%96%E6%96%87%E4%BB%B6-%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-number">1.0.1.</span> <span class="toc-text"> 1、获取文件-文件夹</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E7%82%B9"><span class="toc-number">1.0.2.</span> <span class="toc-text"> 重点</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%9C%81%E5%8E%BB%E4%BA%86%E5%88%87%E5%89%B2%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%AD%A5%E9%AA%A4%E9%81%BF%E5%85%8D%E5%9C%A8%E4%B8%8D%E5%90%8C%E5%B9%B3%E5%8F%B0%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98%E7%9B%B4%E6%8E%A5%E5%8F%AF%E4%BB%A5%E6%8B%BF%E5%88%B0%E8%B7%AF%E5%BE%84%E6%9C%80%E5%90%8E%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D"><span class="toc-number">1.0.2.0.1.</span> <span class="toc-text"> 省去了切割字符串,步骤,避免在不同平台路径问题,直接可以拿到路径最后的文件名</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD-controller"><span class="toc-number">1.0.3.</span> <span class="toc-text"> 2、文件下载 Controller</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%89%8D%E7%AB%AF%E6%98%BE%E7%A4%BA"><span class="toc-number">1.0.4.</span> <span class="toc-text"> 3、前端显示</span></a></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Java/Java文件_文件处理" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java 文件处理
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/08/13/Java/Java%E6%96%87%E4%BB%B6_%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/" class="article-date">
+	  <time datetime="2019-08-13T01:13:11.000Z" itemprop="datePublished">2019-08-13</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Java/" rel="tag">Java</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/08/13/Java/Java%E6%96%87%E4%BB%B6_%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/" class="leancloud_visitors"  data-flag-title="Java 文件处理">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/08/13/Java/Java%E6%96%87%E4%BB%B6_%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="java-文件处理"><a class="markdownIt-Anchor" href="#java-文件处理"></a> Java 文件处理</h2>
+<hr />
+<h4 id="1-获取文件-文件夹"><a class="markdownIt-Anchor" href="#1-获取文件-文件夹"></a> 1、获取文件-文件夹</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UtilFile</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 递归获取某个文件夹下的所有文件</span></span><br><span class="line"><span class="comment">	 *</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> fileNameList</span></span><br><span class="line"><span class="comment">	 *            存放文件名称的list</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> path</span></span><br><span class="line"><span class="comment">	 *            文件夹的路径</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span>	文件名称</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> ArrayList&lt;String&gt; <span class="title function_">getAllFileName</span><span class="params">(String path, ArrayList&lt;String&gt; fileNameList)</span> &#123;</span><br><span class="line">		ArrayList&lt;String&gt; files = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;String&gt;();</span><br><span class="line">		<span class="type">File</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(path);</span><br><span class="line">		File[] tempList = file.listFiles();</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; tempList.length; i++) &#123;</span><br><span class="line">			<span class="keyword">if</span> (tempList[i].isFile()) &#123;</span><br><span class="line">				<span class="comment">// 文件路径</span></span><br><span class="line">				<span class="comment">// System.out.println(&quot;文 件：&quot; + tempList[i]);</span></span><br><span class="line">				<span class="comment">// fileNameList.add(tempList[i].toString());</span></span><br><span class="line">				<span class="type">String</span> <span class="variable">fName</span> <span class="operator">=</span> tempList[i].toString();</span><br><span class="line">				<span class="type">File</span> <span class="variable">tempFile</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(fName.trim());</span><br><span class="line">				<span class="type">String</span> <span class="variable">fileName</span> <span class="operator">=</span> tempFile.getName();</span><br><span class="line">				<span class="comment">// System.out.println(&quot;fileName = &quot; + fileName);</span></span><br><span class="line">				<span class="comment">// 获取文件名称添加入list</span></span><br><span class="line">				files.add(fileName);</span><br><span class="line">				fileNameList.add(tempList[i].getName());</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (tempList[i].isDirectory()) &#123;</span><br><span class="line">				<span class="comment">// 文件夹路径</span></span><br><span class="line">				<span class="comment">// System.out.println(&quot;文件夹：&quot; + tempList[i]);</span></span><br><span class="line">				getAllFileName(tempList[i].getAbsolutePath(), fileNameList);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> files;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">		ArrayList&lt;String&gt; files = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;String&gt;();</span><br><span class="line">		files = UtilFile.getAllFileName(<span class="string">&quot;E:/apache-tomcat-8.5.15/webapps/mexx/excel&quot;</span>, <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;String&gt;());</span><br><span class="line">		<span class="keyword">for</span> (String string : files) &#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;文件名:&quot;</span> + string);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>files:返回的文件名</li>
+<li>tempList[i].toString():获取到的文件或文件夹完整路径</li>
+</ul>
+<h4 id="重点"><a class="markdownIt-Anchor" href="#重点"></a> <mark>重点</mark></h4>
+<h6 id="省去了切割字符串步骤避免在不同平台路径问题直接可以拿到路径最后的文件名"><a class="markdownIt-Anchor" href="#省去了切割字符串步骤避免在不同平台路径问题直接可以拿到路径最后的文件名"></a> 省去了切割字符串,步骤,避免在不同平台路径问题,直接可以拿到路径最后的文件名</h6>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">fName</span> <span class="operator">=</span><span class="string">&quot;E:/apache-tomcat-8.5.15/webapps/mexx/excel&quot;</span>;</span><br><span class="line"><span class="type">File</span> <span class="variable">tempFile</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(fName.trim());</span><br><span class="line"><span class="type">String</span> <span class="variable">fileName</span> <span class="operator">=</span> tempFile.getName();</span><br><span class="line">System.out.println(<span class="string">&quot;fileName = &quot;</span> + fileName);</span><br></pre></td></tr></table></figure>
+<h4 id="2-文件下载-controller"><a class="markdownIt-Anchor" href="#2-文件下载-controller"></a> 2、文件下载 Controller</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 文件下载</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> IOException</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RequestMapping(value = &quot;/download&quot;, method = RequestMethod.GET)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">download</span><span class="params">(<span class="meta">@RequestParam(value = &quot;filename&quot;)</span> String filename, HttpServletRequest request,</span></span><br><span class="line"><span class="params">	HttpServletResponse response)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 模拟文件，myfile.txt为需要下载的文件</span></span><br><span class="line">	<span class="comment">//String path = request.getSession().getServletContext().getRealPath(&quot;Excel&quot;) + &quot;\\&quot; + filename;</span></span><br><span class="line">	<span class="type">String</span> <span class="variable">path</span> <span class="operator">=</span>EXCEL_URL + <span class="string">&quot;/&quot;</span> + filename;</span><br><span class="line">	<span class="comment">// 获取输入流</span></span><br><span class="line">	<span class="type">InputStream</span> <span class="variable">bis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="keyword">new</span> <span class="title class_">File</span>(path)));</span><br><span class="line">	<span class="comment">// 转码，免得文件名中文乱码</span></span><br><span class="line">	filename = URLEncoder.encode(filename, <span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">	<span class="comment">// 设置文件下载头</span></span><br><span class="line">	response.addHeader(<span class="string">&quot;Content-Disposition&quot;</span>, <span class="string">&quot;attachment;filename=&quot;</span> + filename);</span><br><span class="line">	<span class="comment">// 1.设置文件ContentType类型，这样设置，会自动判断下载文件类型</span></span><br><span class="line">	response.setContentType(<span class="string">&quot;multipart/form-data&quot;</span>);</span><br><span class="line">	<span class="type">BufferedOutputStream</span> <span class="variable">out</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedOutputStream</span>(response.getOutputStream());</span><br><span class="line">	<span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> ((len = bis.read()) != -<span class="number">1</span>) &#123;</span><br><span class="line">		out.write(len);</span><br><span class="line">		out.flush();</span><br><span class="line">	&#125;</span><br><span class="line">	out.close();</span><br><span class="line">	System.out.println(ExcelController.getIpAddr(request)+<span class="string">&quot;下载完成&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-前端显示"><a class="markdownIt-Anchor" href="#3-前端显示"></a> 3、前端显示</h4>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">&quot;margin-top:30px;&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">c:forEach</span> <span class="attr">items</span>=<span class="string">&quot;$&#123;filesList &#125;&quot;</span> <span class="attr">var</span>=<span class="string">&quot;fileName&quot;</span> &gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> &gt;</span>$&#123;fileName&#125;<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">c:forEach</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://zhoumoon.github.io/2019/08/13/Java/Java%E6%96%87%E4%BB%B6_%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/" title="Java 文件处理" target="_blank" rel="external">http://zhoumoon.github.io/2019/08/13/Java/Java%E6%96%87%E4%BB%B6_%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/</a>
+    </li>
+    
+    <!-- <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li> -->
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ZhouMoon" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ZhouMoon" target="_blank"><span class="text-dark">ZhouMoon</span><small class="ml-1x">邮箱[ com_moon@163.com ]</small></a></h3>
+        <div>周海军的博客</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/08/13/Java/Java%E7%94%9F%E6%88%90MD5%E7%9A%84%E5%9D%91/" title="Java生成MD5的坑"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/11/15/DB/docker%E5%AE%89%E8%A3%85Oracle_11g/" title="MySQL高性能优化规范建议"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZhouMoon" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://space.bilibili.com/40356921" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="https://twitter.com/ZHJTime" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+</html>

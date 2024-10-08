@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>dotfiles配置同步工具RCM使用 | Moon-Blog</title>
+  <meta name="description" content="RCM  解决配置文件同步问题，轻松实现多设备配置一键同步   官网   安装 RCM   GitHub   Gitee  例 Ubuntu  1sudo apt install rcm    常用命令  lsrc 列出当前所有通过 rcm 管理的 dotfile ，以及其对应的符号链接位置 lsrc [-FhqVv] [-B HOSTNAME] [-d DIR] [-I EXCL_PAT] [">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dotfiles配置同步工具RCM使用">
+<meta property="og:url" content="http://zhoumoon.github.io/2022/12/15/Linux/dotfiles%E9%85%8D%E7%BD%AE%E5%90%8C%E6%AD%A5%E5%B7%A5%E5%85%B7RCM%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="ZhouMoon">
+<meta property="og:description" content="RCM  解决配置文件同步问题，轻松实现多设备配置一键同步   官网   安装 RCM   GitHub   Gitee  例 Ubuntu  1sudo apt install rcm    常用命令  lsrc 列出当前所有通过 rcm 管理的 dotfile ，以及其对应的符号链接位置 lsrc [-FhqVv] [-B HOSTNAME] [-d DIR] [-I EXCL_PAT] [">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-12-15T13:45:23.000Z">
+<meta property="article:modified_time" content="2023-08-01T01:45:09.868Z">
+<meta property="article:author" content="ZhouMoon">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://zhoumoon.github.io/2022/12/15/Linux/dotfiles%E9%85%8D%E7%BD%AE%E5%90%8C%E6%AD%A5%E5%B7%A5%E5%85%B7RCM%E4%BD%BF%E7%94%A8/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    <link href="//cdn.jsdelivr.net/npm/katex@0.9.0/dist/katex.min.css" rel="stylesheet">
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ZhouMoon" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">ZhouMoon</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">邮箱[ com_moon@163.com ]</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZhouMoon" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://space.bilibili.com/40356921" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="https://twitter.com/ZHJTime" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>使用<b style=" color:red; font-size:18px;">搜索</b>效率翻倍!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Docker/" style="font-size: 13.33px;">Docker</a> <a href="/tags/Git/" style="font-size: 13px;">Git</a> <a href="/tags/Http/" style="font-size: 13px;">Http</a> <a href="/tags/IDE/" style="font-size: 13.17px;">IDE</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Linux/" style="font-size: 13.83px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 13.33px;">MySQL</a> <a href="/tags/Oracle/" style="font-size: 13.17px;">Oracle</a> <a href="/tags/Vim/" style="font-size: 13.33px;">Vim</a> <a href="/tags/Windows/" style="font-size: 13.67px;">Windows</a> <a href="/tags/Work/" style="font-size: 13px;">Work</a> <a href="/tags/%E7%90%86%E8%B4%A2/" style="font-size: 13.5px;">理财</a>
+    </div>
+  </div>
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#rcm"><span class="toc-number">1.</span> <span class="toc-text"> RCM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-rcm"><span class="toc-number">2.</span> <span class="toc-text"> 安装 RCM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text"> 常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#lsrc"><span class="toc-number">3.1.</span> <span class="toc-text"> lsrc</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mkrc"><span class="toc-number">3.2.</span> <span class="toc-text"> mkrc</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#rcup"><span class="toc-number">3.3.</span> <span class="toc-text"> rcup</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#rcdn"><span class="toc-number">3.4.</span> <span class="toc-text"> rcdn</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E5%8F%82%E6%95%B0%E5%90%AB%E4%B9%89"><span class="toc-number">3.5.</span> <span class="toc-text"> 命令参数含义</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">4.</span> <span class="toc-text"> 配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#~rcrc"><span class="toc-number">4.1.</span> <span class="toc-text"> ~&#x2F;.rcrc</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#exclude-pattern-%E6%8E%92%E9%99%A4%E5%88%97%E8%A1%A8"><span class="toc-number">4.2.</span> <span class="toc-text"> EXCLUDE PATTERN (排除列表)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#directory-layout-%E7%9B%AE%E5%BD%95%E5%B8%83%E5%B1%80"><span class="toc-number">4.3.</span> <span class="toc-text"> DIRECTORY LAYOUT (目录布局)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%B8%B8%E4%BD%BF%E7%94%A8"><span class="toc-number">5.</span> <span class="toc-text"> 日常使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%88%91%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">6.</span> <span class="toc-text"> 我的配置</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Linux/dotfiles配置同步工具RCM使用" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      dotfiles配置同步工具RCM使用
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2022/12/15/Linux/dotfiles%E9%85%8D%E7%BD%AE%E5%90%8C%E6%AD%A5%E5%B7%A5%E5%85%B7RCM%E4%BD%BF%E7%94%A8/" class="article-date">
+	  <time datetime="2022-12-15T13:45:23.000Z" itemprop="datePublished">2022-12-15</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Linux/" rel="tag">Linux</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2022/12/15/Linux/dotfiles%E9%85%8D%E7%BD%AE%E5%90%8C%E6%AD%A5%E5%B7%A5%E5%85%B7RCM%E4%BD%BF%E7%94%A8/" class="leancloud_visitors"  data-flag-title="dotfiles配置同步工具RCM使用">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2022/12/15/Linux/dotfiles%E9%85%8D%E7%BD%AE%E5%90%8C%E6%AD%A5%E5%B7%A5%E5%85%B7RCM%E4%BD%BF%E7%94%A8/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h3 id="rcm"><a class="markdownIt-Anchor" href="#rcm"></a> RCM</h3>
+<blockquote>
+<p>解决配置文件同步问题，轻松实现多设备配置一键同步</p>
+</blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://thoughtbot.github.io/rcm/rcm.7.html">官网</a></li>
+</ul>
+<h3 id="安装-rcm"><a class="markdownIt-Anchor" href="#安装-rcm"></a> 安装 RCM</h3>
+<ul>
+<li>
+<p><a target="_blank" rel="noopener" href="https://github.com/thoughtbot/rcm">GitHub</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://gitee.com/mirrors/rcm">Gitee</a></p>
+<ul>
+<li>例 Ubuntu</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install rcm</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="常用命令"><a class="markdownIt-Anchor" href="#常用命令"></a> 常用命令</h3>
+<h4 id="lsrc"><a class="markdownIt-Anchor" href="#lsrc"></a> lsrc</h4>
+<p><strong>列出当前所有通过 rcm 管理的 dotfile ，以及其对应的符号链接位置</strong><br />
+<code>lsrc [-FhqVv] [-B HOSTNAME] [-d DIR] [-I EXCL_PAT] [-S EXCL_PAT] [-s EXCL_PAT] [-t TAG] [-U EXCL_PAT] [-u EXCL_PAT] [-x EXCL_PAT] [files ...]</code></p>
+<h4 id="mkrc"><a class="markdownIt-Anchor" href="#mkrc"></a> mkrc</h4>
+<p>将指定的 dotfile 移动至集中存储目录(默认 <code>~/.dotfiles</code>)，并在原下创建相应的软链接<br />
+<code>mkrc [-ChoqSsVvUu] [-t TAG] [-d DIR] [-B HOSTNAME] files ...</code></p>
+<h4 id="rcup"><a class="markdownIt-Anchor" href="#rcup"></a> rcup</h4>
+<p>更新或创建由 rcm 管理的 dotfile 的软链接<br />
+<code>rcup [-CfhiKkqVv] [-B HOSTNAME] [-d DIR] [-g] [-I EXCL_PAT] [-S EXCL_PAT] [-s EXCL_PAT] [-t TAG] [-U EXCL_PAT] [-u EXCL_PAT] [-x EXCL_PAT] [files ...]</code></p>
+<h4 id="rcdn"><a class="markdownIt-Anchor" href="#rcdn"></a> rcdn</h4>
+<p>删除通过 rcm 创建的 dotfile 的软链接<br />
+<code>rcdn [-hKkqVv] [-B HOSTNAME] [-d DIR] [-I EXCL_PAT] [-S EXCL_PAT] [-s EXCL_PAT] [-t TAG] [-U EXCL_PAT] [-u EXCL_PAT] [-x EXCL_PAT] [files ...]</code></p>
+<h4 id="命令参数含义"><a class="markdownIt-Anchor" href="#命令参数含义"></a> 命令参数含义</h4>
+<ul>
+<li><code>-B HOSTNAME</code>: 指定特定主机的目录,而不是使用计算机的主机名对其进行操作。</li>
+<li><code>-C</code>: 复制文件而不是创建软链接。</li>
+<li><code>-d DIR</code>: 指定 dotfiles 目录，可以指定多个。</li>
+<li><code>-F</code>: 在文件旁显示指示符号，<code>@</code> (文件软链接) ，<code>$</code> (目录软链接)，<code>x</code>(副本文件)。更多详细信息参考 rcrc 中的 <code>COPY_ALWAYS</code> 和 <code>SYMLINK_DIRS</code> 。</li>
+<li><code>-f</code>: 如果rc文件已经存在于配置目录中，但与 dotfiles 目录中的文件不匹配，删除rc文件，然后创建软链接。</li>
+<li><code>-g</code>: 仅显示 <code>rcup</code> 命令脚本的执行过程，不会修改文件系统上的任何内容。</li>
+<li><code>-h</code>: 显示用法说明</li>
+<li><code>-I EXCL_PAT</code>: 指定不被 <code>-x</code> 排除的文件。 该项在 <code>-x</code> 选项之后应用,使用与 <code>-x</code> 相同的语法格式。可能需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>-i</code>: 如果rc文件已经存在于配置目录中，但是与dotfiles目录中的文件不匹配，提示如何处理它。这是默认选项。</li>
+<li><code>-K</code>: 跳过 pre-hooks 和 post-hooks</li>
+<li><code>-k</code>: 运行 pre-hooks 和 post-hooks , 这是默认选项。</li>
+<li><code>-o</code>: 将 dotfiles 安装到主机特定的目录中。</li>
+<li><code>-q</code>: 减少详细信息。更多详细信息参考 <code>DIRECTORY LAYOUT</code>。</li>
+<li><code>-S EXCL_PAT</code>: 指定以软链接形式创建的目录。此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>-s EXCL_PAT</code>: 指定递归创建的目录而不是软链接式的目录。与 <code>-S</code> 选项相反，可用于撤消它或 <code>rcrc</code> 中的 <code>SYMLINK_DIRS</code> 设置。 此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>-t TAG</code>: 指定标签</li>
+<li><code>-U EXCLUDE</code>: 指定不创建软链接和以点 (<code>.</code>) 开头命名的rc文件或目录。此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>-u EXCL_PAT</code>: 指定必须使用点 (<code>.</code>) 开头命名的 rc 文件或目录。 与 <code>-U</code> 选项相反，可用于撤消它或 rcrc 中 <code>UNDOTTED</code> 设置。 此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>-V</code>: 显示版本号。</li>
+<li><code>-v</code>: 添加详细信息。 可以重复此操作以获取更多的详细信息。</li>
+<li><code>-x EXCL_PAT</code>: 指定排除的文件。此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>files ...</code>: 指定的文件列表。</li>
+</ul>
+<h3 id="配置"><a class="markdownIt-Anchor" href="#配置"></a> 配置</h3>
+<h4 id="~rcrc"><a class="markdownIt-Anchor" href="#~rcrc"></a> ~/.rcrc</h4>
+<p>可以使用主目录中的 <code>.rcrc</code> 文件配置rcm dotfile 管理器。 可通过设置 <code>RCRC</code> 环境变量来更改此位置。</p>
+<p>支持以下变量:</p>
+<ul>
+<li><code>COPY_ALWAYS</code>: 复制列表中的glob相匹配的文件，而非使用软链接。</li>
+<li><code>DOTFILES_DIRS</code>: dotfile 的源目录。列表中的第一个将被 <code>mkrc</code> 用于创建 <code>dotfile</code> 目录，默认值为: <code>~/.dotfiles</code> 。</li>
+<li><code>EXCLUDES</code>: 排除列表。</li>
+<li><code>HOSTNAME</code>: 计算机的主机名。 通常通过 <code>hostname</code> 命令获得，但此命令并非标准的，获取的主机名或许会有差异，因此使用 <code>HOSTNAME</code> 变量强制使用已知的主机名。</li>
+<li><code>TAGS</code>: 默认标签表。</li>
+<li><code>SYMLINK_DIRS</code>: 列表中目录是软链接，而不是源文件。</li>
+<li><code>UNDOTTED</code>: 列表中的文件是软链接且不用点 (<code>.</code>) 开头命名。如果是 <code>SYMLINK_DIRS</code> 中含有的目录，则该目录将为软链接且不用点 (<code>.</code>) 开头命名。</li>
+</ul>
+<p><strong><code>.rcrc</code> 样例</strong>:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">COPY_ALWAYS=&quot;ssh/id_* weechat/* netrc&quot;</span><br><span class="line">COPY_ALWAYS=&quot;*&quot;</span><br><span class="line">DOTFILES_DIRS=&quot;/home/mike/.dotfiles /usr/share/dotfiles&quot;</span><br><span class="line">EXCLUDES=&quot;irbrc *:*emacs* dotfiles:python*&quot;</span><br><span class="line">HOSTNAME=&quot;ubutu-22&quot;</span><br><span class="line">TAGS=&quot;freebsd development email git laptop gmail notmuch&quot;</span><br><span class="line">SYMLINK_DIRS=&quot;zprezto texmf&quot;</span><br><span class="line">UNDOTTED=&quot;texmf&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="exclude-pattern-排除列表"><a class="markdownIt-Anchor" href="#exclude-pattern-排除列表"></a> EXCLUDE PATTERN (排除列表)</h4>
+<p>使用冒号 (<code>:</code>) 分隔 dotfile 目录和 glob (由普通字符、通配字符组成的字符串，用于匹配文件路径) 。可选择带 dotfile 目录，如果省略则默认为 <code>*</code> ，代表从所有 dotfile 目录匹配。 glob 是相对于 dotfile 目录的相对路径。</p>
+<p>例如，要忽略 <code>Thoughtbot-dotfiles</code> 目录中所有与 <code>emacs</code> 相关的项目，使用：</p>
+<p><code>thoughtbot-dotfiles:*emacs*</code></p>
+<p>要忽略所有 <code>bash_profile</code> 文件使用：<br />
+<code>*:bash_profile</code><br />
+或者简写为:<br />
+<code>bash_profile</code></p>
+<p>注意,通常通过 <code>hostname</code> 命令获得主机名，但此命令并非标准的，获取的主机名或许会有差异，在macOS上，主机名是不可预测的，甚至可能在 <code>DHCP</code> 握手被更改,强烈建议在 <code>rcrc</code> 中,因此使用 <code>HOSTNAME</code> 变量强制使用已知的主机名。</p>
+<h4 id="directory-layout-目录布局"><a class="markdownIt-Anchor" href="#directory-layout-目录布局"></a> DIRECTORY LAYOUT (目录布局)</h4>
+<p>dotfiles 目录下的任何非点 (<code>.</code>) 开头的、非元文件或目录都将作为点 (<code>.</code>) 开头的文件安装。 例如，<code>.dotfiles/zshrc</code> 将安装到 <code>~/.zshrc</code> 。 文件安装为软链接。 目录通过建立目录来安装。<code>-C</code> 选项指定文件通过复制安装而不是软链接。 <code>rcrc</code> 中的 <code>COPY_ALWAYS</code> 可用于列出只能复制的文件。</p>
+<p>支持三个元文件: host-specific (特定主机文件), tagged (标记文件), hooks 。</p>
+<ul>
+<li><code>host-specific</code>: 以 <code>host-</code> 前缀加主机名命名的目录，存放特定主机的文件，如，<code>.dotfiles/host-scarlett</code> 包含主机名为 scarlett 的计算机 dotfile 文件，且这些文件将仅安装在主机名为scarlett的计算机上。</li>
+<li><code>tagged</code>: 以 <code>tag-</code> 前缀加标签名命名的目录，存放标记该标签的文件，如，仅在指定使用 <code>git</code> 标签时安装 <code>.dotfiles/tag-git</code> 下的文件。</li>
+<li><code>hooks</code>: 名为hooks的目录，存放 hooks 。 rcup 支持两个hooks：<code>pre-up</code> 和 <code>post-up</code> 。它们存放到预设文件名的文件或目录中：<code>.dotfiles/hooks/pre-up</code> 和 <code>.dotfiles/hooks/post-up</code> ，或 <code>.dotfiles/hooks/pre-up/*</code> 和 <code>.dotfiles/hooks/post-up/*</code> 。 这些文件必须是可执行文件。 它们在每次 <code>rcup</code> 运行时都运行，因此必须是幂等(执行后结果还为本身)的。hooks 按字母顺序排序,一次只执行一次。 如，<code>hooks/pre-up/animals</code> 将在 <code>hooks / pre-up/aquariums</code> 之前运行，<code>hooks/pre-up/4-eyes</code> 将在 <code>hooks/post-up/2-u-nothing-compares</code> 之前运行。</li>
+</ul>
+<h3 id="日常使用"><a class="markdownIt-Anchor" href="#日常使用"></a> 日常使用</h3>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># 创建管理(管理.vimrc配置)</span><br><span class="line">mkrc .vimrc </span><br><span class="line"></span><br><span class="line"># 打标签方式创建管理</span><br><span class="line">mkrc -t git xxx</span><br><span class="line"></span><br><span class="line"># 安装 dotfiles 中的 dotfile 文件</span><br><span class="line">rcup</span><br><span class="line"></span><br><span class="line"># 安装指定标签的 dotfile 文件</span><br><span class="line">rcup -t git</span><br><span class="line"></span><br><span class="line"># 安装指定标签的 dotfile 文件，并显示过程</span><br><span class="line">rcup -t git -v</span><br><span class="line"></span><br><span class="line"># 查询被管理的 dotfile 文件</span><br><span class="line">lsrc</span><br><span class="line"></span><br><span class="line"># 查询指定标签的 dotfile 文件</span><br><span class="line">lsrc -t git</span><br><span class="line"></span><br><span class="line"># 查询指定 dotfiles 中的 dotfile 文件</span><br><span class="line">lsrc -d ~/.dotfiles</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 取消指定标签的安装，并显示过程</span><br><span class="line">rcdn -t git -v</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="我的配置"><a class="markdownIt-Anchor" href="#我的配置"></a> 我的配置</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/ZhouMoon/dotfiles">https://github.com/ZhouMoon/dotfiles</a></li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://zhoumoon.github.io/2022/12/15/Linux/dotfiles%E9%85%8D%E7%BD%AE%E5%90%8C%E6%AD%A5%E5%B7%A5%E5%85%B7RCM%E4%BD%BF%E7%94%A8/" title="dotfiles配置同步工具RCM使用" target="_blank" rel="external">http://zhoumoon.github.io/2022/12/15/Linux/dotfiles%E9%85%8D%E7%BD%AE%E5%90%8C%E6%AD%A5%E5%B7%A5%E5%85%B7RCM%E4%BD%BF%E7%94%A8/</a>
+    </li>
+    
+    <!-- <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li> -->
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ZhouMoon" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ZhouMoon" target="_blank"><span class="text-dark">ZhouMoon</span><small class="ml-1x">邮箱[ com_moon@163.com ]</small></a></h3>
+        <div>周海军的博客</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2023/06/25/Linux/Manjaro%20%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E5%8F%8A%E8%BD%AF%E4%BB%B6/" title="Manjaro 常用配置及软件"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2022/11/12/Linux/WireGuard%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/" title="WireGuard安装使用"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZhouMoon" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://space.bilibili.com/40356921" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="https://twitter.com/ZHJTime" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+</html>

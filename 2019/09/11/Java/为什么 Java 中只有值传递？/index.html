@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>为什么 Java 中只有值传递？ | Moon-Blog</title>
+  <meta name="description" content="首先回顾一下在程序设计语言中有关将参数传递给方法（或函数）的一些专业术语。按值调用(call by value)表示方法接收的是调用者提供的值，而按引用调用（call by reference)表示方法接收的是调用者提供的变量地址。一个方法可以修改传递引用所对应的变量值，而不能修改传递值调用所对应的变量值。  它用来描述各种程序设计语言（不只是Java)中方法参数传递方式。 Java程序设计语言总">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为什么 Java 中只有值传递？">
+<meta property="og:url" content="http://zhoumoon.github.io/2019/09/11/Java/%E4%B8%BA%E4%BB%80%E4%B9%88%20Java%20%E4%B8%AD%E5%8F%AA%E6%9C%89%E5%80%BC%E4%BC%A0%E9%80%92%EF%BC%9F/index.html">
+<meta property="og:site_name" content="ZhouMoon">
+<meta property="og:description" content="首先回顾一下在程序设计语言中有关将参数传递给方法（或函数）的一些专业术语。按值调用(call by value)表示方法接收的是调用者提供的值，而按引用调用（call by reference)表示方法接收的是调用者提供的变量地址。一个方法可以修改传递引用所对应的变量值，而不能修改传递值调用所对应的变量值。  它用来描述各种程序设计语言（不只是Java)中方法参数传递方式。 Java程序设计语言总">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://my-blog-to-use.oss-cn-beijing.aliyuncs.com/18-9-27/22191348.jpg">
+<meta property="og:image" content="http://my-blog-to-use.oss-cn-beijing.aliyuncs.com/18-9-27/3825204.jpg">
+<meta property="og:image" content="http://my-blog-to-use.oss-cn-beijing.aliyuncs.com/18-9-27/88729818.jpg">
+<meta property="og:image" content="http://my-blog-to-use.oss-cn-beijing.aliyuncs.com/18-9-27/34384414.jpg">
+<meta property="article:published_time" content="2019-09-11T11:23:12.000Z">
+<meta property="article:modified_time" content="2023-08-01T01:45:09.868Z">
+<meta property="article:author" content="ZhouMoon">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://my-blog-to-use.oss-cn-beijing.aliyuncs.com/18-9-27/22191348.jpg">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://zhoumoon.github.io/2019/09/11/Java/%E4%B8%BA%E4%BB%80%E4%B9%88%20Java%20%E4%B8%AD%E5%8F%AA%E6%9C%89%E5%80%BC%E4%BC%A0%E9%80%92%EF%BC%9F/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ZhouMoon" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">ZhouMoon</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">邮箱[ com_moon@163.com ]</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZhouMoon" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://space.bilibili.com/40356921" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="https://twitter.com/ZHJTime" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>使用<b style=" color:red; font-size:18px;">搜索</b>效率翻倍!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Docker/" style="font-size: 13.33px;">Docker</a> <a href="/tags/Git/" style="font-size: 13px;">Git</a> <a href="/tags/Http/" style="font-size: 13px;">Http</a> <a href="/tags/IDE/" style="font-size: 13.17px;">IDE</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Linux/" style="font-size: 13.83px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 13.33px;">MySQL</a> <a href="/tags/Oracle/" style="font-size: 13.17px;">Oracle</a> <a href="/tags/Vim/" style="font-size: 13.33px;">Vim</a> <a href="/tags/Windows/" style="font-size: 13.67px;">Windows</a> <a href="/tags/Work/" style="font-size: 13px;">Work</a> <a href="/tags/%E7%90%86%E8%B4%A2/" style="font-size: 13.5px;">理财</a>
+    </div>
+  </div>
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#example-1"><span class="toc-number">1.</span> <span class="toc-text"> example 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#example-2"><span class="toc-number">2.</span> <span class="toc-text"> example 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#example-3"><span class="toc-number">3.</span> <span class="toc-text"> example 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text"> 总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">5.</span> <span class="toc-text"> 参考：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E4%B8%8Eequals%E9%87%8D%E8%A6%81"><span class="toc-number"></span> <span class="toc-text"> 二  &#x3D;&#x3D;与equals(重要)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-hashcode%E4%B8%8Eequals%E9%87%8D%E8%A6%81"><span class="toc-number"></span> <span class="toc-text"> 三  hashCode与equals（重要）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#hashcode%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text"> hashCode（）介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89hashcode"><span class="toc-number">2.</span> <span class="toc-text"> 为什么要有hashCode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hashcode%E4%B8%8Eequals%E7%9A%84%E7%9B%B8%E5%85%B3%E8%A7%84%E5%AE%9A"><span class="toc-number">3.</span> <span class="toc-text"> hashCode（）与equals（）的相关规定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%A4%E4%B8%AA%E5%AF%B9%E8%B1%A1%E6%9C%89%E7%9B%B8%E5%90%8C%E7%9A%84hashcode%E5%80%BC%E5%AE%83%E4%BB%AC%E4%B9%9F%E4%B8%8D%E4%B8%80%E5%AE%9A%E6%98%AF%E7%9B%B8%E7%AD%89%E7%9A%84"><span class="toc-number">4.</span> <span class="toc-text"> 为什么两个对象有相同的hashcode值，它们也不一定是相等的？</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Java/为什么 Java 中只有值传递？" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      为什么 Java 中只有值传递？
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/09/11/Java/%E4%B8%BA%E4%BB%80%E4%B9%88%20Java%20%E4%B8%AD%E5%8F%AA%E6%9C%89%E5%80%BC%E4%BC%A0%E9%80%92%EF%BC%9F/" class="article-date">
+	  <time datetime="2019-09-11T11:23:12.000Z" itemprop="datePublished">2019-09-11</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Java/" rel="tag">Java</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/09/11/Java/%E4%B8%BA%E4%BB%80%E4%B9%88%20Java%20%E4%B8%AD%E5%8F%AA%E6%9C%89%E5%80%BC%E4%BC%A0%E9%80%92%EF%BC%9F/" class="leancloud_visitors"  data-flag-title="为什么 Java 中只有值传递？">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/09/11/Java/%E4%B8%BA%E4%BB%80%E4%B9%88%20Java%20%E4%B8%AD%E5%8F%AA%E6%9C%89%E5%80%BC%E4%BC%A0%E9%80%92%EF%BC%9F/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>首先回顾一下在程序设计语言中有关将参数传递给方法（或函数）的一些专业术语。<strong>按值调用(call by value)表示方法接收的是调用者提供的值，而按引用调用（call by reference)表示方法接收的是调用者提供的变量地址。一个方法可以修改传递引用所对应的变量值，而不能修改传递值调用所对应的变量值。</strong>  它用来描述各种程序设计语言（不只是Java)中方法参数传递方式。</p>
+<p><strong>Java程序设计语言总是采用按值调用。也就是说，方法得到的是所有参数值的一个拷贝，也就是说，方法不能修改传递给它的任何参数变量的内容。</strong></p>
+<p><strong>下面通过 3 个例子来给大家说明</strong></p>
+<h3 id="example-1"><a class="markdownIt-Anchor" href="#example-1"></a> example 1</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">num1</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">num2</span> <span class="operator">=</span> <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line">    swap(num1, num2);</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">&quot;num1 = &quot;</span> + num1);</span><br><span class="line">    System.out.println(<span class="string">&quot;num2 = &quot;</span> + num2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">swap</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> a;</span><br><span class="line">    a = b;</span><br><span class="line">    b = temp;</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">&quot;a = &quot;</span> + a);</span><br><span class="line">    System.out.println(<span class="string">&quot;b = &quot;</span> + b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>结果：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = 20</span><br><span class="line">b = 10</span><br><span class="line">num1 = 10</span><br><span class="line">num2 = 20</span><br></pre></td></tr></table></figure>
+<p><strong>解析：</strong></p>
+<p><img src="http://my-blog-to-use.oss-cn-beijing.aliyuncs.com/18-9-27/22191348.jpg" alt="example 1 " /></p>
+<p>在swap方法中，a、b的值进行交换，并不会影响到 num1、num2。因为，a、b中的值，只是从 num1、num2 的复制过来的。也就是说，a、b相当于num1、num2 的副本，副本的内容无论怎么修改，都不会影响到原件本身。</p>
+<p><strong>通过上面例子，我们已经知道了一个方法不能修改一个基本数据类型的参数，而对象引用作为参数就不一样，请看 example2.</strong></p>
+<h3 id="example-2"><a class="markdownIt-Anchor" href="#example-2"></a> example 2</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">	<span class="type">int</span>[] arr = &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span> &#125;;</span><br><span class="line">	System.out.println(arr[<span class="number">0</span>]);</span><br><span class="line">	change(arr);</span><br><span class="line">	System.out.println(arr[<span class="number">0</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">change</span><span class="params">(<span class="type">int</span>[] array)</span> &#123;</span><br><span class="line">	<span class="comment">// 将数组的第一个元素变为0</span></span><br><span class="line">	array[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>结果：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+<p><strong>解析：</strong></p>
+<p><img src="http://my-blog-to-use.oss-cn-beijing.aliyuncs.com/18-9-27/3825204.jpg" alt="example 2" /></p>
+<p>array 被初始化 arr 的拷贝也就是一个对象的引用，也就是说 array 和 arr 指向的时同一个数组对象。 因此，外部对引用对象的改变会反映到所对应的对象上。</p>
+<p><strong>通过 example2 我们已经看到，实现一个改变对象参数状态的方法并不是一件难事。理由很简单，方法得到的是对象引用的拷贝，对象引用及其他的拷贝同时引用同一个对象。</strong></p>
+<p><strong>很多程序设计语言（特别是，C++和Pascal)提供了两种参数传递的方式：值调用和引用调用。有些程序员（甚至本书的作者）认为Java程序设计语言对对象采用的是引用调用，实际上，这种理解是不对的。由于这种误解具有一定的普遍性，所以下面给出一个反例来详细地阐述一下这个问题。</strong></p>
+<h3 id="example-3"><a class="markdownIt-Anchor" href="#example-3"></a> example 3</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="type">Student</span> <span class="variable">s1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Student</span>(<span class="string">&quot;小张&quot;</span>);</span><br><span class="line">		<span class="type">Student</span> <span class="variable">s2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Student</span>(<span class="string">&quot;小李&quot;</span>);</span><br><span class="line">		Test.swap(s1, s2);</span><br><span class="line">		System.out.println(<span class="string">&quot;s1:&quot;</span> + s1.getName());</span><br><span class="line">		System.out.println(<span class="string">&quot;s2:&quot;</span> + s2.getName());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">swap</span><span class="params">(Student x, Student y)</span> &#123;</span><br><span class="line">		<span class="type">Student</span> <span class="variable">temp</span> <span class="operator">=</span> x;</span><br><span class="line">		x = y;</span><br><span class="line">		y = temp;</span><br><span class="line">		System.out.println(<span class="string">&quot;x:&quot;</span> + x.getName());</span><br><span class="line">		System.out.println(<span class="string">&quot;y:&quot;</span> + y.getName());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>结果：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x:小李</span><br><span class="line">y:小张</span><br><span class="line">s1:小张</span><br><span class="line">s2:小李</span><br></pre></td></tr></table></figure>
+<p><strong>解析：</strong></p>
+<p>交换之前：</p>
+<p><img src="http://my-blog-to-use.oss-cn-beijing.aliyuncs.com/18-9-27/88729818.jpg" alt="" /></p>
+<p>交换之后：</p>
+<p><img src="http://my-blog-to-use.oss-cn-beijing.aliyuncs.com/18-9-27/34384414.jpg" alt="" /></p>
+<p>通过上面两张图可以很清晰的看出： <strong>方法并没有改变存储在变量 s1 和 s2 中的对象引用。swap方法的参数x和y被初始化为两个对象引用的拷贝，这个方法交换的是这两个拷贝</strong></p>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>Java程序设计语言对对象采用的不是引用调用，实际上，对象引用是按<br />
+值传递的。</p>
+<p>下面再总结一下Java中方法参数的使用情况：</p>
+<ul>
+<li>一个方法不能修改一个基本数据类型的参数（即数值型或布尔型）。</li>
+<li>一个方法可以改变一个对象参数的状态。</li>
+<li>一个方法不能让对象参数引用一个新的对象。</li>
+</ul>
+<h3 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考：</h3>
+<p>《Java核心技术卷Ⅰ》基础知识第十版第四章4.5小节</p>
+<h2 id="二-与equals重要"><a class="markdownIt-Anchor" href="#二-与equals重要"></a> 二  ==与equals(重要)</h2>
+<p><strong>==</strong> : 它的作用是判断两个对象的地址是不是相等。即，判断两个对象是不是同一个对象。(基本数据类型<mark>比较的是值，引用数据类型</mark>比较的是内存地址)</p>
+<p><strong>equals()</strong> : 它的作用也是判断两个对象是否相等。但它一般有两种使用情况：</p>
+<ul>
+<li>情况1：类没有覆盖equals()方法。则通过equals()比较该类的两个对象时，等价于通过“==”比较这两个对象。</li>
+<li>情况2：类覆盖了equals()方法。一般，我们都覆盖equals()方法来两个对象的内容相等；若它们的内容相等，则返回true(即，认为这两个对象相等)。</li>
+</ul>
+<p><strong>举个例子：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">test1</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">a</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;ab&quot;</span>); <span class="comment">// a 为一个引用</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">b</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;ab&quot;</span>); <span class="comment">// b为另一个引用,对象的内容一样</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">aa</span> <span class="operator">=</span> <span class="string">&quot;ab&quot;</span>; <span class="comment">// 放在常量池中</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">bb</span> <span class="operator">=</span> <span class="string">&quot;ab&quot;</span>; <span class="comment">// 从常量池中查找</span></span><br><span class="line">        <span class="keyword">if</span> (aa == bb) <span class="comment">// true</span></span><br><span class="line">            System.out.println(<span class="string">&quot;aa==bb&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (a == b) <span class="comment">// false，非同一对象</span></span><br><span class="line">            System.out.println(<span class="string">&quot;a==b&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (a.equals(b)) <span class="comment">// true</span></span><br><span class="line">            System.out.println(<span class="string">&quot;aEQb&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (<span class="number">42</span> == <span class="number">42.0</span>) &#123; <span class="comment">// true</span></span><br><span class="line">            System.out.println(<span class="string">&quot;true&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>说明：</strong></p>
+<ul>
+<li>String中的equals方法是被重写过的，因为object的equals方法是比较的对象的内存地址，而String的equals方法比较的是对象的值。</li>
+<li>当创建String类型的对象时，虚拟机会在常量池中查找有没有已经存在的值和要创建的值相同的对象，如果有就把它赋给当前引用。如果没有就在常量池中重新创建一个String对象。</li>
+</ul>
+<h2 id="三-hashcode与equals重要"><a class="markdownIt-Anchor" href="#三-hashcode与equals重要"></a> 三  hashCode与equals（重要）</h2>
+<p>面试官可能会问你：“你重写过 hashcode 和 equals 么，为什么重写equals时必须重写hashCode方法？”</p>
+<h3 id="hashcode介绍"><a class="markdownIt-Anchor" href="#hashcode介绍"></a> hashCode（）介绍</h3>
+<p>hashCode() 的作用是获取哈希码，也称为散列码；它实际上是返回一个int整数。这个哈希码的作用是确定该对象在哈希表中的索引位置。hashCode() 定义在JDK的Object.java中，这就意味着Java中的任何类都包含有hashCode() 函数。另外需要注意的是： Object 的 hashcode 方法是本地方法，也就是用 c 语言或 c++ 实现的，该方法通常用来将对象的 内存地址 转换为整数之后返回。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Returns a hash code value for the object. This method is</span></span><br><span class="line"><span class="comment"> * supported for the benefit of hash tables such as those provided by</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> java.util.HashMap&#125;.</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * As much as is reasonably practical, the hashCode method defined by</span></span><br><span class="line"><span class="comment"> * class &#123;<span class="doctag">@code</span> Object&#125; does return distinct integers for distinct</span></span><br><span class="line"><span class="comment"> * objects. (This is typically implemented by converting the internal</span></span><br><span class="line"><span class="comment"> * address of the object into an integer, but this implementation</span></span><br><span class="line"><span class="comment"> * technique is not required by the</span></span><br><span class="line"><span class="comment"> * Java&amp;trade; programming language.)</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span>  a hash code value for this object.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span>     java.lang.Object#equals(java.lang.Object)</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span>     java.lang.System#identityHashCode</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="type">int</span> <span class="title function_">hashCode</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure>
+<p>散列表存储的是键值对(key-value)，它的特点是：能根据“键”快速的检索出对应的“值”。这其中就利用到了散列码！（可以快速找到所需要的对象）</p>
+<h3 id="为什么要有hashcode"><a class="markdownIt-Anchor" href="#为什么要有hashcode"></a> 为什么要有hashCode</h3>
+<p><strong>我们以“HashSet如何检查重复”为例子来说明为什么要有hashCode：</strong></p>
+<p>当你把对象加入HashSet时，HashSet会先计算对象的hashcode值来判断对象加入的位置，同时也会与其他已经加入的对象的hashcode值作比较，如果没有相符的hashcode，HashSet会假设对象没有重复出现。但是如果发现有相同hashcode值的对象，这时会调用equals（）方法来检查hashcode相等的对象是否真的相同。如果两者相同，HashSet就不会让其加入操作成功。如果不同的话，就会重新散列到其他位置。（摘自我的Java启蒙书《Head fist java》第二版）。这样我们就大大减少了equals的次数，相应就大大提高了执行速度。</p>
+<h3 id="hashcode与equals的相关规定"><a class="markdownIt-Anchor" href="#hashcode与equals的相关规定"></a> hashCode（）与equals（）的相关规定</h3>
+<ol>
+<li>如果两个对象相等，则hashcode一定也是相同的</li>
+<li>两个对象相等,对两个对象分别调用equals方法都返回true</li>
+<li>两个对象有相同的hashcode值，它们也不一定是相等的</li>
+<li><strong>因此，equals方法被覆盖过，则hashCode方法也必须被覆盖</strong></li>
+<li>hashCode()的默认行为是对堆上的对象产生独特值。如果没有重写hashCode()，则该class的两个对象无论如何都不会相等（即使这两个对象指向相同的数据）</li>
+</ol>
+<h3 id="为什么两个对象有相同的hashcode值它们也不一定是相等的"><a class="markdownIt-Anchor" href="#为什么两个对象有相同的hashcode值它们也不一定是相等的"></a> 为什么两个对象有相同的hashcode值，它们也不一定是相等的？</h3>
+<p>在这里解释一位小伙伴的问题。以下内容摘自《Head Fisrt Java》。</p>
+<p>因为hashCode() 所使用的杂凑算法也许刚好会让多个对象传回相同的杂凑值。越糟糕的杂凑算法越容易碰撞，但这也与数据值域分布的特性有关（所谓碰撞也就是指的是不同的对象得到相同的 hashCode）。</p>
+<p>我们刚刚也提到了 HashSet,如果 HashSet 在对比的时候，同样的 hashcode 有多个对象，它会使用 equals() 来判断是否真的相同。也就是说 hashcode 只是用来缩小查找成本。</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhzhao999/article/details/53449504">https://blog.csdn.net/zhzhao999/article/details/53449504</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/skywang12345/p/3324958.html">https://www.cnblogs.com/skywang12345/p/3324958.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Eason-S/p/5524837.html">https://www.cnblogs.com/Eason-S/p/5524837.html</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://zhoumoon.github.io/2019/09/11/Java/%E4%B8%BA%E4%BB%80%E4%B9%88%20Java%20%E4%B8%AD%E5%8F%AA%E6%9C%89%E5%80%BC%E4%BC%A0%E9%80%92%EF%BC%9F/" title="为什么 Java 中只有值传递？" target="_blank" rel="external">http://zhoumoon.github.io/2019/09/11/Java/%E4%B8%BA%E4%BB%80%E4%B9%88%20Java%20%E4%B8%AD%E5%8F%AA%E6%9C%89%E5%80%BC%E4%BC%A0%E9%80%92%EF%BC%9F/</a>
+    </li>
+    
+    <!-- <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li> -->
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ZhouMoon" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ZhouMoon" target="_blank"><span class="text-dark">ZhouMoon</span><small class="ml-1x">邮箱[ com_moon@163.com ]</small></a></h3>
+        <div>周海军的博客</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/12/14/Java/%E8%8E%B7%E5%8F%96%E5%B9%B6%E6%89%93%E5%8D%B0Spring%E5%AE%B9%E5%99%A8%E4%B8%AD%E6%89%80%E6%9C%89%E7%9A%84Bean%E5%90%8D%E7%A7%B0/" title="获取并打印Spring容器中所有的Bean名称"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/09/11/other/%E5%B9%B2%E8%B4%A7%EF%BC%9A%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" title="干货：计算机网络知识总结"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZhouMoon" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://space.bilibili.com/40356921" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="https://twitter.com/ZHJTime" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+</html>

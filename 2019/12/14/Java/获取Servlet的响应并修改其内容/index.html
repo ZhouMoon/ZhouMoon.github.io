@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>获取Servlet的响应并修改其内容 | Moon-Blog</title>
+  <meta name="description" content="获取Servlet的响应并修改其内容   有的时候我们需要批量的修改Servlet中的响应的内容，这时候我们就可以通过HttpServletResponseWrapper这个类，在Filter中先获取响应的内容，接着修改响应的内容，最后再把修改完之后的内容作为响应返回给客户端。代码如下演示：   1.创建一个继承自HttpServletResponseWrapper的类 123456789101">
+<meta property="og:type" content="article">
+<meta property="og:title" content="获取Servlet的响应并修改其内容">
+<meta property="og:url" content="http://zhoumoon.github.io/2019/12/14/Java/%E8%8E%B7%E5%8F%96Servlet%E7%9A%84%E5%93%8D%E5%BA%94%E5%B9%B6%E4%BF%AE%E6%94%B9%E5%85%B6%E5%86%85%E5%AE%B9/index.html">
+<meta property="og:site_name" content="ZhouMoon">
+<meta property="og:description" content="获取Servlet的响应并修改其内容   有的时候我们需要批量的修改Servlet中的响应的内容，这时候我们就可以通过HttpServletResponseWrapper这个类，在Filter中先获取响应的内容，接着修改响应的内容，最后再把修改完之后的内容作为响应返回给客户端。代码如下演示：   1.创建一个继承自HttpServletResponseWrapper的类 123456789101">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-12-14T14:41:32.000Z">
+<meta property="article:modified_time" content="2023-08-01T01:45:09.868Z">
+<meta property="article:author" content="ZhouMoon">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://zhoumoon.github.io/2019/12/14/Java/%E8%8E%B7%E5%8F%96Servlet%E7%9A%84%E5%93%8D%E5%BA%94%E5%B9%B6%E4%BF%AE%E6%94%B9%E5%85%B6%E5%86%85%E5%AE%B9/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ZhouMoon" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">ZhouMoon</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">邮箱[ com_moon@163.com ]</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZhouMoon" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://space.bilibili.com/40356921" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="https://twitter.com/ZHJTime" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>使用<b style=" color:red; font-size:18px;">搜索</b>效率翻倍!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Docker/" style="font-size: 13.33px;">Docker</a> <a href="/tags/Git/" style="font-size: 13px;">Git</a> <a href="/tags/Http/" style="font-size: 13px;">Http</a> <a href="/tags/IDE/" style="font-size: 13.17px;">IDE</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Linux/" style="font-size: 13.83px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 13.33px;">MySQL</a> <a href="/tags/Oracle/" style="font-size: 13.17px;">Oracle</a> <a href="/tags/Vim/" style="font-size: 13.33px;">Vim</a> <a href="/tags/Windows/" style="font-size: 13.67px;">Windows</a> <a href="/tags/Work/" style="font-size: 13px;">Work</a> <a href="/tags/%E7%90%86%E8%B4%A2/" style="font-size: 13.5px;">理财</a>
+    </div>
+  </div>
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96servlet%E7%9A%84%E5%93%8D%E5%BA%94%E5%B9%B6%E4%BF%AE%E6%94%B9%E5%85%B6%E5%86%85%E5%AE%B9"><span class="toc-number">1.</span> <span class="toc-text"> 获取Servlet的响应并修改其内容</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%BB%A7%E6%89%BF%E8%87%AAhttpservletresponsewrapper%E7%9A%84%E7%B1%BB"><span class="toc-number">1.0.1.</span> <span class="toc-text"> 1.创建一个继承自HttpServletResponseWrapper的类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E5%9C%A8%E8%BF%87%E6%BB%A4%E5%99%A8%E4%B8%AD%E4%BF%AE%E6%94%B9%E5%93%8D%E5%BA%94%E7%9A%84%E5%86%85%E5%AE%B9"><span class="toc-number">1.0.2.</span> <span class="toc-text"> 2.在过滤器中修改响应的内容</span></a></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Java/获取Servlet的响应并修改其内容" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      获取Servlet的响应并修改其内容
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/12/14/Java/%E8%8E%B7%E5%8F%96Servlet%E7%9A%84%E5%93%8D%E5%BA%94%E5%B9%B6%E4%BF%AE%E6%94%B9%E5%85%B6%E5%86%85%E5%AE%B9/" class="article-date">
+	  <time datetime="2019-12-14T14:41:32.000Z" itemprop="datePublished">2019-12-14</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Java/" rel="tag">Java</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/12/14/Java/%E8%8E%B7%E5%8F%96Servlet%E7%9A%84%E5%93%8D%E5%BA%94%E5%B9%B6%E4%BF%AE%E6%94%B9%E5%85%B6%E5%86%85%E5%AE%B9/" class="leancloud_visitors"  data-flag-title="获取Servlet的响应并修改其内容">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/12/14/Java/%E8%8E%B7%E5%8F%96Servlet%E7%9A%84%E5%93%8D%E5%BA%94%E5%B9%B6%E4%BF%AE%E6%94%B9%E5%85%B6%E5%86%85%E5%AE%B9/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="获取servlet的响应并修改其内容"><a class="markdownIt-Anchor" href="#获取servlet的响应并修改其内容"></a> 获取Servlet的响应并修改其内容</h2>
+<hr />
+<ul>
+<li>有的时候我们需要批量的修改<code>Servlet</code>中的响应的内容，这时候我们就可以通过<code>HttpServletResponseWrapper</code>这个类，在Filter中先获取响应的内容，接着修改响应的内容，最后再把修改完之后的内容作为响应返回给客户端。代码如下演示：</li>
+</ul>
+<h4 id="1创建一个继承自httpservletresponsewrapper的类"><a class="markdownIt-Anchor" href="#1创建一个继承自httpservletresponsewrapper的类"></a> 1.创建一个继承自HttpServletResponseWrapper的类</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponseWrapper;</span><br><span class="line"><span class="keyword">import</span> java.io.CharArrayWriter;</span><br><span class="line"><span class="keyword">import</span> java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Created on 2016/3/29 19:54.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ResponseWrapper</span> <span class="keyword">extends</span> <span class="title class_">HttpServletResponseWrapper</span> &#123;</span><br><span class="line"><span class="keyword">private</span> PrintWriter cachedWriter;</span><br><span class="line"><span class="keyword">private</span> CharArrayWriter bufferedWriter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="title function_">ResponseWrapper</span><span class="params">(HttpServletResponse response)</span> &#123;</span><br><span class="line"><span class="built_in">super</span>(response);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置响应体格式</span></span><br><span class="line">response.setHeader(<span class="string">&quot;Content-type&quot;</span>, <span class="string">&quot;text/json;charset=UTF-8&quot;</span>);</span><br><span class="line"><span class="comment">// 这个是我们保存返回结果的地方</span></span><br><span class="line">bufferedWriter = <span class="keyword">new</span> <span class="title class_">CharArrayWriter</span>();</span><br><span class="line"><span class="comment">// 这个是包装PrintWriter的，让所有结果通过这个PrintWriter写入到bufferedWriter中</span></span><br><span class="line">cachedWriter = <span class="keyword">new</span> <span class="title class_">PrintWriter</span>(bufferedWriter);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> PrintWriter <span class="title function_">getWriter</span><span class="params">()</span> &#123;</span><br><span class="line"><span class="keyword">return</span> cachedWriter;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 获取原始的HTML页面内容。</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">getResult</span><span class="params">()</span> &#123;</span><br><span class="line"><span class="keyword">return</span> bufferedWriter.toString();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2在过滤器中修改响应的内容"><a class="markdownIt-Anchor" href="#2在过滤器中修改响应的内容"></a> 2.在过滤器中修改响应的内容</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.iduoka.util.format;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.*;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.annotation.WebFilter;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Created on 2016/3/29 19:55.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@WebFilter(filterName = &quot;FormatFilter&quot;, urlPatterns = (&quot;/&quot;))</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FormatFilter</span> <span class="keyword">implements</span> <span class="title class_">Filter</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">destroy</span><span class="params">()</span> &#123;</span><br><span class="line"><span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span> <span class="keyword">throws</span> IOException, ServletException &#123;</span><br><span class="line"><span class="comment">// 使用我们自定义的响应包装器来包装原始的ServletResponse</span></span><br><span class="line"><span class="type">ResponseWrapper</span> <span class="variable">wrapper</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ResponseWrapper</span>((HttpServletResponse) response);</span><br><span class="line"><span class="comment">// 这句话非常重要，注意看到第二个参数是我们的包装器而不是response</span></span><br><span class="line">chain.doFilter(request, wrapper);</span><br><span class="line"><span class="comment">// 获取到我们所截获的值 --&gt; 做处理之前所获取到的值</span></span><br><span class="line"><span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> wrapper.getResult();</span><br><span class="line"><span class="comment">// 对返回的结果做处理操作</span></span><br><span class="line">result = result.replace(<span class="string">&quot;&lt;/html&gt;&quot;</span>, <span class="string">&quot;&lt;div style=&#x27;display: none;&#x27;&gt;hello world&lt;/div&gt;\n&lt;/html&gt;&quot;</span>);</span><br><span class="line"><span class="comment">// 重置响应输出的内容长度</span></span><br><span class="line">response.setContentLength(-<span class="number">1</span>);</span><br><span class="line"><span class="comment">// 输出最终的结果 --&gt; 做完处理之后再把这个值返回回去</span></span><br><span class="line"><span class="type">PrintWriter</span> <span class="variable">out</span> <span class="operator">=</span> response.getWriter();</span><br><span class="line">out.write(result);</span><br><span class="line">out.flush();</span><br><span class="line">out.close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException &#123;</span><br><span class="line"><span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://zhoumoon.github.io/2019/12/14/Java/%E8%8E%B7%E5%8F%96Servlet%E7%9A%84%E5%93%8D%E5%BA%94%E5%B9%B6%E4%BF%AE%E6%94%B9%E5%85%B6%E5%86%85%E5%AE%B9/" title="获取Servlet的响应并修改其内容" target="_blank" rel="external">http://zhoumoon.github.io/2019/12/14/Java/%E8%8E%B7%E5%8F%96Servlet%E7%9A%84%E5%93%8D%E5%BA%94%E5%B9%B6%E4%BF%AE%E6%94%B9%E5%85%B6%E5%86%85%E5%AE%B9/</a>
+    </li>
+    
+    <!-- <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li> -->
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ZhouMoon" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ZhouMoon" target="_blank"><span class="text-dark">ZhouMoon</span><small class="ml-1x">邮箱[ com_moon@163.com ]</small></a></h3>
+        <div>周海军的博客</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/12/14/Java/Nginx%E7%9A%84405%E9%94%99%E8%AF%AF/" title="Nginx的405错误"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/12/14/Java/%E8%8E%B7%E5%8F%96%E5%B9%B6%E6%89%93%E5%8D%B0Spring%E5%AE%B9%E5%99%A8%E4%B8%AD%E6%89%80%E6%9C%89%E7%9A%84Bean%E5%90%8D%E7%A7%B0/" title="获取并打印Spring容器中所有的Bean名称"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZhouMoon" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://space.bilibili.com/40356921" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="https://twitter.com/ZHJTime" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+</html>

@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>干货：计算机网络知识总结 | Moon-Blog</title>
+  <meta name="description" content="目录结构   1. 计算机概述   2. 物理层   3. 数据链路层   4. 网络层   5. 运输层   6. 应用层  一计算机概述  （1），基本术语    结点 （node）： 网络中的结点可以是计算机，集线器，交换机或路由器等。     链路（link  ）： 从一个结点到另一个结点的一段物理线路。中间没有任何其他交点。    主机（host）： 连接在因特网上的计算机.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="干货：计算机网络知识总结">
+<meta property="og:url" content="http://zhoumoon.github.io/2019/09/11/other/%E5%B9%B2%E8%B4%A7%EF%BC%9A%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="ZhouMoon">
+<meta property="og:description" content="目录结构   1. 计算机概述   2. 物理层   3. 数据链路层   4. 网络层   5. 运输层   6. 应用层  一计算机概述  （1），基本术语    结点 （node）： 网络中的结点可以是计算机，集线器，交换机或路由器等。     链路（link  ）： 从一个结点到另一个结点的一段物理线路。中间没有任何其他交点。    主机（host）： 连接在因特网上的计算机.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/1/1627f7a170ec6611?w=1247&amp;h=425&amp;f=png&amp;s=36746">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/1/1627f8291c6b032c?w=624&amp;h=359&amp;f=jpeg&amp;s=44271">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/1/1627f92f98436286?w=453&amp;h=331&amp;f=jpeg&amp;s=27535">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/4/1/1627ff96a96087af?w=839&amp;h=610&amp;f=jpeg&amp;s=86703">
+<meta property="article:published_time" content="2019-09-11T04:03:11.000Z">
+<meta property="article:modified_time" content="2023-08-01T01:45:09.868Z">
+<meta property="article:author" content="ZhouMoon">
+<meta property="article:tag" content="Http">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/4/1/1627f7a170ec6611?w=1247&amp;h=425&amp;f=png&amp;s=36746">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://zhoumoon.github.io/2019/09/11/other/%E5%B9%B2%E8%B4%A7%EF%BC%9A%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ZhouMoon" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">ZhouMoon</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">邮箱[ com_moon@163.com ]</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZhouMoon" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://space.bilibili.com/40356921" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="https://twitter.com/ZHJTime" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>使用<b style=" color:red; font-size:18px;">搜索</b>效率翻倍!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Docker/" style="font-size: 13.33px;">Docker</a> <a href="/tags/Git/" style="font-size: 13px;">Git</a> <a href="/tags/Http/" style="font-size: 13px;">Http</a> <a href="/tags/IDE/" style="font-size: 13.17px;">IDE</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Linux/" style="font-size: 13.83px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 13.33px;">MySQL</a> <a href="/tags/Oracle/" style="font-size: 13.17px;">Oracle</a> <a href="/tags/Vim/" style="font-size: 13.33px;">Vim</a> <a href="/tags/Windows/" style="font-size: 13.67px;">Windows</a> <a href="/tags/Work/" style="font-size: 13px;">Work</a> <a href="/tags/%E7%90%86%E8%B4%A2/" style="font-size: 13.5px;">理财</a>
+    </div>
+  </div>
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text"> 目录结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text"> 1. 计算机概述 </span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%89%A9%E7%90%86%E5%B1%82"><span class="toc-number">1.2.</span> <span class="toc-text"> 2. 物理层 </span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="toc-number">1.3.</span> <span class="toc-text"> 3. 数据链路层 </span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="toc-number">1.4.</span> <span class="toc-text"> 4. 网络层 </span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%BF%90%E8%BE%93%E5%B1%82"><span class="toc-number">1.5.</span> <span class="toc-text"> 5. 运输层 </span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%BA%94%E7%94%A8%E5%B1%82"><span class="toc-number">1.6.</span> <span class="toc-text"> 6. 应用层</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A6%82%E8%BF%B0"><span class="toc-number">2.</span> <span class="toc-text"> 一计算机概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#font-color0033331%E5%9F%BA%E6%9C%AC%E6%9C%AF%E8%AF%ADfont"><span class="toc-number">2.1.</span> <span class="toc-text"> （1），基本术语</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E7%BB%93%E7%82%B9-nodefont"><span class="toc-number">2.1.1.</span> <span class="toc-text">   结点 （node）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E9%93%BE%E8%B7%AFlink"><span class="toc-number">2.1.2.</span> <span class="toc-text">   链路（link  ）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E4%B8%BB%E6%9C%BAhost"><span class="toc-number">2.1.3.</span> <span class="toc-text">  主机（host）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-ispinternet-service-provider"><span class="toc-number">2.1.4.</span> <span class="toc-text">  ISP（Internet Service Provider）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-ixpinternet-exchange-point"><span class="toc-number">2.1.5.</span> <span class="toc-text">  IXP（Internet eXchange Point）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-rfcrequest-for-comments"><span class="toc-number">2.1.6.</span> <span class="toc-text">  RFC(Request For Comments)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E5%B9%BF%E5%9F%9F%E7%BD%91wanwide-area-network"><span class="toc-number">2.1.7.</span> <span class="toc-text">  广域网WAN（Wide Area Network）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E5%9F%8E%E5%9F%9F%E7%BD%91manmetropolitan-area-network"><span class="toc-number">2.1.8.</span> <span class="toc-text">  城域网MAN（Metropolitan Area Network）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E5%B1%80%E5%9F%9F%E7%BD%91lanlocal-area-network"><span class="toc-number">2.1.9.</span> <span class="toc-text">  局域网LAN（Local Area Network）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E4%B8%AA%E4%BA%BA%E5%8C%BA%E5%9F%9F%E7%BD%91panpersonal-area-network"><span class="toc-number">2.1.10.</span> <span class="toc-text">  个人区域网PAN（Personal Area Network）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E7%AB%AF%E7%B3%BB%E7%BB%9Fend-system"><span class="toc-number">2.1.11.</span> <span class="toc-text">   端系统（end system）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E5%88%86%E7%BB%84packet"><span class="toc-number">2.1.12.</span> <span class="toc-text">  分组（packet ）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E5%AD%98%E5%82%A8%E8%BD%AC%E5%8F%91store-and-forward"><span class="toc-number">2.1.13.</span> <span class="toc-text">  存储转发（store and forward ）:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E5%B8%A6%E5%AE%BDbandwidth"><span class="toc-number">2.1.14.</span> <span class="toc-text">  带宽（bandwidth）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E5%90%9E%E5%90%90%E9%87%8Fthroughput"><span class="toc-number">2.1.15.</span> <span class="toc-text">  吞吐量（throughput ）：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#font-color0033332%E9%87%8D%E8%A6%81%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93font"><span class="toc-number">2.2.</span> <span class="toc-text"> （2），重要知识点总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E7%89%A9%E7%90%86%E5%B1%82"><span class="toc-number">3.</span> <span class="toc-text"> 二物理层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#font-color0033331%E5%9F%BA%E6%9C%AC%E6%9C%AF%E8%AF%ADfont-2"><span class="toc-number">3.1.</span> <span class="toc-text"> （1），基本术语</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E6%95%B0%E6%8D%AEdatafont"><span class="toc-number">3.1.1.</span> <span class="toc-text"> 数据（data）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E4%BF%A1%E5%8F%B7signalfont"><span class="toc-number">3.1.2.</span> <span class="toc-text"> 信号（signal）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E7%A0%81%E5%85%83-code-font"><span class="toc-number">3.1.3.</span> <span class="toc-text"> 码元（ code）： </span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E5%8D%95%E5%B7%A5simplex-font"><span class="toc-number">3.1.4.</span> <span class="toc-text"> 单工（simplex ）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E5%8D%8A%E5%8F%8C%E5%B7%A5half-duplex-font"><span class="toc-number">3.1.5.</span> <span class="toc-text"> 半双工（half duplex ）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E5%85%A8%E5%8F%8C%E5%B7%A5full-duplex-font"><span class="toc-number">3.1.6.</span> <span class="toc-text"> 全双工（full duplex）： </span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E5%A5%88%E6%B0%8F%E5%87%86%E5%88%99font"><span class="toc-number">3.1.7.</span> <span class="toc-text"> 奈氏准则：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E5%9F%BA%E5%B8%A6%E4%BF%A1%E5%8F%B7baseband-signalfont"><span class="toc-number">3.1.8.</span> <span class="toc-text"> 基带信号（baseband signal）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E5%B8%A6%E9%80%9A%E9%A2%91%E5%B8%A6%E4%BF%A1%E5%8F%B7bandpass-signalfont"><span class="toc-number">3.1.9.</span> <span class="toc-text">  带通（频带）信号（bandpass signal）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E8%B0%83%E5%88%B6modulation-font"><span class="toc-number">3.1.10.</span> <span class="toc-text">  调制（modulation  ）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E4%BF%A1%E5%99%AA%E6%AF%94signal-to-noise-ratio-font"><span class="toc-number">3.1.11.</span> <span class="toc-text"> 信噪比（signal-to-noise ratio ）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E4%BF%A1%E9%81%93%E5%A4%8D%E7%94%A8channel-multiplexing-font"><span class="toc-number">3.1.12.</span> <span class="toc-text"> 信道复用（channel multiplexing ）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E6%AF%94%E7%89%B9%E7%8E%87bit-rate-font"><span class="toc-number">3.1.13.</span> <span class="toc-text"> 比特率（bit rate ）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E6%B3%A2%E7%89%B9%E7%8E%87baud-ratefont"><span class="toc-number">3.1.14.</span> <span class="toc-text"> 波特率（baud rate）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E5%A4%8D%E7%94%A8multiplexingfont"><span class="toc-number">3.1.15.</span> <span class="toc-text"> 复用（multiplexing）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33adslasymmetric-digital-subscriber-line-font"><span class="toc-number">3.1.16.</span> <span class="toc-text"> ADSL（Asymmetric Digital Subscriber Line    ）： </span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E5%85%89%E7%BA%A4%E5%90%8C%E8%BD%B4%E6%B7%B7%E5%90%88%E7%BD%91hfc%E7%BD%91font"><span class="toc-number">3.1.17.</span> <span class="toc-text"> 光纤同轴混合网（HFC网）:</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#font-color0033332%E9%87%8D%E8%A6%81%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93font-2"><span class="toc-number">3.2.</span> <span class="toc-text"> （2），重要知识点总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#font-color0033333%E6%9C%80%E9%87%8D%E8%A6%81%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9font"><span class="toc-number">3.3.</span> <span class="toc-text"> （3），最重要的知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color0033331%E7%89%A9%E7%90%86%E5%B1%82%E7%9A%84%E4%BB%BB%E5%8A%A1font"><span class="toc-number">3.3.1.</span> <span class="toc-text"> ①，物理层的任务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8B%93%E5%B1%95"><span class="toc-number">3.3.2.</span> <span class="toc-text"> 拓展：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color0033332%E5%87%A0%E7%A7%8D%E5%B8%B8%E7%94%A8%E7%9A%84%E4%BF%A1%E9%81%93%E5%A4%8D%E7%94%A8%E6%8A%80%E6%9C%AFfont"><span class="toc-number">3.3.3.</span> <span class="toc-text"> ②，几种常用的信道复用技术</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#font-color0033333%E5%87%A0%E7%A7%8D%E5%B8%B8%E7%94%A8%E7%9A%84%E5%AE%BD%E5%B8%A6%E6%8E%A5%E5%85%A5%E6%8A%80%E6%9C%AF%E4%B8%BB%E8%A6%81%E6%98%AFadsl%E5%92%8Cfttxfont"><span class="toc-number">3.4.</span> <span class="toc-text"> ③，几种常用的宽带接入技术，主要是ADSL和FTTx</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="toc-number">4.</span> <span class="toc-text"> 三数据链路层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#font-color0033331%E5%9F%BA%E6%9C%AC%E6%9C%AF%E8%AF%ADfont-3"><span class="toc-number">4.1.</span> <span class="toc-text"> （1），基本术语</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E9%93%BE%E8%B7%AFlinkfont"><span class="toc-number">4.1.1.</span> <span class="toc-text">  链路（link）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AFdata-linkfont"><span class="toc-number">4.1.2.</span> <span class="toc-text">  数据链路（data link）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E5%BE%AA%E7%8E%AF%E5%86%97%E4%BD%99%E6%A3%80%E9%AA%8Ccrccyclic-redundancy-checkfont"><span class="toc-number">4.1.3.</span> <span class="toc-text">  循环冗余检验CRC（Cyclic Redundancy Check）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E5%B8%A7framefont"><span class="toc-number">4.1.4.</span> <span class="toc-text">   帧（frame）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-mtumaximum-transfer-uint-font"><span class="toc-number">4.1.5.</span> <span class="toc-text">  MTU（Maximum Transfer Uint  ）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E8%AF%AF%E7%A0%81%E7%8E%87berbit-error-rate-font"><span class="toc-number">4.1.6.</span> <span class="toc-text">  误码率BER（Bit Error Rate ）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-ppppoint-to-point-protocol-font"><span class="toc-number">4.1.7.</span> <span class="toc-text">  PPP（Point-to-Point Protocol  ）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-mac%E5%9C%B0%E5%9D%80media-access-control%E6%88%96%E8%80%85medium-access-controlfont"><span class="toc-number">4.1.8.</span> <span class="toc-text">  MAC地址（Media Access Control或者Medium Access Control）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E7%BD%91%E6%A1%A5bridgefont"><span class="toc-number">4.1.9.</span> <span class="toc-text">  网桥（bridge）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E4%BA%A4%E6%8D%A2%E6%9C%BAswitch-font"><span class="toc-number">4.1.10.</span> <span class="toc-text">  交换机（switch ）：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#font-color0033332%E9%87%8D%E8%A6%81%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93font-3"><span class="toc-number">4.2.</span> <span class="toc-text"> （2），重要知识点总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#font-color0033333%E6%9C%80%E9%87%8D%E8%A6%81%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9font-2"><span class="toc-number">4.3.</span> <span class="toc-text"> （3），最重要的知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-font-color999999%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E7%9A%84%E7%82%B9%E5%AF%B9%E7%82%B9%E4%BF%A1%E9%81%93%E5%92%8C%E5%B9%BF%E6%92%AD%E4%BF%A1%E9%81%93%E7%9A%84%E7%89%B9%E7%82%B9%E4%BB%A5%E5%8F%8A%E8%BF%99%E4%B8%A4%E7%A7%8D%E4%BF%A1%E9%81%93%E6%89%80%E4%BD%BF%E7%94%A8%E7%9A%84%E5%8D%8F%E8%AE%AEppp%E5%8D%8F%E8%AE%AE%E4%BB%A5%E5%8F%8Acsmacd%E5%8D%8F%E8%AE%AE%E7%9A%84%E7%89%B9%E7%82%B9font"><span class="toc-number">4.3.1.</span> <span class="toc-text"> ① 数据链路层的点对点信道和广播信道的特点，以及这两种信道所使用的协议（PPP协议以及CSMA&#x2F;CD协议）的特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-font-color999999%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E7%9A%84%E4%B8%89%E4%B8%AA%E5%9F%BA%E6%9C%AC%E9%97%AE%E9%A2%98%E5%B0%81%E8%A3%85%E6%88%90%E5%B8%A7%E9%80%8F%E6%98%8E%E4%BC%A0%E8%BE%93%E5%B7%AE%E9%94%99%E6%A3%80%E6%B5%8Bfont"><span class="toc-number">4.3.2.</span> <span class="toc-text"> ② 数据链路层的三个基本问题：封装成帧，透明传输，差错检测</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-font-color999999%E4%BB%A5%E5%A4%AA%E7%BD%91%E7%9A%84mac%E5%B1%82%E7%A1%AC%E4%BB%B6%E5%9C%B0%E5%9D%80font"><span class="toc-number">4.3.3.</span> <span class="toc-text"> ③ 以太网的MAC层硬件地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-font-color999999%E9%80%82%E9%85%8D%E5%99%A8%E8%BD%AC%E5%8F%91%E5%99%A8%E9%9B%86%E7%BA%BF%E5%99%A8%E7%BD%91%E6%A1%A5%E4%BB%A5%E5%A4%AA%E7%BD%91%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84%E4%BD%9C%E7%94%A8%E4%BB%A5%E5%8F%8A%E9%80%82%E7%94%A8%E5%9C%BA%E5%90%88font"><span class="toc-number">4.3.4.</span> <span class="toc-text"> ④ 适配器，转发器，集线器，网桥，以太网交换机的作用以及适用场合</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#font-color003333-id4%E5%9B%9B%E7%BD%91%E7%BB%9C%E5%B1%82font"><span class="toc-number">5.</span> <span class="toc-text"> 四网络层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#font-color0033331%E5%9F%BA%E6%9C%AC%E6%9C%AF%E8%AF%ADfont-4"><span class="toc-number">5.1.</span> <span class="toc-text"> （1），基本术语</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E8%99%9A%E7%94%B5%E8%B7%AFvirtual-circuitfont"><span class="toc-number">5.1.1.</span> <span class="toc-text"> 虚电路（Virtual Circuit）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33ipinternet-protocol-font"><span class="toc-number">5.1.2.</span> <span class="toc-text"> IP（Internet Protocol ）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33arpaddress-resolution-protocolfont"><span class="toc-number">5.1.3.</span> <span class="toc-text"> ARP（Address Resolution Protocol）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33icmpinternet-control-message-protocol-font"><span class="toc-number">5.1.4.</span> <span class="toc-text"> ICMP（Internet Control Message Protocol ）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81subnet-mask-font"><span class="toc-number">5.1.5.</span> <span class="toc-text"> 子网掩码（subnet mask ）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-cidr-classless-inter-domain-routing-font"><span class="toc-number">5.1.6.</span> <span class="toc-text">  CIDR（ Classless Inter-Domain Routing ）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E9%BB%98%E8%AE%A4%E8%B7%AF%E7%94%B1default-routefont"><span class="toc-number">5.1.7.</span> <span class="toc-text"> 默认路由（default route）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E8%B7%AF%E7%94%B1%E9%80%89%E6%8B%A9%E7%AE%97%E6%B3%95virtual-circuitfont"><span class="toc-number">5.1.8.</span> <span class="toc-text"> 路由选择算法（Virtual Circuit）：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#font-color0033332%E9%87%8D%E8%A6%81%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93font-4"><span class="toc-number">5.2.</span> <span class="toc-text"> （2），重要知识点总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#font-color0033333%E6%9C%80%E9%87%8D%E8%A6%81%E7%9F%A5%E8%AF%86%E7%82%B9font"><span class="toc-number">5.3.</span> <span class="toc-text"> （3），最重要知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-font-color999999%E8%99%9A%E6%8B%9F%E4%BA%92%E8%81%94%E7%BD%91%E7%BB%9C%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">5.3.1.</span> <span class="toc-text"> ① 虚拟互联网络的概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-font-color999999ip%E5%9C%B0%E5%9D%80%E5%92%8C%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">5.3.2.</span> <span class="toc-text"> ② IP地址和物理地址的关系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-font-color999999-%E4%BC%A0%E7%BB%9F%E7%9A%84%E5%88%86%E7%B1%BB%E7%9A%84ip%E5%9C%B0%E5%9D%80%E5%8C%85%E6%8B%AC%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E5%92%8C%E8%AF%AF%E5%88%86%E7%B1%BB%E5%9F%9F%E9%97%B4%E8%B7%AF%E7%94%B1%E9%80%89%E6%8B%A9cidr"><span class="toc-number">5.3.3.</span> <span class="toc-text"> ③  传统的分类的IP地址（包括子网掩码）和误分类域间路由选择CIDR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-font-color999999-%E8%B7%AF%E7%94%B1%E9%80%89%E6%8B%A9%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">5.3.4.</span> <span class="toc-text"> ④   路由选择协议的工作原理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#font-color003333-id5%E4%BA%94%E8%BF%90%E8%BE%93%E5%B1%82font"><span class="toc-number">6.</span> <span class="toc-text"> 五运输层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#font-color0033331%E5%9F%BA%E6%9C%AC%E6%9C%AF%E8%AF%ADfont-5"><span class="toc-number">6.1.</span> <span class="toc-text"> （1），基本术语</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E8%BF%9B%E7%A8%8Bprocessfont"><span class="toc-number">6.1.1.</span> <span class="toc-text"> 进程（process）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E5%BA%94%E7%94%A8%E8%BF%9B%E7%A8%8B%E4%BA%92%E7%9B%B8%E9%80%9A%E4%BF%A1font"><span class="toc-number">6.1.2.</span> <span class="toc-text"> 应用进程互相通信：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E4%BC%A0%E8%BE%93%E5%B1%82%E7%9A%84%E5%A4%8D%E7%94%A8%E4%B8%8E%E5%88%86%E7%94%A8font"><span class="toc-number">6.1.3.</span> <span class="toc-text"> 传输层的复用与分用：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33tcptransmission-control-protocolfont"><span class="toc-number">6.1.4.</span> <span class="toc-text"> TCP（Transmission Control Protocol）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33udpuser-datagram-protocolfont"><span class="toc-number">6.1.5.</span> <span class="toc-text"> UDP（User Datagram Protocol）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E7%AB%AF%E5%8F%A3portlinkfont"><span class="toc-number">6.1.6.</span> <span class="toc-text"> 端口（port）（link）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E5%81%9C%E6%AD%A2%E7%AD%89%E5%BE%85%E5%8D%8F%E8%AE%AElinkfont"><span class="toc-number">6.1.7.</span> <span class="toc-text"> 停止等待协议（link）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6linkfont"><span class="toc-number">6.1.8.</span> <span class="toc-text"> 流量控制（link）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6linkfont"><span class="toc-number">6.1.9.</span> <span class="toc-text"> 拥塞控制（link）：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#font-color0033332%E9%87%8D%E8%A6%81%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93font-5"><span class="toc-number">6.2.</span> <span class="toc-text"> （2），重要知识点总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#font-color0033333%E6%9C%80%E9%87%8D%E8%A6%81%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9font-3"><span class="toc-number">6.3.</span> <span class="toc-text"> （3），最重要的知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-font-color999999%E7%AB%AF%E5%8F%A3%E5%92%8C%E5%A5%97%E6%8E%A5%E5%AD%97%E7%9A%84%E6%84%8F%E4%B9%89font"><span class="toc-number">6.3.1.</span> <span class="toc-text"> ① 端口和套接字的意义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-font-color999999%E6%97%A0%E8%BF%9E%E6%8E%A5udp%E7%9A%84%E7%89%B9%E7%82%B9font"><span class="toc-number">6.3.2.</span> <span class="toc-text"> ② 无连接UDP的特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-font-color999999%E9%9D%A2%E5%90%91%E8%BF%9E%E6%8E%A5tcp%E7%9A%84%E7%89%B9%E7%82%B9font"><span class="toc-number">6.3.3.</span> <span class="toc-text"> ③ 面向连接TCP的特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-font-color999999%E5%9C%A8%E4%B8%8D%E5%8F%AF%E9%9D%A0%E7%9A%84%E7%BD%91%E7%BB%9C%E4%B8%8A%E5%AE%9E%E7%8E%B0%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%81%9C%E6%AD%A2%E7%AD%89%E5%BE%85%E5%8D%8F%E8%AE%AE%E5%92%8Carq%E5%8D%8F%E8%AE%AEfont"><span class="toc-number">6.3.4.</span> <span class="toc-text"> ④ 在不可靠的网络上实现可靠传输的工作原理，停止等待协议和ARQ协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-font-color999999tcp%E7%9A%84%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E5%92%8C%E8%BF%9E%E6%8E%A5%E7%AE%A1%E7%90%86font"><span class="toc-number">6.3.5.</span> <span class="toc-text"> ① TCP的滑动窗口，流量控制，拥塞控制和连接管理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#font-color003333-id6%E5%85%AD%E5%BA%94%E7%94%A8%E5%B1%82font"><span class="toc-number">7.</span> <span class="toc-text"> 六应用层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#font-color0033331%E5%9F%BA%E6%9C%AC%E6%9C%AF%E8%AF%ADfont-6"><span class="toc-number">7.1.</span> <span class="toc-text"> （1），基本术语</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E5%9F%9F%E5%90%8D%E7%B3%BB%E7%BB%9Fdnsfont"><span class="toc-number">7.1.1.</span> <span class="toc-text">   域名系统（DNS）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AEftpfont"><span class="toc-number">7.1.2.</span> <span class="toc-text">  文件传输协议（FTP）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E7%AE%80%E5%8D%95%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AEtftpfont"><span class="toc-number">7.1.3.</span> <span class="toc-text">  简单文件传输协议（TFTP）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E8%BF%9C%E7%A8%8B%E7%BB%88%E7%AB%AF%E5%8D%8F%E8%AE%AEtelenetfont"><span class="toc-number">7.1.4.</span> <span class="toc-text">  远程终端协议（TELENET）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E4%B8%87%E7%BB%B4%E7%BD%91wwwfont"><span class="toc-number">7.1.5.</span> <span class="toc-text">  万维网（WWW）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E4%B8%87%E7%BB%B4%E7%BD%91%E7%9A%84%E5%A4%A7%E8%87%B4%E5%B7%A5%E4%BD%9C%E5%B7%A5%E7%A8%8Bfont"><span class="toc-number">7.1.6.</span> <span class="toc-text">  万维网的大致工作工程：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E7%BB%9F%E4%B8%80%E8%B5%84%E6%BA%90%E5%AE%9A%E4%BD%8D%E7%AC%A6urlfont"><span class="toc-number">7.1.7.</span> <span class="toc-text">  统一资源定位符（URL）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E8%B6%85%E6%96%87%E6%9C%AC%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AEhttpfont"><span class="toc-number">7.1.8.</span> <span class="toc-text">  超文本传输协议（HTTP）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8proxy-serverfont"><span class="toc-number">7.1.9.</span> <span class="toc-text">  代理服务器（Proxy Server）：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33-http%E8%AF%B7%E6%B1%82%E5%A4%B4font"><span class="toc-number">7.1.10.</span> <span class="toc-text">  http请求头：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E7%AE%80%E5%8D%95%E9%82%AE%E4%BB%B6%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AEsmtpfont"><span class="toc-number">7.1.11.</span> <span class="toc-text"> 简单邮件传输协议(SMTP)：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8Efont"><span class="toc-number">7.1.12.</span> <span class="toc-text"> 搜索引擎：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E5%85%A8%E6%96%87%E7%B4%A2%E5%BC%95font"><span class="toc-number">7.1.13.</span> <span class="toc-text"> 全文索引：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E7%9B%AE%E5%BD%95%E7%B4%A2%E5%BC%95font"><span class="toc-number">7.1.14.</span> <span class="toc-text"> 目录索引：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#font-color99cc33%E5%9E%82%E7%9B%B4%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8Efont"><span class="toc-number">7.1.15.</span> <span class="toc-text"> 垂直搜索引擎：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#font-color0033332%E9%87%8D%E8%A6%81%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93font-6"><span class="toc-number">7.2.</span> <span class="toc-text"> （2），重要知识点总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#font-color0033333%E6%9C%80%E9%87%8D%E8%A6%81%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93font"><span class="toc-number">7.3.</span> <span class="toc-text"> （3），最重要知识点总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-font-color999999%E5%9F%9F%E5%90%8D%E7%B3%BB%E7%BB%9F-%E4%BB%8E%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E5%87%BAip%E5%9C%B0%E5%9D%80font"><span class="toc-number">7.3.1.</span> <span class="toc-text"> ① 域名系统-从域名解析出IP地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-font-color999999%E8%AE%BF%E9%97%AE%E4%B8%80%E4%B8%AA%E7%BD%91%E7%AB%99%E5%A4%A7%E8%87%B4%E7%9A%84%E8%BF%87%E7%A8%8Bfont"><span class="toc-number">7.3.2.</span> <span class="toc-text"> ② 访问一个网站大致的过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-font-color999999%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E5%92%8C%E5%BA%94%E7%94%A8%E7%BC%96%E7%A8%8B%E6%8E%A5%E5%8F%A3%E6%A6%82%E5%BF%B5font"><span class="toc-number">7.3.3.</span> <span class="toc-text"> ③ 系统调用和应用编程接口概念</span></a></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-other/干货：计算机网络知识总结" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      干货：计算机网络知识总结
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/09/11/other/%E5%B9%B2%E8%B4%A7%EF%BC%9A%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" class="article-date">
+	  <time datetime="2019-09-11T04:03:11.000Z" itemprop="datePublished">2019-09-11</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Http/" rel="tag">Http</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/09/11/other/%E5%B9%B2%E8%B4%A7%EF%BC%9A%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" class="leancloud_visitors"  data-flag-title="干货：计算机网络知识总结">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/09/11/other/%E5%B9%B2%E8%B4%A7%EF%BC%9A%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<h2 id="目录结构"><a class="markdownIt-Anchor" href="#目录结构"></a> 目录结构</h2>
+</blockquote>
+<h3 id="1-计算机概述"><a class="markdownIt-Anchor" href="#1-计算机概述"></a> 1. <a href="#%E4%B8%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A6%82%E8%BF%B0">计算机概述 </a></h3>
+<h3 id="2-物理层"><a class="markdownIt-Anchor" href="#2-物理层"></a> 2. <a href="#%E4%BA%8C%E7%89%A9%E7%90%86%E5%B1%82">物理层 </a></h3>
+<h3 id="3-数据链路层"><a class="markdownIt-Anchor" href="#3-数据链路层"></a> 3. <a href="#%E4%B8%89%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82">数据链路层 </a></h3>
+<h3 id="4-网络层"><a class="markdownIt-Anchor" href="#4-网络层"></a> 4. <a href="#%E5%9B%9B%E7%BD%91%E7%BB%9C%E5%B1%82">网络层 </a></h3>
+<h3 id="5-运输层"><a class="markdownIt-Anchor" href="#5-运输层"></a> 5. <a href="#%E4%BA%94%E8%BF%90%E8%BE%93%E5%B1%82">运输层 </a></h3>
+<h3 id="6-应用层"><a class="markdownIt-Anchor" href="#6-应用层"></a> 6. <a href="#%E5%85%AD%E5%BA%94%E7%94%A8%E5%B1%82">应用层</a></h3>
+<h2 id="一计算机概述"><a class="markdownIt-Anchor" href="#一计算机概述"></a> 一计算机概述</h2>
+<h3 id="font-color0033331基本术语font"><a class="markdownIt-Anchor" href="#font-color0033331基本术语font"></a> <font color="#003333">（1），基本术语<font></h3>
+<h4 id="font-color99cc33-结点-nodefont"><a class="markdownIt-Anchor" href="#font-color99cc33-结点-nodefont"></a> <font  color="#99CC33">  结点 （node）：<font></h4>
+<pre><code>网络中的结点可以是计算机，集线器，交换机或路由器等。
+</code></pre>
+<h4 id="font-color99cc33-链路link"><a class="markdownIt-Anchor" href="#font-color99cc33-链路link"></a> <font  color="#99CC33">  链路（link  ）：</h4>
+<pre><code>从一个结点到另一个结点的一段物理线路。中间没有任何其他交点。
+</code></pre>
+<h4 id="font-color99cc33-主机host"><a class="markdownIt-Anchor" href="#font-color99cc33-主机host"></a> <font  color="#99CC33"> 主机（host）：</h4>
+<pre><code>连接在因特网上的计算机.
+</code></pre>
+<h4 id="font-color99cc33-ispinternet-service-provider"><a class="markdownIt-Anchor" href="#font-color99cc33-ispinternet-service-provider"></a> <font  color="#99CC33"> ISP（Internet Service Provider）：</h4>
+<pre><code>因特网服务提供者（提供商）.
+</code></pre>
+<h4 id="font-color99cc33-ixpinternet-exchange-point"><a class="markdownIt-Anchor" href="#font-color99cc33-ixpinternet-exchange-point"></a> <font  color="#99CC33"> IXP（Internet eXchange Point）：</h4>
+<pre><code>互联网交换点IXP的主要作用就是允许两个网络直接相连并交换分组，而不需要再通过第三个网络来转发分组。.
+</code></pre>
+<h4 id="font-color99cc33-rfcrequest-for-comments"><a class="markdownIt-Anchor" href="#font-color99cc33-rfcrequest-for-comments"></a> <font  color="#99CC33"> RFC(Request For Comments)</h4>
+<pre><code>意思是“请求评议”，包含了关于Internet几乎所有的重要的文字资料。
+</code></pre>
+<h4 id="font-color99cc33-广域网wanwide-area-network"><a class="markdownIt-Anchor" href="#font-color99cc33-广域网wanwide-area-network"></a> <font  color="#99CC33"> 广域网WAN（Wide Area Network）</h4>
+<pre><code>任务是通过长距离运送主机发送的数据
+</code></pre>
+<h4 id="font-color99cc33-城域网manmetropolitan-area-network"><a class="markdownIt-Anchor" href="#font-color99cc33-城域网manmetropolitan-area-network"></a> <font  color="#99CC33"> 城域网MAN（Metropolitan Area Network）</h4>
+<pre><code>用来讲多个局域网进行互连
+</code></pre>
+<h4 id="font-color99cc33-局域网lanlocal-area-network"><a class="markdownIt-Anchor" href="#font-color99cc33-局域网lanlocal-area-network"></a> <font  color="#99CC33"> 局域网LAN（Local Area Network）</h4>
+<pre><code> 学校或企业大多拥有多个互连的局域网
+</code></pre>
+<h4 id="font-color99cc33-个人区域网panpersonal-area-network"><a class="markdownIt-Anchor" href="#font-color99cc33-个人区域网panpersonal-area-network"></a> <font  color="#99CC33"> 个人区域网PAN（Personal Area Network）</h4>
+<pre><code>在个人工作的地方把属于个人使用的电子设备用无线技术连接起来的网络  
+</code></pre>
+<h4 id="font-color99cc33-端系统end-system"><a class="markdownIt-Anchor" href="#font-color99cc33-端系统end-system"></a> <font  color="#99CC33">  端系统（end system）：</h4>
+<pre><code>处在因特网边缘的部分即是连接在因特网上的所有的主机.
+</code></pre>
+<h4 id="font-color99cc33-分组packet"><a class="markdownIt-Anchor" href="#font-color99cc33-分组packet"></a> <font  color="#99CC33"> 分组（packet ）：</h4>
+<pre><code>因特网中传送的数据单元。由首部header和数据段组成。分组又称为包，首部可称为包头。
+</code></pre>
+<h4 id="font-color99cc33-存储转发store-and-forward"><a class="markdownIt-Anchor" href="#font-color99cc33-存储转发store-and-forward"></a> <font  color="#99CC33"> 存储转发（store and forward ）:</h4>
+<pre><code>路由器收到一个分组，先存储下来，再检查其首部，查找转发表，按照首部中的目的地址，找到合适的接口转发出去。
+</code></pre>
+<h4 id="font-color99cc33-带宽bandwidth"><a class="markdownIt-Anchor" href="#font-color99cc33-带宽bandwidth"></a> <font  color="#99CC33"> 带宽（bandwidth）：</h4>
+<pre><code>在计算机网络中，表示在单位时间内从网络中的某一点到另一点所能通过的“最高数据率”。常用来表示网络的通信线路所能传送数据的能力。单位是“比特每秒”，记为b/s。
+</code></pre>
+<h4 id="font-color99cc33-吞吐量throughput"><a class="markdownIt-Anchor" href="#font-color99cc33-吞吐量throughput"></a> <font  color="#99CC33"> 吞吐量（throughput ）：</h4>
+<pre><code>表示在单位时间内通过某个网络（或信道、接口）的数据量。吞吐量更经常地用于对现实世界中的网络的一种测量，以便知道实际上到底有多少数据量能够通过网络。吞吐量受网络的带宽或网络的额定速率的限制。
+</code></pre>
+<h3 id="font-color0033332重要知识点总结font"><a class="markdownIt-Anchor" href="#font-color0033332重要知识点总结font"></a> <font color="#003333">（2），重要知识点总结<font></h3>
+<p><font color="#999999">1，计算机网络（简称网络）把许多计算机连接在一起，而互联网把许多网络连接在一起，是网络的网络。</p>
+<p><font color="#999999">2，小写字母i开头的internet（互联网）是通用名词，它泛指由多个计算机网络相互连接而成的网络。在这些网络之间的通信协议（即通信规则）可以是任意的。</p>
+<p><font color="#999999">大写字母I开头的Internet（互联网）是专用名词，它指全球最大的，开放的，由众多网络相互连接而成的特定的互联网，并采用TCP/IP协议作为通信规则，其前身为ARPANET。Internet的推荐译名为因特网，现在一般流行称为互联网。</p>
+<p><font color="#999999">3，路由器是实现分组交换的关键构件，其任务是转发收到的分组，这是网络核心部分最重要的功能。分组交换采用存储转发技术，表示把一个报文（要发送的整块数据）分为几个分组后再进行传送。在发送报文之前，先把较长的报文划分成为一个个更小的等长数据段。在每个数据端的前面加上一些由必要的控制信息组成的首部后，就构成了一个分组。分组又称为包。分组是在互联网中传送的数据单元，正是由于分组的头部包含了诸如目的地址和源地址等重要控制信息，每一个分组才能在互联网中独立的选择传输路径，并正确地交付到分组传输的终点。</p>
+<p><font color="#999999">4，互联网按工作方式可划分为边缘部分和核心部分。主机在网络的边缘部分，其作用是进行信息处理。由大量网络和连接这些网络的路由器组成核心部分，其作用是提供连通性和交换。</p>
+<p><font color="#999999">5，计算机通信是计算机中进程（即运行着的程序）之间的通信。计算机网络采用的通信方式是客户-服务器方式（C/S方式）和对等连接方式（P2P方式）。</p>
+<p><font color="#999999">6，客户和服务器都是指通信中所涉及的应用进程。客户是服务请求方，服务器是服务提供方。</p>
+<p><font color="#999999">7，按照作用范围的不同，计算机网络分为广域网WAN，城域网MAN，局域网LAN，个人区域网PAN。</p>
+<p><font color="#999999">8，计算机网络最常用的性能指标是：速率，带宽，吞吐量，时延（发送时延，处理时延，排队时延），时延带宽积，往返时间和信道利用率。</p>
+<p><font color="#999999">9，网络协议即协议，是为进行网络中的数据交换而建立的规则。计算机网络的各层以及其协议集合，称为网络的体系结构。</p>
+<p><font color="#999999">10，五层体系结构由应用层，运输层，网络层（网际层），数据链路层，物理层组成。运输层最主要的协议是TCP和UDP协议，网络层最重要的协议是IP协议。</p>
+<h2 id="二物理层"><a class="markdownIt-Anchor" href="#二物理层"></a> 二物理层</h2>
+<h3 id="font-color0033331基本术语font-2"><a class="markdownIt-Anchor" href="#font-color0033331基本术语font-2"></a> <font color="#003333">（1），基本术语<font></h3>
+<h4 id="font-color99cc33数据datafont"><a class="markdownIt-Anchor" href="#font-color99cc33数据datafont"></a> <font  color="#99CC33">数据（data）：<font></h4>
+<pre><code>运送消息的实体。
+</code></pre>
+<h4 id="font-color99cc33信号signalfont"><a class="markdownIt-Anchor" href="#font-color99cc33信号signalfont"></a> <font  color="#99CC33">信号（signal）：<font></h4>
+<pre><code>数据的电气的或电磁的表现。或者说信号是适合在传输介质上传输的对象。
+</code></pre>
+<h4 id="font-color99cc33码元-code-font"><a class="markdownIt-Anchor" href="#font-color99cc33码元-code-font"></a> <font  color="#99CC33">码元（ code）： <font></h4>
+<pre><code>在使用时间域（或简称为时域）的波形来表示数字信号时，代表不同离散数值的基本波形。
+</code></pre>
+<h4 id="font-color99cc33单工simplex-font"><a class="markdownIt-Anchor" href="#font-color99cc33单工simplex-font"></a> <font  color="#99CC33">单工（simplex ）：<font></h4>
+<pre><code>只能有一个方向的通信而没有反方向的交互。
+</code></pre>
+<h4 id="font-color99cc33半双工half-duplex-font"><a class="markdownIt-Anchor" href="#font-color99cc33半双工half-duplex-font"></a> <font  color="#99CC33">半双工（half duplex ）：<font></h4>
+<pre><code>通信的双方都可以发送信息，但不能双方同时发送(当然也就不能同时接收)。
+</code></pre>
+<h4 id="font-color99cc33全双工full-duplex-font"><a class="markdownIt-Anchor" href="#font-color99cc33全双工full-duplex-font"></a> <font  color="#99CC33">全双工（full duplex）： <font></h4>
+<pre><code>通信的双方可以同时发送和接收信息。
+</code></pre>
+<h4 id="font-color99cc33奈氏准则font"><a class="markdownIt-Anchor" href="#font-color99cc33奈氏准则font"></a> <font  color="#99CC33">奈氏准则：<font></h4>
+<pre><code>在任何信道中，码元的传输的效率是有上限的，传输速率超过此上限，就会出现严重的码间串扰问题，使接收端对码元的判决（即识别）成为不可能。
+</code></pre>
+<h4 id="font-color99cc33基带信号baseband-signalfont"><a class="markdownIt-Anchor" href="#font-color99cc33基带信号baseband-signalfont"></a> <font  color="#99CC33">基带信号（baseband signal）：<font></h4>
+<pre><code>来自信源的信号。指没有经过调制的数字信号或模拟信号。
+</code></pre>
+<h4 id="font-color99cc33-带通频带信号bandpass-signalfont"><a class="markdownIt-Anchor" href="#font-color99cc33-带通频带信号bandpass-signalfont"></a> <font  color="#99CC33"> 带通（频带）信号（bandpass signal）：<font></h4>
+<pre><code>把基带信号经过载波调制后，把信号的频率范围搬移到较高的频段以便在信道中传输（即仅在一段频率范围内能够通过信道），这里调制过后的信号就是带通信号。
+</code></pre>
+<h4 id="font-color99cc33-调制modulation-font"><a class="markdownIt-Anchor" href="#font-color99cc33-调制modulation-font"></a> <font  color="#99CC33"> 调制（modulation  ）：<font></h4>
+<pre><code>对信号源的信息进行处理后加到载波信号上，使其变为适合在信道传输的形式的过程。
+</code></pre>
+<h4 id="font-color99cc33信噪比signal-to-noise-ratio-font"><a class="markdownIt-Anchor" href="#font-color99cc33信噪比signal-to-noise-ratio-font"></a> <font  color="#99CC33">信噪比（signal-to-noise ratio ）：<font></h4>
+<pre><code>指信号的平均功率和噪声的平均功率之比，记为S/N。信噪比（dB）=10*log10（S/N）
+</code></pre>
+<h4 id="font-color99cc33信道复用channel-multiplexing-font"><a class="markdownIt-Anchor" href="#font-color99cc33信道复用channel-multiplexing-font"></a> <font  color="#99CC33">信道复用（channel multiplexing ）：<font></h4>
+<pre><code>指多个用户共享同一个信道。（并不一定是同时）
+</code></pre>
+<h4 id="font-color99cc33比特率bit-rate-font"><a class="markdownIt-Anchor" href="#font-color99cc33比特率bit-rate-font"></a> <font  color="#99CC33">比特率（bit rate ）：<font></h4>
+<pre><code>单位时间（每秒）内传送的比特数。
+</code></pre>
+<h4 id="font-color99cc33波特率baud-ratefont"><a class="markdownIt-Anchor" href="#font-color99cc33波特率baud-ratefont"></a> <font  color="#99CC33">波特率（baud rate）：<font></h4>
+<pre><code>单位时间载波调制状态改变的次数。针对数据信号对载波的调制速率。
+</code></pre>
+<h4 id="font-color99cc33复用multiplexingfont"><a class="markdownIt-Anchor" href="#font-color99cc33复用multiplexingfont"></a> <font  color="#99CC33">复用（multiplexing）：<font></h4>
+<pre><code>共享信道的方法
+</code></pre>
+<h4 id="font-color99cc33adslasymmetric-digital-subscriber-line-font"><a class="markdownIt-Anchor" href="#font-color99cc33adslasymmetric-digital-subscriber-line-font"></a> <font  color="#99CC33">ADSL（Asymmetric Digital Subscriber Line    ）： <font></h4>
+<pre><code>非对称数字用户线。
+</code></pre>
+<h4 id="font-color99cc33光纤同轴混合网hfc网font"><a class="markdownIt-Anchor" href="#font-color99cc33光纤同轴混合网hfc网font"></a> <font  color="#99CC33">光纤同轴混合网（HFC网）:<font></h4>
+<pre><code>在目前覆盖范围很广的有线电视网的基础上开发的一种居民宽带接入网
+</code></pre>
+<h3 id="font-color0033332重要知识点总结font-2"><a class="markdownIt-Anchor" href="#font-color0033332重要知识点总结font-2"></a> <font color="#003333">（2），重要知识点总结<font></h3>
+<p><font color="#999999">1，物理层的主要任务就是确定与传输媒体接口有关的一些特性，如机械特性，电气特性，功能特性，过程特性。</font></p>
+<p><font color="#999999">2，一个数据通信系统可划分为三大部分，即源系统，传输系统，目的系统。源系统包括源点（或源站，信源）和发送器，目的系统包括接收器和终点。</font></p>
+<p><font color="#999999">3，通信的目的是传送消息。如话音，文字，图像等都是消息，数据是运送消息的实体。信号则是数据的电器或电磁的表现。</font></p>
+<p><font color="#999999">4，根据信号中代表消息的参数的取值方式不同，信号可分为模拟信号（或连续信号）和数字信号（或离散信号）。在使用时间域（简称时域）的波形表示数字信号时，代表不同离散数值的基本波形称为码元。</font></p>
+<p><font color="#999999">5，根据双方信息交互的方式，通信可划分为单向通信（或单工通信），双向交替通信（或半双工通信），双向同时通信（全双工通信）。</font></p>
+<p><font color="#999999">6，来自信源的信号称为基带信号。信号要在信道上传输就要经过调制。调制有基带调制和带通调制之分。最基本的带通调制方法有调幅，调频和调相。还有更复杂的调制方法，如正交振幅调制。</font></p>
+<p><font color="#999999">7，要提高数据在信道上的传递速率，可以使用更好的传输媒体，或使用先进的调制技术。但数据传输速率不可能任意被提高。</font></p>
+<p><font color="#999999">8，传输媒体可分为两大类，即导引型传输媒体（双绞线，同轴电缆，光纤）和非导引型传输媒体（无线，红外，大气激光）。</font></p>
+<p><font color="#999999">9，为了有效利用光纤资源，在光纤干线和用户之间广泛使用无源光网络PON。无源光网络无需配备电源，其长期运营成本和管理成本都很低。最流行的无源光网络是以太网无源光网络EPON和吉比特无源光网络GPON。</font></p>
+<h3 id="font-color0033333最重要的知识点font"><a class="markdownIt-Anchor" href="#font-color0033333最重要的知识点font"></a> <font color="#003333">（3），最重要的知识点<font></h3>
+<h4 id="font-color0033331物理层的任务font"><a class="markdownIt-Anchor" href="#font-color0033331物理层的任务font"></a> <font color="#003333"><strong>①，物理层的任务</strong><font></h4>
+<p><font color="#999999">透明地传送比特流。也可以将物理层的主要任务描述为确定与传输媒体的接口的一些特性，即：机械特性（接口所用接线器的一些物理属性如形状尺寸），电气特性（接口电缆的各条线上出现的电压的范围），功能特性（某条线上出现的某一电平的电压的意义），过程特性（对于不同功能能的各种可能事件的出现顺序）。</font></p>
+<h4 id="拓展"><a class="markdownIt-Anchor" href="#拓展"></a> 拓展：</h4>
+<p><font color="#999999">物理层考虑的是怎样才能在连接各种计算机的传输媒体上传输数据比特流，而不是指具体的传输媒体。现有的计算机网络中的硬件设备和传输媒体的种类非常繁多，而且通信手段也有许多不同的方式。物理层的作用正是尽可能地屏蔽掉这些传输媒体和通信手段的差异，使物理层上面的数据链路层感觉不到这些差异，这样就可以使数据链路层只考虑完成本层的协议和服务，而不必考虑网络的具体传输媒体和通信手段是什么。</font></p>
+<h4 id="font-color0033332几种常用的信道复用技术font"><a class="markdownIt-Anchor" href="#font-color0033332几种常用的信道复用技术font"></a> <font color="#003333"><strong>②，几种常用的信道复用技术</strong><font></h4>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/1/1627f7a170ec6611?w=1247&amp;h=425&amp;f=png&amp;s=36746" alt="这里写图片描述" /></p>
+<h3 id="font-color0033333几种常用的宽带接入技术主要是adsl和fttxfont"><a class="markdownIt-Anchor" href="#font-color0033333几种常用的宽带接入技术主要是adsl和fttxfont"></a> <font color="#003333"><strong>③，几种常用的宽带接入技术，主要是ADSL和FTTx</strong><font></h3>
+<p><font color="#999999">用户到互联网的宽带接入方法有非对称数字用户线ADSL（用数字技术对现有的模拟电话线进行改造，而不需要重新布线。ASDL的快速版本是甚高速数字用户线VDSL。），光纤同轴混合网HFC（是在目前覆盖范围很广的有线电视网的基础上开发的一种居民宽带接入网）和FTTx（即光纤到······）。</font></p>
+<h2 id="三数据链路层"><a class="markdownIt-Anchor" href="#三数据链路层"></a> 三数据链路层</h2>
+<h3 id="font-color0033331基本术语font-3"><a class="markdownIt-Anchor" href="#font-color0033331基本术语font-3"></a> <font color="#003333">（1），基本术语<font></h3>
+<h4 id="font-color99cc33-链路linkfont"><a class="markdownIt-Anchor" href="#font-color99cc33-链路linkfont"></a> <font  color="#99CC33"> 链路（link）：<font></h4>
+<pre><code>一个结点到相邻结点的一段物理链路
+</code></pre>
+<h4 id="font-color99cc33-数据链路data-linkfont"><a class="markdownIt-Anchor" href="#font-color99cc33-数据链路data-linkfont"></a> <font  color="#99CC33"> 数据链路（data link）：<font></h4>
+<pre><code>把实现控制数据运输的协议的硬件和软件加到链路上就构成了数据链路
+</code></pre>
+<h4 id="font-color99cc33-循环冗余检验crccyclic-redundancy-checkfont"><a class="markdownIt-Anchor" href="#font-color99cc33-循环冗余检验crccyclic-redundancy-checkfont"></a> <font  color="#99CC33"> 循环冗余检验CRC（Cyclic Redundancy Check）：<font></h4>
+<pre><code>为了保证数据传输的可靠性，CRC是数据链路层广泛使用的一种检错技术
+</code></pre>
+<h4 id="font-color99cc33-帧framefont"><a class="markdownIt-Anchor" href="#font-color99cc33-帧framefont"></a> <font  color="#99CC33">  帧（frame）：<font></h4>
+<pre><code>一个数据链路层的传输单元，由一个数据链路层首部和其携带的封包所组成协议数据单元。
+</code></pre>
+<h4 id="font-color99cc33-mtumaximum-transfer-uint-font"><a class="markdownIt-Anchor" href="#font-color99cc33-mtumaximum-transfer-uint-font"></a> <font  color="#99CC33"> MTU（Maximum Transfer Uint  ）：<font></h4>
+<pre><code>最大传送单元。帧的数据部分的的长度上限。
+</code></pre>
+<h4 id="font-color99cc33-误码率berbit-error-rate-font"><a class="markdownIt-Anchor" href="#font-color99cc33-误码率berbit-error-rate-font"></a> <font  color="#99CC33"> 误码率BER（Bit Error Rate ）：<font></h4>
+<pre><code>在一段时间内，传输错误的比特占所传输比特总数的比率。
+</code></pre>
+<h4 id="font-color99cc33-ppppoint-to-point-protocol-font"><a class="markdownIt-Anchor" href="#font-color99cc33-ppppoint-to-point-protocol-font"></a> <font  color="#99CC33"> PPP（Point-to-Point Protocol  ）：<font></h4>
+<pre><code>点对点协议。即用户计算机和ISP进行通信时所使用的数据链路层协议。以下是PPP帧的示意图:
+</code></pre>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/1/1627f8291c6b032c?w=624&amp;h=359&amp;f=jpeg&amp;s=44271" alt="PPP" /></p>
+<h4 id="font-color99cc33-mac地址media-access-control或者medium-access-controlfont"><a class="markdownIt-Anchor" href="#font-color99cc33-mac地址media-access-control或者medium-access-controlfont"></a> <font  color="#99CC33"> MAC地址（Media Access Control或者Medium Access Control）：<font></h4>
+<pre><code>意译为媒体访问控制，或称为物理地址、硬件地址，用来定义网络设备的位置。
+在OSI模型中，第三层网络层负责 IP地址，第二层数据链路层则负责 MAC地址。
+因此一个主机会有一个MAC地址，而每个网络位置会有一个专属于它的IP地址  。
+地址是识别某个系统的重要标识符，“名字指出我们所要寻找的资源，地址指出资源所在的地方，路由告诉我们如何到达该处”
+</code></pre>
+<h4 id="font-color99cc33-网桥bridgefont"><a class="markdownIt-Anchor" href="#font-color99cc33-网桥bridgefont"></a> <font  color="#99CC33"> 网桥（bridge）：<font></h4>
+<pre><code> 一种用于数据链路层实现中继，连接两个或多个局域网的网络互连设备。
+</code></pre>
+<h4 id="font-color99cc33-交换机switch-font"><a class="markdownIt-Anchor" href="#font-color99cc33-交换机switch-font"></a> <font  color="#99CC33"> 交换机（switch ）：<font></h4>
+<pre><code>广义的来说，交换机指的是一种通信系统中完成信息交换的设备。这里工作在数据链路层的交换机指的是交换式集线器，其实质是一个多接口的网桥
+</code></pre>
+<h3 id="font-color0033332重要知识点总结font-3"><a class="markdownIt-Anchor" href="#font-color0033332重要知识点总结font-3"></a> <font color="#003333">（2），重要知识点总结<font></h3>
+<p><font color="#999999">1，链路是从一个结点到相邻节点的一段物理链路，数据链路则在链路的基础上增加了一些必要的硬件（如网络适配器）和软件（如协议的实现）</font></p>
+<p><font color="#999999">2，数据链路层使用的主要是<strong>点对点信道</strong>和<strong>广播信道</strong>两种。</font></p>
+<p><font color="#999999">3，数据链路层传输的协议数据单元是帧。数据链路层的三个基本问题是：<strong>封装成帧</strong>，<strong>透明传输</strong>和<strong>差错检测</strong></font></p>
+<p><font color="#999999">4，<strong>循环冗余检验CRC</strong>是一种检错方法，而帧检验序列FCS是添加在数据后面的冗余码</font></p>
+<p><font color="#999999">5，<strong>点对点协议PPP</strong>是数据链路层使用最多的一种协议，它的特点是：简单，只检测差错而不去纠正差错，不使用序号，也不进行流量控制，可同时支持多种网络层协议</font></p>
+<p><font color="#999999"> 6，PPPoE是为宽带上网的主机使用的链路层协议</font></p>
+<p><font color="#999999">7，局域网的优点是：具有广播功能，从一个站点可方便地访问全网；便于系统的扩展和逐渐演变；提高了系统的可靠性，可用性和生存性。</font></p>
+<p><font color="#999999">8，共向媒体通信资源的方法有二：一是静态划分信道(各种复用技术)，而是动态媒体接入控制，又称为多点接入（随即接入或受控接入）</font></p>
+<p><font color="#999999">9，计算机与外接局域网通信需要通过通信适配器（或网络适配器），它又称为网络接口卡或网卡。<strong>计算器的硬件地址就在适配器的ROM中</strong>。</font></p>
+<p><font color="#999999">10，以太网采用的无连接的工作方式，对发送的数据帧不进行编号，也不要求对方发回确认。目的站收到有差错帧就把它丢掉，其他什么也不做</font></p>
+<p><font color="#999999">11，以太网采用的协议是具有冲突检测的<strong>载波监听多点接入CSMA/CD</strong>。协议的特点是：<strong>发送前先监听，边发送边监听，一旦发现总线上出现了碰撞，就立即停止发送。然后按照退避算法等待一段随机时间后再次发送。</strong> 因此，每一个站点在自己发送数据之后的一小段时间内，存在这遭遇碰撞的可能性。以太网上的各站点平等的争用以太网信道</font></p>
+<p><font color="#999999">12，以太网的适配器具有过滤功能，它只接收单播帧，广播帧和多播帧。</font></p>
+<p><font color="#999999">13，使用集线器可以在物理层扩展以太网（扩展后的以太网仍然是一个网络）</font></p>
+<h3 id="font-color0033333最重要的知识点font-2"><a class="markdownIt-Anchor" href="#font-color0033333最重要的知识点font-2"></a> <font color="#003333">（3），最重要的知识点<font></h3>
+<h4 id="1-font-color999999数据链路层的点对点信道和广播信道的特点以及这两种信道所使用的协议ppp协议以及csmacd协议的特点font"><a class="markdownIt-Anchor" href="#1-font-color999999数据链路层的点对点信道和广播信道的特点以及这两种信道所使用的协议ppp协议以及csmacd协议的特点font"></a> ① <font color="#999999">数据链路层的点对点信道和广播信道的特点，以及这两种信道所使用的协议（PPP协议以及CSMA/CD协议）的特点<font></h4>
+<h4 id="2-font-color999999数据链路层的三个基本问题封装成帧透明传输差错检测font"><a class="markdownIt-Anchor" href="#2-font-color999999数据链路层的三个基本问题封装成帧透明传输差错检测font"></a> ② <font color="#999999">数据链路层的三个基本问题：<strong>封装成帧</strong>，<strong>透明传输</strong>，<strong>差错检测</strong><font></h4>
+<h4 id="3-font-color999999以太网的mac层硬件地址font"><a class="markdownIt-Anchor" href="#3-font-color999999以太网的mac层硬件地址font"></a> ③ <font color="#999999">以太网的MAC层硬件地址<font></h4>
+<h4 id="4-font-color999999适配器转发器集线器网桥以太网交换机的作用以及适用场合font"><a class="markdownIt-Anchor" href="#4-font-color999999适配器转发器集线器网桥以太网交换机的作用以及适用场合font"></a> ④ <font color="#999999">适配器，转发器，集线器，网桥，以太网交换机的作用以及适用场合<font></h4>
+<h2 id="font-color003333-id4四网络层font"><a class="markdownIt-Anchor" href="#font-color003333-id4四网络层font"></a> <font color="#003333" id="4">四网络层<font></h2>
+<h3 id="font-color0033331基本术语font-4"><a class="markdownIt-Anchor" href="#font-color0033331基本术语font-4"></a> <font color="#003333">（1），基本术语<font></h3>
+<h4 id="font-color99cc33虚电路virtual-circuitfont"><a class="markdownIt-Anchor" href="#font-color99cc33虚电路virtual-circuitfont"></a> <font  color="#99CC33">虚电路（Virtual Circuit）：<font></h4>
+<pre><code>在两个终端设备的逻辑或物理端口之间，通过建立的双向的透明传输通道。虚电路表示这只是一条逻辑上的连接，分组都沿着这条逻辑连接按照存储转发方式传送，而并不是真正建立了一条物理连接。
+</code></pre>
+<h4 id="font-color99cc33ipinternet-protocol-font"><a class="markdownIt-Anchor" href="#font-color99cc33ipinternet-protocol-font"></a> <font  color="#99CC33">IP（Internet Protocol ）：<font></h4>
+<pre><code>网际协议 IP 是 TCP/IP体系中两个最主要的协议之一，是TCP/IP体系结构网际层的核心。配套的有ARP，RARP，ICMP，IGMP。
+</code></pre>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/1/1627f92f98436286?w=453&amp;h=331&amp;f=jpeg&amp;s=27535" alt="这里写图片描述" /></p>
+<h4 id="font-color99cc33arpaddress-resolution-protocolfont"><a class="markdownIt-Anchor" href="#font-color99cc33arpaddress-resolution-protocolfont"></a> <font  color="#99CC33">ARP（Address Resolution Protocol）：<font></h4>
+<pre><code>地址解析协议
+</code></pre>
+<h4 id="font-color99cc33icmpinternet-control-message-protocol-font"><a class="markdownIt-Anchor" href="#font-color99cc33icmpinternet-control-message-protocol-font"></a> <font  color="#99CC33">ICMP（Internet Control Message Protocol ）：<font></h4>
+<pre><code>网际控制报文协议  （ICMP 允许主机或路由器报告差错情况和提供有关异常情况的报告。）
+</code></pre>
+<h4 id="font-color99cc33子网掩码subnet-mask-font"><a class="markdownIt-Anchor" href="#font-color99cc33子网掩码subnet-mask-font"></a> <font  color="#99CC33">子网掩码（subnet mask ）：<font></h4>
+<pre><code>它是一种用来指明一个IP地址的哪些位标识的是主机所在的子网以及哪些位标识的是主机的位掩码。子网掩码不能单独存在，它必须结合IP地址一起使用。
+</code></pre>
+<h4 id="font-color99cc33-cidr-classless-inter-domain-routing-font"><a class="markdownIt-Anchor" href="#font-color99cc33-cidr-classless-inter-domain-routing-font"></a> <font  color="#99CC33"> CIDR（ Classless Inter-Domain Routing ）：<font></h4>
+<pre><code>无分类域间路由选择  （特点是消除了传统的 A 类、B 类和 C 类地址以及划分子网的概念，并使用各种长度的“网络前缀”(network-prefix)来代替分类地址中的网络号和子网号）
+</code></pre>
+<h4 id="font-color99cc33默认路由default-routefont"><a class="markdownIt-Anchor" href="#font-color99cc33默认路由default-routefont"></a> <font  color="#99CC33">默认路由（default route）：<font></h4>
+<pre><code>当在路由表中查不到能到达目的地址的路由时，路由器选择的路由。默认路由还可以减小路由表所占用的空间和搜索路由表所用的时间。
+</code></pre>
+<h4 id="font-color99cc33路由选择算法virtual-circuitfont"><a class="markdownIt-Anchor" href="#font-color99cc33路由选择算法virtual-circuitfont"></a> <font  color="#99CC33">路由选择算法（Virtual Circuit）：<font></h4>
+<pre><code>路由选择协议的核心部分。因特网采用自适应的，分层次的路由选择协议。
+</code></pre>
+<h3 id="font-color0033332重要知识点总结font-4"><a class="markdownIt-Anchor" href="#font-color0033332重要知识点总结font-4"></a> <font color="#003333">（2），重要知识点总结<font></h3>
+<p><font color="#999999">1，TCP/IP协议中的网络层向上只提供简单灵活的，无连接的，尽最大努力交付的数据报服务。网络层不提供服务质量的承诺，不保证分组交付的时限所传送的分组可能出错，丢失，重复和失序。进程之间通信的可靠性由运输层负责</font></p>
+<p><font color="#999999">2，在互联网的交付有两种，一是在本网络直接交付不用经过路由器，另一种是和其他网络的间接交付，至少经过一个路由器，但最后一次一定是直接交付</font></p>
+<p><font color="#999999">3，分类的IP地址由网络号字段（指明网络）和主机号字段（指明主机）组成。网络号字段最前面的类别指明IP地址的类别。IP地址市一中分等级的地址结构。IP地址管理机构分配IP地址时只分配网络号，主机号由得到该网络号的单位自行分配。路由器根据目的主机所连接的网络号来转发分组。一个路由器至少连接到两个网络，所以一个路由器至少应当有两个不同的IP地址</font></p>
+<p><font color="#999999">4，IP数据报分为首部和数据两部分。首部的前一部分是固定长度，共20字节，是所有IP数据包必须具有的（源地址，目的地址，总长度等重要地段都固定在首部）。一些长度可变的可选字段固定在首部的后面。IP首部中的生存时间给出了IP数据报在互联网中所能经过的最大路由器数。可防止IP数据报在互联网中无限制的兜圈子。</font></p>
+<p><font color="#999999">5，地址解析协议ARP把IP地址解析为硬件地址。ARP的高速缓存可以大大减少网络上的通信量。因为这样可以使主机下次再与同样地址的主机通信时，可以直接从高速缓存中找到所需要的硬件地址而不需要再去广播方式发送ARP请求分组</font></p>
+<p><font color="#999999">6，无分类域间路由选择CIDR是解决目前IP地址紧缺的一个好办法。CIDR记法把IP地址后面加上斜线“/”，然后写上前缀所所占的位数。前缀（或网络前缀用来指明网络），前缀后面的部分是后缀，用来指明主机。CIDR把前缀都相同的连续的IP地址组成一个“CIDR地址块”，IP地址分配都以CIDR地址块为单位。</font></p>
+<p><font color="#999999">7， 网际控制报文协议是IP层的协议.ICMP报文作为IP数据报的数据，加上首部后组成IP数据报发送出去。使用ICMP数据报并不是为了实现可靠传输。ICMP允许主机或路由器报告差错情况和提供有关异常情况的报告。ICMP报文的种类有两种   ICMP差错报告报文和ICMP询问报文。</font></p>
+<p><font color="#999999">8，要解决IP地址耗尽的问题，最根本的办法是采用具有更大地址弓箭的新版本IP协议-IPv6。IPv6所带来的变化有①更大的地址空间（采用128位地址）②灵活的首部格式③改进的选项④支持即插即用⑤支持资源的预分配⑥IPv6的首部改为8字节对齐。另外IP数据报的目的地址可以是以下三种基本类型地址之一：单播，多播和任播</font></p>
+<p><font color="#999999">9，虚拟专用网络VPN利用公用的互联网作为本机构专用网之间的通信载体。VPN内使用互联网的专用地址。一个VPN至少要有一个路由器具有合法的全球IP地址，这样才能和本系统的另一个VPN通过互联网进行通信。所有通过互联网传送的数据都需要加密</font></p>
+<p><font color="#999999">10， MPLS的特点是：①支持面向连接的服务质量②支持流量工程，平衡网络负载③有效的支持虚拟专用网VPN。MPLS在入口节点给每一个IP数据报打上固定长度的“标记”，然后根据标记在第二层（链路层）用硬件进行转发（在标记交换路由器中进行标记交换），因而转发速率大大加快。</font></p>
+<h3 id="font-color0033333最重要知识点font"><a class="markdownIt-Anchor" href="#font-color0033333最重要知识点font"></a> <font color="#003333">（3），最重要知识点<font></h3>
+<h4 id="1-font-color999999虚拟互联网络的概念"><a class="markdownIt-Anchor" href="#1-font-color999999虚拟互联网络的概念"></a> ① <font color="#999999">虚拟互联网络的概念</h4>
+<h4 id="2-font-color999999ip地址和物理地址的关系"><a class="markdownIt-Anchor" href="#2-font-color999999ip地址和物理地址的关系"></a> ② <font color="#999999">IP地址和物理地址的关系</h4>
+<h4 id="3-font-color999999-传统的分类的ip地址包括子网掩码和误分类域间路由选择cidr"><a class="markdownIt-Anchor" href="#3-font-color999999-传统的分类的ip地址包括子网掩码和误分类域间路由选择cidr"></a> ③ <font color="#999999"> 传统的分类的IP地址（包括子网掩码）和误分类域间路由选择CIDR</h4>
+<h4 id="4-font-color999999-路由选择协议的工作原理"><a class="markdownIt-Anchor" href="#4-font-color999999-路由选择协议的工作原理"></a> ④ <font color="#999999">  路由选择协议的工作原理</h4>
+<h2 id="font-color003333-id5五运输层font"><a class="markdownIt-Anchor" href="#font-color003333-id5五运输层font"></a> <font color="#003333" id="5">五运输层<font></h2>
+<h3 id="font-color0033331基本术语font-5"><a class="markdownIt-Anchor" href="#font-color0033331基本术语font-5"></a> <font color="#003333">（1），基本术语<font></h3>
+<h4 id="font-color99cc33进程processfont"><a class="markdownIt-Anchor" href="#font-color99cc33进程processfont"></a> <font  color="#99CC33">进程（process）：<font></h4>
+<pre><code>指计算机中正在运行的程序实体
+</code></pre>
+<h4 id="font-color99cc33应用进程互相通信font"><a class="markdownIt-Anchor" href="#font-color99cc33应用进程互相通信font"></a> <font  color="#99CC33">应用进程互相通信：<font></h4>
+<pre><code>一台主机的进程和另一台主机中的一个进程交换数据的过程（另外注意通信真正的端点不是主机而是主机中的进程，也就是说端到端的通信是应用进程之间的通信）
+</code></pre>
+<h4 id="font-color99cc33传输层的复用与分用font"><a class="markdownIt-Anchor" href="#font-color99cc33传输层的复用与分用font"></a> <font  color="#99CC33">传输层的复用与分用：<font></h4>
+<pre><code>复用指发送方不同的进程都可以通过统一个运输层协议传送数据。分用指接收方的运输层在剥去报文的首部后能把这些数据正确的交付到目的应用进程。 
+</code></pre>
+<h4 id="font-color99cc33tcptransmission-control-protocolfont"><a class="markdownIt-Anchor" href="#font-color99cc33tcptransmission-control-protocolfont"></a> <font  color="#99CC33">TCP（Transmission Control Protocol）：<font></h4>
+<pre><code>传输控制协议
+</code></pre>
+<h4 id="font-color99cc33udpuser-datagram-protocolfont"><a class="markdownIt-Anchor" href="#font-color99cc33udpuser-datagram-protocolfont"></a> <font  color="#99CC33">UDP（User Datagram Protocol）：<font></h4>
+<pre><code>用户数据报协议
+</code></pre>
+<h4 id="font-color99cc33端口portlinkfont"><a class="markdownIt-Anchor" href="#font-color99cc33端口portlinkfont"></a> <font  color="#99CC33">端口（port）（link）：<font></h4>
+<pre><code>端口的目的是为了确认对方机器是那个进程在于自己进行交互，比如MSN和QQ的端口不同，如果没有端口就可能出现QQ进程和MSN交互错误。端口又称协议端口号。 
+</code></pre>
+<h4 id="font-color99cc33停止等待协议linkfont"><a class="markdownIt-Anchor" href="#font-color99cc33停止等待协议linkfont"></a> <font  color="#99CC33">停止等待协议（link）：<font></h4>
+<pre><code>指发送方每发送完一个分组就停止发送，等待对方确认，在收到确认之后在发送下一个分组。
+</code></pre>
+<h4 id="font-color99cc33流量控制linkfont"><a class="markdownIt-Anchor" href="#font-color99cc33流量控制linkfont"></a> <font  color="#99CC33">流量控制（link）：<font></h4>
+<pre><code>就是让发送方的发送速率不要太快，既要让接收方来得及接收，也不要使网络发生拥塞。
+</code></pre>
+<h4 id="font-color99cc33拥塞控制linkfont"><a class="markdownIt-Anchor" href="#font-color99cc33拥塞控制linkfont"></a> <font  color="#99CC33">拥塞控制（link）：<font></h4>
+<pre><code>防止过多的数据注入到网络中，这样可以使网络中的路由器或链路不致过载。拥塞控制所要做的都有一个前提，就是网络能够承受现有的网络负荷。
+</code></pre>
+<h3 id="font-color0033332重要知识点总结font-5"><a class="markdownIt-Anchor" href="#font-color0033332重要知识点总结font-5"></a> <font color="#003333">（2），重要知识点总结<font></h3>
+<p><font color="#999999">1，运输层提供应用进程之间的逻辑通信，也就是说，运输层之间的通信并不是真正在两个运输层之间直接传输数据。运输层向应用层屏蔽了下面网络的细节（如网络拓补，所采用的路由选择协议等），它使应用进程之间看起来好像两个运输层实体之间有一条端到端的逻辑通信信道。</p>
+<p>2，网络层为主机提供逻辑通信，而运输层为应用进程之间提供端到端的逻辑通信。</p>
+<p>3，运输层的两个重要协议是用户数据报协议UDP和传输控制协议TCP。按照OSI的术语，两个对等运输实体在通信时传送的数据单位叫做运输协议数据单元TPDU（Transport Protocol Data Unit）。但在TCP/IP体系中，则根据所使用的协议是TCP或UDP，分别称之为TCP报文段或UDP用户数据报。</p>
+<p>4，UDP在传送数据之前不需要先建立连接，远地主机在收到UDP报文后，不需要给出任何确认。虽然UDP不提供可靠交付，但在某些情况下UDP确是一种最有效的工作方式。 TCP提供面向连接的服务。在传送数据之前必须先建立连接，数据传送结束后要释放连接。TCP不提供广播或多播服务。由于TCP要提供可靠的，面向连接的传输服务，这一难以避免增加了许多开销，如确认，流量控制，计时器以及连接管理等。这不仅使协议数据单元的首部增大很多，还要占用许多处理机资源。</p>
+<p>5，硬件端口是不同硬件设备进行交互的接口，而软件端口是应用层各种协议进程与运输实体进行层间交互的一种地址。UDP和TCP的首部格式中都有源端口和目的端口这两个重要字段。当运输层收到IP层交上来的运输层报文时，就能够 根据其首部中的目的端口号把数据交付应用层的目的应用层。（两个进程之间进行通信不光要知道对方IP地址而且要知道对方的端口号(为了找到对方计算机中的应用进程)）</p>
+<p>6，运输层用一个16位端口号标志一个端口。端口号只有本地意义，它只是为了标志计算机应用层中的各个进程在和运输层交互时的层间接口。在互联网的不同计算机中，相同的端口号是没有关联的。协议端口号简称端口。虽然通信的终点是应用进程，但只要把所发送的报文交到目的主机的某个合适端口，剩下的工作（最后交付目的进程）就由TCP和UDP来完成。</p>
+<p>7，运输层的端口号分为服务器端使用的端口号（0<sub>1023指派给熟知端口，1024</sub>49151是登记端口号）和客户端暂时使用的端口号（49152~65535）</p>
+<p>8，UDP的主要特点是①无连接②尽最大努力交付③面向报文④无拥塞控制⑤支持一对一，一对多，多对一和多对多的交互通信⑥首部开销小（只有四个字段：源端口，目的端口，长度和检验和）</p>
+<p>9，TCP的主要特点是①面向连接②每一条TCP连接只能是一对一的③提供可靠交付④提供全双工通信⑤面向字节流</p>
+<p>10，TCP用主机的IP地址加上主机上的端口号作为TCP连接的端点。这样的端点就叫做套接字（socket）或插口。套接字用（IP地址：端口号）来表示。每一条TCP连接唯一被通信两端的两个端点所确定。</p>
+<p>11，停止等待协议是为了实现可靠传输的，它的基本原理就是每发完一个分组就停止发送，等待对方确认。在收到确认后再发下一个分组。</p>
+<p>12，为了提高传输效率，发送方可以不使用低效率的停止等待协议，而是采用流水线传输。流水线传输就是发送方可连续发送多个分组，不必每发完一个分组就停下来等待对方确认。这样可使信道上一直有数据不间断的在传送。这种传输方式可以明显提高信道利用率。</p>
+<p>13，停止等待协议中超时重传是指只要超过一段时间仍然没有收到确认，就重传前面发送过的分组（认为刚才发送过的分组丢失了）。因此每发送完一个分组需要设置一个超时计时器，其重转时间应比数据在分组传输的平均往返时间更长一些。这种自动重传方式常称为自动重传请求ARQ。另外在停止等待协议中若收到重复分组，就丢弃该分组，但同时还要发送确认。连续ARQ协议可提高信道利用率。发送维持一个发送窗口，凡位于发送窗口内的分组可连续发送出去，而不需要等待对方确认。接收方一般采用累积确认，对按序到达的最后一个分组发送确认，表明到这个分组位置的所有分组都已经正确收到了。</p>
+<p>14，TCP报文段的前20个字节是固定的，后面有4n字节是根据需要增加的选项。因此，TCP首部的最小长度是20字节。</p>
+<p>15，TCP使用滑动窗口机制。发送窗口里面的序号表示允许发送的序号。发送窗口后沿的后面部分表示已发送且已收到确认，而发送窗口前沿的前面部分表示不晕与发送。发送窗口后沿的变化情况有两种可能，即不动（没有收到新的确认）和前移（收到了新的确认）。发送窗口的前沿通常是不断向前移动的。一般来说，我们总是希望数据传输更快一些。但如果发送方把数据发送的过快，接收方就可能来不及接收，这就会造成数据的丢失。所谓流量控制就是让发送方的发送速率不要太快，要让接收方来得及接收。</p>
+<p>16，在某段时间，若对网络中某一资源的需求超过了该资源所能提供的可用部分，网络的性能就要变坏。这种情况就叫拥塞。拥塞控制就是为了防止过多的数据注入到网络中，这样就可以使网络中的路由器或链路不致过载。拥塞控制所要做的都有一个前提，就是网络能够承受现有的网络负荷。拥塞控制是一个全局性的过程，涉及到所有的主机，所有的路由器，以及与降低网络传输性能有关的所有因素。相反，流量控制往往是点对点通信量的控制，是个端到端的问题。流量控制所要做到的就是抑制发送端发送数据的速率，以便使接收端来得及接收。</p>
+<p>17，为了进行拥塞控制，TCP发送方要维持一个拥塞窗口cwnd的状态变量。拥塞控制窗口的大小取决于网络的拥塞程度，并且动态变化。发送方让自己的发送窗口取为拥塞窗口和接收方的接受窗口中较小的一个。</p>
+<p>18，TCP的拥塞控制采用了四种算法，即慢开始，拥塞避免，快重传和快恢复。在网络层也可以使路由器采用适当的分组丢弃策略（如主动队列管理AQM），以减少网络拥塞的发生。</p>
+<p>19，运输连接的三个阶段，即：连接建立，数据传送和连接释放。</p>
+<p>20，主动发起TCP连接建立的应用进程叫做客户，而被动等待连接建立的应用进程叫做服务器。TCP连接采用三报文握手机制。服务器要确认用户的连接请求，然后客户要对服务器的确认进行确认。</p>
+<p>21，TCP的连接释放采用四报文握手机制。任何一方都可以在数据传送结束后发出连接释放的通知，待对方确认后进入半关闭状态。当另一方也没有数据再发送时，则发送连接释放通知，对方确认后就完全关闭了TCP连接</p>
+<h3 id="font-color0033333最重要的知识点font-3"><a class="markdownIt-Anchor" href="#font-color0033333最重要的知识点font-3"></a> <font color="#003333">（3），最重要的知识点<font></h3>
+<h4 id="1-font-color999999端口和套接字的意义font"><a class="markdownIt-Anchor" href="#1-font-color999999端口和套接字的意义font"></a> ① <font color="#999999">端口和套接字的意义<font></h4>
+<h4 id="2-font-color999999无连接udp的特点font"><a class="markdownIt-Anchor" href="#2-font-color999999无连接udp的特点font"></a> ② <font color="#999999">无连接UDP的特点<font></h4>
+<h4 id="3-font-color999999面向连接tcp的特点font"><a class="markdownIt-Anchor" href="#3-font-color999999面向连接tcp的特点font"></a> ③ <font color="#999999">面向连接TCP的特点<font></h4>
+<h4 id="4-font-color999999在不可靠的网络上实现可靠传输的工作原理停止等待协议和arq协议font"><a class="markdownIt-Anchor" href="#4-font-color999999在不可靠的网络上实现可靠传输的工作原理停止等待协议和arq协议font"></a> ④ <font color="#999999">在不可靠的网络上实现可靠传输的工作原理，停止等待协议和ARQ协议<font></h4>
+<h4 id="1-font-color999999tcp的滑动窗口流量控制拥塞控制和连接管理font"><a class="markdownIt-Anchor" href="#1-font-color999999tcp的滑动窗口流量控制拥塞控制和连接管理font"></a> ① <font color="#999999">TCP的滑动窗口，流量控制，拥塞控制和连接管理<font></h4>
+<h2 id="font-color003333-id6六应用层font"><a class="markdownIt-Anchor" href="#font-color003333-id6六应用层font"></a> <font color="#003333" id="6">六应用层<font></h2>
+<h3 id="font-color0033331基本术语font-6"><a class="markdownIt-Anchor" href="#font-color0033331基本术语font-6"></a> <font color="#003333">（1），基本术语<font></h3>
+<h4 id="font-color99cc33-域名系统dnsfont"><a class="markdownIt-Anchor" href="#font-color99cc33-域名系统dnsfont"></a> <font  color="#99CC33">  域名系统（DNS）：<font></h4>
+<pre><code>DNS（Domain Name System，域名系统），万维网上作为域名和IP地址相互映射的一个分布式数据库，能够使用户更方便的访问互联网，而不用去记住能够被机器直接读取的IP数串。
+通过域名，最终得到该域名对应的IP地址的过程叫做域名解析（或主机名解析）。DNS协议运行在UDP协议之上，使用端口号53。在RFC文档中RFC 2181对DNS有规范说明，RFC 2136对DNS的动态更新进行说明，RFC 2308对DNS查询的反向缓存进行说明。
+</code></pre>
+<h4 id="font-color99cc33-文件传输协议ftpfont"><a class="markdownIt-Anchor" href="#font-color99cc33-文件传输协议ftpfont"></a> <font  color="#99CC33"> 文件传输协议（FTP）：<font></h4>
+<pre><code> FTP 是File TransferProtocol（文件传输协议）的英文简称，而中文简称为“文传协议”。用于Internet上的控制文件的双向传输。同时，它也是一个应用程序（Application）。
+ 基于不同的操作系统有不同的FTP应用程序，而所有这些应用程序都遵守同一种协议以传输文件。在FTP的使用当中，用户经常遇到两个概念：&quot;下载&quot;（Download）和&quot;上传&quot;（Upload）。
+ &quot;下载&quot;文件就是从远程主机拷贝文件至自己的计算机上；&quot;上传&quot;文件就是将文件从自己的计算机中拷贝至远程主机上。用Internet语言来说，用户可通过客户机程序向（从）远程主机上传（下载）文件。
+</code></pre>
+<h4 id="font-color99cc33-简单文件传输协议tftpfont"><a class="markdownIt-Anchor" href="#font-color99cc33-简单文件传输协议tftpfont"></a> <font  color="#99CC33"> 简单文件传输协议（TFTP）：<font></h4>
+<pre><code>TFTP（Trivial File Transfer Protocol,简单文件传输协议）是TCP/IP协议族中的一个用来在客户机与服务器之间进行简单文件传输的协议，提供不复杂、开销不大的文件传输服务。端口号为69。
+</code></pre>
+<h4 id="font-color99cc33-远程终端协议telenetfont"><a class="markdownIt-Anchor" href="#font-color99cc33-远程终端协议telenetfont"></a> <font  color="#99CC33"> 远程终端协议（TELENET）：<font></h4>
+<pre><code>Telnet协议是TCP/IP协议族中的一员，是Internet远程登陆服务的标准协议和主要方式。它为用户提供了在本地计算机上完成远程主机工作的能力。
+在终端使用者的电脑上使用telnet程序，用它连接到服务器。终端使用者可以在telnet程序中输入命令，这些命令会在服务器上运行，就像直接在服务器的控制台上输入一样。
+可以在本地就能控制服务器。要开始一个telnet会话，必须输入用户名和密码来登录服务器。Telnet是常用的远程控制Web服务器的方法。
+</code></pre>
+<h4 id="font-color99cc33-万维网wwwfont"><a class="markdownIt-Anchor" href="#font-color99cc33-万维网wwwfont"></a> <font  color="#99CC33"> 万维网（WWW）：<font></h4>
+<pre><code>WWW是环球信息网的缩写，（亦作“Web”、“WWW”、“'W3'”，英文全称为“World Wide Web”），中文名字为“万维网”，&quot;环球网&quot;等，常简称为Web。分为Web客户端和Web服务器程序。
+WWW可以让Web客户端（常用浏览器）访问浏览Web服务器上的页面。是一个由许多互相链接的超文本组成的系统，通过互联网访问。在这个系统中，每个有用的事物，称为一样“资源”；并且由一个全局“统一资源标识符”（URI）标识；这些资源通过超文本传输协议（Hypertext Transfer Protocol）传送给用户，而后者通过点击链接来获得资源。
+万维网联盟（英语：World Wide Web Consortium，简称W3C），又称W3C理事会。1994年10月在麻省理工学院（MIT）计算机科学实验室成立。万维网联盟的创建者是万维网的发明者蒂姆·伯纳斯-李。
+万维网并不等同互联网，万维网只是互联网所能提供的服务其中之一，是靠着互联网运行的一项服务。
+</code></pre>
+<h4 id="font-color99cc33-万维网的大致工作工程font"><a class="markdownIt-Anchor" href="#font-color99cc33-万维网的大致工作工程font"></a> <font  color="#99CC33"> 万维网的大致工作工程：<font></h4>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/1/1627ff96a96087af?w=839&amp;h=610&amp;f=jpeg&amp;s=86703" alt="万维网的大致工作工程" /></p>
+<h4 id="font-color99cc33-统一资源定位符urlfont"><a class="markdownIt-Anchor" href="#font-color99cc33-统一资源定位符urlfont"></a> <font  color="#99CC33"> 统一资源定位符（URL）：<font></h4>
+<pre><code>统一资源定位符是对可以从互联网上得到的资源的位置和访问方法的一种简洁的表示，是互联网上标准资源的地址。互联网上的每个文件都有一个唯一的URL，它包含的信息指出文件的位置以及浏览器应该怎么处理它。 
+</code></pre>
+<h4 id="font-color99cc33-超文本传输协议httpfont"><a class="markdownIt-Anchor" href="#font-color99cc33-超文本传输协议httpfont"></a> <font  color="#99CC33"> 超文本传输协议（HTTP）：<font></h4>
+<pre><code>超文本传输协议（HTTP，HyperText Transfer Protocol)是互联网上应用最为广泛的一种网络协议。所有的WWW文件都必须遵守这个标准。
+设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法。1960年美国人Ted Nelson构思了一种通过计算机处理文本信息的方法，并称之为超文本（hypertext）,这成为了HTTP超文本传输协议标准架构的发展根基。
+</code></pre>
+<h4 id="font-color99cc33-代理服务器proxy-serverfont"><a class="markdownIt-Anchor" href="#font-color99cc33-代理服务器proxy-serverfont"></a> <font  color="#99CC33"> 代理服务器（Proxy Server）：<font></h4>
+<pre><code> 代理服务器（Proxy Server）是一种网络实体，它又称为万维网高速缓存。
+ 代理服务器把最近的一些请求和响应暂存在本地磁盘中。当新请求到达时，若代理服务器发现这个请求与暂时存放的的请求相同，就返回暂存的响应，而不需要按URL的地址再次去互联网访问该资源。
+ 代理服务器可在客户端或服务器工作，也可以在中间系统工作。 
+</code></pre>
+<h4 id="font-color99cc33-http请求头font"><a class="markdownIt-Anchor" href="#font-color99cc33-http请求头font"></a> <font  color="#99CC33"> http请求头：<font></h4>
+<pre><code>http请求头，HTTP客户程序（例如浏览器），向服务器发送请求的时候必须指明请求类型（一般是GET或者POST）。如有必要，客户程序还可以选择发送其他的请求头。
+- Accept：浏览器可接受的MIME类型。
+- Accept-Charset：浏览器可接受的字符集。
+- Accept-Encoding：浏览器能够进行解码的数据编码方式，比如gzip。Servlet能够向支持gzip的浏览器返回经gzip编码的HTML页面。许多情形下这可以减少5到10倍的下载时间。
+- Accept-Language：浏览器所希望的语言种类，当服务器能够提供一种以上的语言版本时要用到。
+- Authorization：授权信息，通常出现在对服务器发送的WWW-Authenticate头的应答中。
+- Connection：表示是否需要持久连接。如果Servlet看到这里的值为“Keep-Alive”，或者看到请求使用的是HTTP 1.1（HTTP 1.1默认进行持久连接），它就可以利用持久连接的优点，当页面包含多个元素时（例如Applet，图片），显著地减少下载所需要的时间。要实现这一点，Servlet需要在应答中发送一个Content-Length头，最简单的实现方法是：先把内容写入ByteArrayOutputStream，然后在正式写出内容之前计算它的大小。
+- Content-Length：表示请求消息正文的长度。
+- Cookie：这是最重要的请求头信息之一
+- From：请求发送者的email地址，由一些特殊的Web客户程序使用，浏览器不会用到它。
+- Host：初始URL中的主机和端口。
+- If-Modified-Since：只有当所请求的内容在指定的日期之后又经过修改才返回它，否则返回304“Not Modified”应答。
+- Pragma：指定“no-cache”值表示服务器必须返回一个刷新后的文档，即使它是代理服务器而且已经有了页面的本地拷贝。
+- Referer：包含一个URL，用户从该URL代表的页面出发访问当前请求的页面。
+- User-Agent：浏览器类型，如果Servlet返回的内容与浏览器类型有关则该值非常有用。
+</code></pre>
+<h4 id="font-color99cc33简单邮件传输协议smtpfont"><a class="markdownIt-Anchor" href="#font-color99cc33简单邮件传输协议smtpfont"></a> <font  color="#99CC33">简单邮件传输协议(SMTP)：<font></h4>
+<pre><code> SMTP（Simple Mail Transfer Protocol）即简单邮件传输协议,它是一组用于由源地址到目的地址传送邮件的规则，由它来控制信件的中转方式。
+ SMTP协议属于TCP/IP协议簇，它帮助每台计算机在发送或中转信件时找到下一个目的地。
+ 通过SMTP协议所指定的服务器,就可以把E-mail寄到收信人的服务器上了，整个过程只要几分钟。SMTP服务器则是遵循SMTP协议的发送邮件服务器，用来发送或中转发出的电子邮件。
+</code></pre>
+<h4 id="font-color99cc33搜索引擎font"><a class="markdownIt-Anchor" href="#font-color99cc33搜索引擎font"></a> <font  color="#99CC33">搜索引擎：<font></h4>
+<pre><code> 搜索引擎（Search Engine）是指根据一定的策略、运用特定的计算机程序从互联网上搜集信息，在对信息进行组织和处理后，为用户提供检索服务，将用户检索相关的信息展示给用户的系统。
+ 搜索引擎包括全文索引、目录索引、元搜索引擎、垂直搜索引擎、集合式搜索引擎、门户搜索引擎与免费链接列表等。
+</code></pre>
+<h4 id="font-color99cc33全文索引font"><a class="markdownIt-Anchor" href="#font-color99cc33全文索引font"></a> <font  color="#99CC33">全文索引：<font></h4>
+<pre><code> 全文索引技术是目前搜索引擎的关键技术。
+试想在1M大小的文件中搜索一个词，可能需要几秒，在100M的文件中可能需要几十秒，如果在更大的文件中搜索那么就需要更大的系统开销，这样的开销是不现实的。
+所以在这样的矛盾下出现了全文索引技术，有时候有人叫倒排文档技术。
+</code></pre>
+<h4 id="font-color99cc33目录索引font"><a class="markdownIt-Anchor" href="#font-color99cc33目录索引font"></a> <font  color="#99CC33">目录索引：<font></h4>
+<pre><code>目录索引（ search index/directory)，顾名思义就是将网站分门别类地存放在相应的目录中，因此用户在查询信息时，可选择关键词搜索，也可按分类目录逐层查找。
+</code></pre>
+<h4 id="font-color99cc33垂直搜索引擎font"><a class="markdownIt-Anchor" href="#font-color99cc33垂直搜索引擎font"></a> <font  color="#99CC33">垂直搜索引擎：<font></h4>
+<pre><code>垂直搜索引擎是针对某一个行业的专业搜索引擎，是搜索引擎的细分和延伸，是对网页库中的某类专门的信息进行一次整合，定向分字段抽取出需要的数据进行处理后再以某种形式返回给用户。
+垂直搜索是相对通用搜索引擎的信息量大、查询不准确、深度不够等提出来的新的搜索引擎服务模式，通过针对某一特定领域、某一特定人群或某一特定需求提供的有一定价值的信息和相关服务。
+其特点就是“专、精、深”，且具有行业色彩，相比较通用搜索引擎的海量信息无序化，垂直搜索引擎则显得更加专注、具体和深入。
+</code></pre>
+<h3 id="font-color0033332重要知识点总结font-6"><a class="markdownIt-Anchor" href="#font-color0033332重要知识点总结font-6"></a> <font color="#003333">（2），重要知识点总结<font></h3>
+<p><font color="#999999">1，文件传输协议（FTP）使用TCP可靠的运输服务。FTP使用客户服务器方式。一个FTP服务器进程可以同时为多个用户提供服务。在进进行文件传输时，FTP的客户和服务器之间要先建立两个并行的TCP连接:控制连接和数据连接。实际用于传输文件的是数据连接。</p>
+<p><font color="#999999">2，万维网客户程序与服务器之间进行交互使用的协议时超文本传输协议HTTP。HTTP使用TCP连接进行可靠传输。但HTTP本身是无连接、无状态的。HTTP/1.1协议使用了持续连接（分为非流水线方式和流水线方式）</p>
+<p><font color="#999999">3，电子邮件把邮件发送到收件人使用的邮件服务器，并放在其中的收件人邮箱中，收件人可随时上网到自己使用的邮件服务器读取，相当于电子邮箱。</p>
+<p><font color="#999999">4，一个电子邮件系统有三个重要组成构件：用户代理、邮件服务器、邮件协议（包括邮件发送协议，如SMTP，和邮件读取协议，如POP3和IMAP）。用户代理和邮件服务器都要运行这些协议。</p>
+<h3 id="font-color0033333最重要知识点总结font"><a class="markdownIt-Anchor" href="#font-color0033333最重要知识点总结font"></a> <font color="#003333">（3），最重要知识点总结<font></h3>
+<h4 id="1-font-color999999域名系统-从域名解析出ip地址font"><a class="markdownIt-Anchor" href="#1-font-color999999域名系统-从域名解析出ip地址font"></a> ① <font color="#999999">域名系统-从域名解析出IP地址<font></h4>
+<h4 id="2-font-color999999访问一个网站大致的过程font"><a class="markdownIt-Anchor" href="#2-font-color999999访问一个网站大致的过程font"></a> ② <font color="#999999">访问一个网站大致的过程<font></h4>
+<h4 id="3-font-color999999系统调用和应用编程接口概念font"><a class="markdownIt-Anchor" href="#3-font-color999999系统调用和应用编程接口概念font"></a> ③ <font color="#999999">系统调用和应用编程接口概念<font></h4>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://zhoumoon.github.io/2019/09/11/other/%E5%B9%B2%E8%B4%A7%EF%BC%9A%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" title="干货：计算机网络知识总结" target="_blank" rel="external">http://zhoumoon.github.io/2019/09/11/other/%E5%B9%B2%E8%B4%A7%EF%BC%9A%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/</a>
+    </li>
+    
+    <!-- <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li> -->
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ZhouMoon" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ZhouMoon" target="_blank"><span class="text-dark">ZhouMoon</span><small class="ml-1x">邮箱[ com_moon@163.com ]</small></a></h3>
+        <div>周海军的博客</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/09/11/Java/%E4%B8%BA%E4%BB%80%E4%B9%88%20Java%20%E4%B8%AD%E5%8F%AA%E6%9C%89%E5%80%BC%E4%BC%A0%E9%80%92%EF%BC%9F/" title="为什么 Java 中只有值传递？"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/08/14/Java/java%E4%BF%AE%E6%94%B9%E9%A1%B9%E7%9B%AEweb%E8%AE%BF%E9%97%AE%E6%A0%B9%E7%9B%AE%E5%BD%95/" title="Java修改项目web访问根目录"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZhouMoon" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://space.bilibili.com/40356921" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="https://twitter.com/ZHJTime" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+</html>

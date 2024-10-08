@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Windows杀死java进程 | Moon-Blog</title>
+  <meta name="description" content="查询端口  windows  系统查询8080端口的进程 netstat -ano | findstr 8080   查询运行的程序  tasklist或jps 命令查看当前系统中的进程列表 如查看chrome 进程: tasklist | findstr chrome   杀死进程  通过name: taskkill &#x2F;im nginx.exe &#x2F;f 通过pid: taskkill &#x2F;pid">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows杀死java进程">
+<meta property="og:url" content="http://zhoumoon.github.io/2022/05/14/Windows/Windows%E6%9D%80%E6%AD%BBjava%E8%BF%9B%E7%A8%8B/index.html">
+<meta property="og:site_name" content="ZhouMoon">
+<meta property="og:description" content="查询端口  windows  系统查询8080端口的进程 netstat -ano | findstr 8080   查询运行的程序  tasklist或jps 命令查看当前系统中的进程列表 如查看chrome 进程: tasklist | findstr chrome   杀死进程  通过name: taskkill &#x2F;im nginx.exe &#x2F;f 通过pid: taskkill &#x2F;pid">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-14T07:38:00.000Z">
+<meta property="article:modified_time" content="2023-08-01T01:45:09.868Z">
+<meta property="article:author" content="ZhouMoon">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Windows">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://zhoumoon.github.io/2022/05/14/Windows/Windows%E6%9D%80%E6%AD%BBjava%E8%BF%9B%E7%A8%8B/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ZhouMoon" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">ZhouMoon</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">邮箱[ com_moon@163.com ]</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZhouMoon" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://space.bilibili.com/40356921" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="https://twitter.com/ZHJTime" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>使用<b style=" color:red; font-size:18px;">搜索</b>效率翻倍!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Docker/" style="font-size: 13.33px;">Docker</a> <a href="/tags/Git/" style="font-size: 13px;">Git</a> <a href="/tags/Http/" style="font-size: 13px;">Http</a> <a href="/tags/IDE/" style="font-size: 13.17px;">IDE</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Linux/" style="font-size: 13.83px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 13.33px;">MySQL</a> <a href="/tags/Oracle/" style="font-size: 13.17px;">Oracle</a> <a href="/tags/Vim/" style="font-size: 13.33px;">Vim</a> <a href="/tags/Windows/" style="font-size: 13.67px;">Windows</a> <a href="/tags/Work/" style="font-size: 13px;">Work</a> <a href="/tags/%E7%90%86%E8%B4%A2/" style="font-size: 13.5px;">理财</a>
+    </div>
+  </div>
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E7%AB%AF%E5%8F%A3"><span class="toc-number">1.</span> <span class="toc-text"> 查询端口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E8%BF%90%E8%A1%8C%E7%9A%84%E7%A8%8B%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text"> 查询运行的程序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%80%E6%AD%BB%E8%BF%9B%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text"> 杀死进程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3"><span class="toc-number">3.1.</span> <span class="toc-text"> 命令详解</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Windows/Windows杀死java进程" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Windows杀死java进程
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2022/05/14/Windows/Windows%E6%9D%80%E6%AD%BBjava%E8%BF%9B%E7%A8%8B/" class="article-date">
+	  <time datetime="2022-05-14T07:38:00.000Z" itemprop="datePublished">2022-05-14</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Java/" rel="tag">Java</a>, <a class="article-tag-link-link" href="/tags/Windows/" rel="tag">Windows</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2022/05/14/Windows/Windows%E6%9D%80%E6%AD%BBjava%E8%BF%9B%E7%A8%8B/" class="leancloud_visitors"  data-flag-title="Windows杀死java进程">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2022/05/14/Windows/Windows%E6%9D%80%E6%AD%BBjava%E8%BF%9B%E7%A8%8B/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h4 id="查询端口"><a class="markdownIt-Anchor" href="#查询端口"></a> 查询端口</h4>
+<ul>
+<li>windows  系统查询8080端口的进程</li>
+<li><code>netstat -ano | findstr 8080</code></li>
+</ul>
+<h4 id="查询运行的程序"><a class="markdownIt-Anchor" href="#查询运行的程序"></a> 查询运行的程序</h4>
+<ul>
+<li><code>tasklist</code>或<code>jps</code> 命令查看当前系统中的进程列表</li>
+<li>如查看chrome 进程: <code>tasklist | findstr chrome</code></li>
+</ul>
+<h4 id="杀死进程"><a class="markdownIt-Anchor" href="#杀死进程"></a> 杀死进程</h4>
+<ul>
+<li>通过name: <code>taskkill /im nginx.exe /f</code></li>
+<li>通过pid: <code>taskkill /pid  8568 /f</code></li>
+</ul>
+<hr />
+<h5 id="命令详解"><a class="markdownIt-Anchor" href="#命令详解"></a> 命令详解</h5>
+<blockquote>
+<p>TASKLIST</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">TASKLIST [/S system [/U username [/P [password]]]]</span><br><span class="line">         [/M [module] | /SVC | /V] [/FI filter] [/FO format] [/NH]</span><br><span class="line">描述:</span><br><span class="line">    该工具显示在本地或远程机器上当前运行的进程列表。</span><br><span class="line"> </span><br><span class="line">参数列表:</span><br><span class="line">   /S     system           指定连接到的远程系统。</span><br><span class="line">   /U     [domain\]user    指定应该在哪个用户上下文执行这个命令。</span><br><span class="line">   /P     [password]       为提供的用户上下文指定密码。如果省略，则提示输入。</span><br><span class="line">   /M     [module]         列出当前使用所给 exe/dll 名称的所有任务。</span><br><span class="line">                           如果没有指定模块名称，显示所有加载的模块。</span><br><span class="line">   /SVC                    显示每个进程中主持的服务。</span><br><span class="line">   /V                      显示详述任务信息。</span><br><span class="line">   /FI    filter           显示一系列符合筛选器指定的标准的任务。</span><br><span class="line">   /FO    format           指定输出格式。</span><br><span class="line">                           有效值: &quot;TABLE&quot;、&quot;LIST&quot;、&quot;CSV&quot;。</span><br><span class="line">   /NH                     指定列标题不应该在输出中显示。</span><br><span class="line">                           只对 &quot;TABLE&quot; 和 &quot;CSV&quot; 格式有效。</span><br><span class="line">   /?                      显示帮助消息。</span><br><span class="line">筛选器:</span><br><span class="line">    筛选器名        有效操作符                有效值</span><br><span class="line">    -----------     ---------------           --------------------------</span><br><span class="line">    STATUS          eq, ne                    RUNNING |NOT RESPONDING | UNKNOWN</span><br><span class="line">    IMAGENAME       eq, ne                    映像名称</span><br><span class="line">    PID             eq, ne, gt, lt, ge, le    PID 值</span><br><span class="line">    SESSION         eq, ne, gt, lt, ge, le    会话编号</span><br><span class="line">    SESSIONNAME     eq, ne                    会话名</span><br><span class="line">    CPUTIME         eq, ne, gt, lt, ge, le    CPU 时间，格式为hh:mm:ss。hh - 时，mm - 分，ss - 秒</span><br><span class="line">    MEMUSAGE        eq, ne, gt, lt, ge, le    内存使用量，单位为 KB</span><br><span class="line">    USERNAME        eq, ne                    用户名，格式为 [domain\]user</span><br><span class="line">    SERVICES        eq, ne                    服务名称</span><br><span class="line">    WINDOWTITLE     eq, ne                    窗口标题</span><br><span class="line">    MODULES         eq, ne                    DLL 名称</span><br><span class="line">说明: 当查询远程机器时，不支持 &quot;WINDOWTITLE&quot; 和 &quot;STATUS&quot;</span><br><span class="line">      筛选器。</span><br><span class="line">示例:</span><br><span class="line">    TASKLIST</span><br><span class="line">    TASKLIST /M</span><br><span class="line">    TASKLIST /V /FO CSV</span><br><span class="line">    TASKLIST /SVC /FO LIST</span><br><span class="line">    TASKLIST /M wbem*</span><br><span class="line">    TASKLIST /S system /FO LIST</span><br><span class="line">    TASKLIST /S system /U domain\username /FO CSV /NH</span><br><span class="line">    TASKLIST /S system /U username /P password /FO TABLE /NH</span><br><span class="line">    TASKLIST /FI &quot;USERNAME ne NT AUTHORITY\SYSTEM&quot; /FI &quot;STATUS eq running&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>TASKKILL</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">TASKKILL [/S system [/U username [/P [password]]]]</span><br><span class="line">         &#123; [/FI filter] [/PID processid | /IM imagename] &#125; [/T] [/F]</span><br><span class="line">描述:</span><br><span class="line">    使用该工具按照进程 ID (PID) 或映像名称终止任务。</span><br><span class="line">参数列表:</span><br><span class="line">    /S    system           指定要连接的远程系统。</span><br><span class="line">    /U    [domain\]user    指定应该在哪个用户上下文执行这个命令。</span><br><span class="line">    /P    [password]       为提供的用户上下文指定密码。如果忽略，提示输入。</span><br><span class="line">    /FI   filter           应用筛选器以选择一组任务。允许使用 &quot;*&quot;。例如，映像名称 eq acme*</span><br><span class="line">    /PID  processid        指定要终止的进程的 PID。使用 TaskList 取得 PID。</span><br><span class="line">    /IM   imagename        指定要终止的进程的映像名称。通配符 &#x27;*&#x27;可用来</span><br><span class="line">                           指定所有任务或映像名称。</span><br><span class="line">    /T                     终止指定的进程和由它启用的子进程。</span><br><span class="line">    /F                     指定强制终止进程。</span><br><span class="line">    /?                     显示帮助消息。</span><br><span class="line">筛选器:</span><br><span class="line">    筛选器名      有效运算符                有效值</span><br><span class="line">    -----------   ---------------           -------------------------</span><br><span class="line">    STATUS        eq, ne                    RUNNING |</span><br><span class="line">                                            NOT RESPONDING | UNKNOWN</span><br><span class="line">    IMAGENAME     eq, ne                    映像名称</span><br><span class="line">    PID           eq, ne, gt, lt, ge, le    PID 值</span><br><span class="line">    SESSION       eq, ne, gt, lt, ge, le    会话编号。</span><br><span class="line">    CPUTIME       eq, ne, gt, lt, ge, le    CPU 时间，格式为</span><br><span class="line">                                            hh:mm:ss。</span><br><span class="line">                                            hh - 时，</span><br><span class="line">                                            mm - 分，ss - 秒</span><br><span class="line">    MEMUSAGE      eq, ne, gt, lt, ge, le    内存使用量，单位为 KB</span><br><span class="line">    USERNAME      eq, ne                    用户名，格式为 [domain\]user</span><br><span class="line">    MODULES       eq, ne                    DLL 名称</span><br><span class="line">    SERVICES      eq, ne                    服务名称</span><br><span class="line">    WINDOWTITLE   eq, ne                    窗口标题</span><br><span class="line"> </span><br><span class="line">    说明</span><br><span class="line">    ----</span><br><span class="line">    1) 只有在应用筛选器的情况下，/IM 切换才能使用通配符 &#x27;*&#x27;。</span><br><span class="line">    2) 远程进程总是要强行 (/F) 终止。</span><br><span class="line">    3) 当指定远程机器时，不支持 &quot;WINDOWTITLE&quot; 和 &quot;STATUS&quot; 筛选器。</span><br><span class="line">例如:</span><br><span class="line">    TASKKILL /IM notepad.exe</span><br><span class="line">    TASKKILL /PID 1230 /PID 1241 /PID 1253 /T</span><br><span class="line">    TASKKILL /F /IM cmd.exe /T</span><br><span class="line">    TASKKILL /F /FI &quot;PID ge 1000&quot; /FI &quot;WINDOWTITLE ne untitle*&quot;</span><br><span class="line">    TASKKILL /F /FI &quot;USERNAME eq NT AUTHORITY\SYSTEM&quot; /IM notepad.exe</span><br><span class="line">    TASKKILL /S system /U domain\username /FI &quot;USERNAME ne NT*&quot; /IM *</span><br><span class="line">    TASKKILL /S system /U username /P password /FI &quot;IMAGENAME eq note*&quot;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://zhoumoon.github.io/2022/05/14/Windows/Windows%E6%9D%80%E6%AD%BBjava%E8%BF%9B%E7%A8%8B/" title="Windows杀死java进程" target="_blank" rel="external">http://zhoumoon.github.io/2022/05/14/Windows/Windows%E6%9D%80%E6%AD%BBjava%E8%BF%9B%E7%A8%8B/</a>
+    </li>
+    
+    <!-- <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li> -->
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ZhouMoon" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ZhouMoon" target="_blank"><span class="text-dark">ZhouMoon</span><small class="ml-1x">邮箱[ com_moon@163.com ]</small></a></h3>
+        <div>周海军的博客</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2022/05/18/IDE/IDEA%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%E9%97%AE%E9%A2%98/" title="IDEA无法启动问题"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2022/05/14/Windows/Windows%E8%BF%90%E8%A1%8Cjava-jar%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99/" title="Windows运行java-jar启动报错"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZhouMoon" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://space.bilibili.com/40356921" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="https://twitter.com/ZHJTime" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+</html>

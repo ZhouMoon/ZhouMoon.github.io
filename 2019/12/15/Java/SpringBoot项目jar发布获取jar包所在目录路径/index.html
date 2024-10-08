@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>SpringBoot项目jar发布获取jar包所在目录路径 | Moon-Blog</title>
+  <meta name="description" content="SpringBoot项目jar发布获取jar包所在目录路径  12345678910111213141516&#x2F;&#x2F;第一种File path &#x3D; new File(ResourceUtils.getURL(&quot;classpath:&quot;).getPath());if(!path.exists()) path &#x3D; new File(&quot;&quot;);System.out.pri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot项目jar发布获取jar包所在目录路径">
+<meta property="og:url" content="http://zhoumoon.github.io/2019/12/15/Java/SpringBoot%E9%A1%B9%E7%9B%AEjar%E5%8F%91%E5%B8%83%E8%8E%B7%E5%8F%96jar%E5%8C%85%E6%89%80%E5%9C%A8%E7%9B%AE%E5%BD%95%E8%B7%AF%E5%BE%84/index.html">
+<meta property="og:site_name" content="ZhouMoon">
+<meta property="og:description" content="SpringBoot项目jar发布获取jar包所在目录路径  12345678910111213141516&#x2F;&#x2F;第一种File path &#x3D; new File(ResourceUtils.getURL(&quot;classpath:&quot;).getPath());if(!path.exists()) path &#x3D; new File(&quot;&quot;);System.out.pri">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190313101814344.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190313102105601.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190313102346617.png">
+<meta property="article:published_time" content="2019-12-14T17:21:42.000Z">
+<meta property="article:modified_time" content="2023-08-01T01:45:09.868Z">
+<meta property="article:author" content="ZhouMoon">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190313101814344.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://zhoumoon.github.io/2019/12/15/Java/SpringBoot%E9%A1%B9%E7%9B%AEjar%E5%8F%91%E5%B8%83%E8%8E%B7%E5%8F%96jar%E5%8C%85%E6%89%80%E5%9C%A8%E7%9B%AE%E5%BD%95%E8%B7%AF%E5%BE%84/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ZhouMoon" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">ZhouMoon</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">邮箱[ com_moon@163.com ]</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZhouMoon" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://space.bilibili.com/40356921" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="https://twitter.com/ZHJTime" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>使用<b style=" color:red; font-size:18px;">搜索</b>效率翻倍!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Docker/" style="font-size: 13.33px;">Docker</a> <a href="/tags/Git/" style="font-size: 13px;">Git</a> <a href="/tags/Http/" style="font-size: 13px;">Http</a> <a href="/tags/IDE/" style="font-size: 13.17px;">IDE</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Linux/" style="font-size: 13.83px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 13.33px;">MySQL</a> <a href="/tags/Oracle/" style="font-size: 13.17px;">Oracle</a> <a href="/tags/Vim/" style="font-size: 13.33px;">Vim</a> <a href="/tags/Windows/" style="font-size: 13.67px;">Windows</a> <a href="/tags/Work/" style="font-size: 13px;">Work</a> <a href="/tags/%E7%90%86%E8%B4%A2/" style="font-size: 13.5px;">理财</a>
+    </div>
+  </div>
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#springboot%E9%A1%B9%E7%9B%AEjar%E5%8F%91%E5%B8%83%E8%8E%B7%E5%8F%96jar%E5%8C%85%E6%89%80%E5%9C%A8%E7%9B%AE%E5%BD%95%E8%B7%AF%E5%BE%84"><span class="toc-number">1.</span> <span class="toc-text"> SpringBoot项目jar发布获取jar包所在目录路径</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%BC%E4%B8%8A%E6%89%80%E8%BF%B0%E6%9C%80%E5%A5%BD%E4%BD%BF%E7%94%A8%E7%AC%AC%E4%BA%94%E7%A7%8D%E6%96%B9%E6%A1%88%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8Cjar%E6%89%80%E5%9C%A8%E7%9A%84%E7%9B%AE%E5%BD%95"><span class="toc-number">1.0.1.</span> <span class="toc-text"> 综上所述，最好使用第五种方案，获取运行jar所在的目录。</span></a></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Java/SpringBoot项目jar发布获取jar包所在目录路径" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SpringBoot项目jar发布获取jar包所在目录路径
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/12/15/Java/SpringBoot%E9%A1%B9%E7%9B%AEjar%E5%8F%91%E5%B8%83%E8%8E%B7%E5%8F%96jar%E5%8C%85%E6%89%80%E5%9C%A8%E7%9B%AE%E5%BD%95%E8%B7%AF%E5%BE%84/" class="article-date">
+	  <time datetime="2019-12-14T17:21:42.000Z" itemprop="datePublished">2019-12-15</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Java/" rel="tag">Java</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2019/12/15/Java/SpringBoot%E9%A1%B9%E7%9B%AEjar%E5%8F%91%E5%B8%83%E8%8E%B7%E5%8F%96jar%E5%8C%85%E6%89%80%E5%9C%A8%E7%9B%AE%E5%BD%95%E8%B7%AF%E5%BE%84/" class="leancloud_visitors"  data-flag-title="SpringBoot项目jar发布获取jar包所在目录路径">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/12/15/Java/SpringBoot%E9%A1%B9%E7%9B%AEjar%E5%8F%91%E5%B8%83%E8%8E%B7%E5%8F%96jar%E5%8C%85%E6%89%80%E5%9C%A8%E7%9B%AE%E5%BD%95%E8%B7%AF%E5%BE%84/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="springboot项目jar发布获取jar包所在目录路径"><a class="markdownIt-Anchor" href="#springboot项目jar发布获取jar包所在目录路径"></a> SpringBoot项目jar发布获取jar包所在目录路径</h2>
+<hr />
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一种</span></span><br><span class="line"><span class="type">File</span> <span class="variable">path</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(ResourceUtils.getURL(<span class="string">&quot;classpath:&quot;</span>).getPath());</span><br><span class="line"><span class="keyword">if</span>(!path.exists()) path = <span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;&quot;</span>);</span><br><span class="line">System.out.println(path.getAbsolutePath());</span><br><span class="line"><span class="comment">//第二种</span></span><br><span class="line">System.out.println(System.getProperty(<span class="string">&quot;user.dir&quot;</span>));</span><br><span class="line"><span class="comment">//第三种</span></span><br><span class="line"><span class="type">String</span> <span class="variable">path1</span> <span class="operator">=</span> ClassUtils.getDefaultClassLoader().getResource(<span class="string">&quot;&quot;</span>).getPath();</span><br><span class="line">System.out.println(URLDecoder.decode(path1, <span class="string">&quot;utf-8&quot;</span>));</span><br><span class="line"><span class="comment">//第四种</span></span><br><span class="line"><span class="type">String</span> <span class="variable">path2</span> <span class="operator">=</span> ResourceUtils.getURL(<span class="string">&quot;classpath:&quot;</span>).getPath();</span><br><span class="line">System.out.println(path2);</span><br><span class="line"><span class="comment">//第五种</span></span><br><span class="line"><span class="type">ApplicationHome</span> <span class="variable">h</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ApplicationHome</span>(getClass());</span><br><span class="line"><span class="type">File</span> <span class="variable">jarF</span> <span class="operator">=</span> h.getSource();</span><br><span class="line">System.out.println(jarF.getParentFile().toString());</span><br></pre></td></tr></table></figure>
+<p>这几种获取项目目录的方式中，其中：</p>
+<p>第一种、第二种得到的结果一致</p>
+<p>第三种、第四种得到的结果一致</p>
+<p>但是，不同的运行方式，他们的结果是有偏差的。下面我们来看下不同情况下依次打印的路径是什么。</p>
+<p>先看下直接在idea中运行main方法启动项目时候，打印的路径，显示如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190313101814344.png" alt="" /></p>
+<p>再看下打包成jar包中，打印的路径</p>
+<p>第一种执行方式</p>
+<p>操作方式：打开命令行，目录切换到jar包所在目录，然后执行 jar -jar  启动命令，打印的路径如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190313102105601.png" alt="" /></p>
+<p>第二种执行方式</p>
+<p>操作方式：打开命令行，直接java -jar  E:/web_pack/bis_exporter-1.0-SANPSHOT.jar，即不切换到jar所在目录，而是直接执行，打印的路径如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190313102346617.png" alt="" /></p>
+<p>是不是发现问题了！<strong>在这种情况下，第一种和第二种方式打印的路径是不对的，他打印的路径就是当前执行命令时所在的目录。这就很容易造成不必要的bug</strong>。</p>
+<p>例如：我们在jar的根目录写一个自定义数据配置文件，通过第一种或者第二种方式读取数据，那么使用远程执行jar的方式，就一定会报找不到配置文件的错误。</p>
+<p><strong>总结</strong></p>
+<h4 id="综上所述最好使用第五种方案获取运行jar所在的目录"><a class="markdownIt-Anchor" href="#综上所述最好使用第五种方案获取运行jar所在的目录"></a> <strong>综上所述，最好使用第五种方案，获取运行jar所在的目录。</strong></h4>
+<hr />
+<p>本文转自 <a target="_blank" rel="noopener" href="https://blog.csdn.net/liangcha007/article/details/88526181">https://blog.csdn.net/liangcha007/article/details/88526181</a>，如有侵权，请联系删除。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://zhoumoon.github.io/2019/12/15/Java/SpringBoot%E9%A1%B9%E7%9B%AEjar%E5%8F%91%E5%B8%83%E8%8E%B7%E5%8F%96jar%E5%8C%85%E6%89%80%E5%9C%A8%E7%9B%AE%E5%BD%95%E8%B7%AF%E5%BE%84/" title="SpringBoot项目jar发布获取jar包所在目录路径" target="_blank" rel="external">http://zhoumoon.github.io/2019/12/15/Java/SpringBoot%E9%A1%B9%E7%9B%AEjar%E5%8F%91%E5%B8%83%E8%8E%B7%E5%8F%96jar%E5%8C%85%E6%89%80%E5%9C%A8%E7%9B%AE%E5%BD%95%E8%B7%AF%E5%BE%84/</a>
+    </li>
+    
+    <!-- <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li> -->
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ZhouMoon" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ZhouMoon" target="_blank"><span class="text-dark">ZhouMoon</span><small class="ml-1x">邮箱[ com_moon@163.com ]</small></a></h3>
+        <div>周海军的博客</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/12/16/Java/Spring_Boot_%E9%A1%B9%E7%9B%AE%E8%8E%B7%E5%8F%96jar%E7%9B%AE%E5%BD%95/" title="Spring Boot 项目获取jar目录"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/12/15/Java/springcloud_%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85_%E6%8A%A5_%E6%B2%A1%E6%9C%89%E4%B8%BB%E6%B8%85%E5%8D%95%E5%B1%9E%E6%80%A7/" title="Spring Cloud 项目打包报没有主清单属性"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZhouMoon" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://space.bilibili.com/40356921" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="https://twitter.com/ZHJTime" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+</html>
