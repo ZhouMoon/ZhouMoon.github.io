@@ -18,15 +18,15 @@
   
   
   <title>关于💥 | Moon-Blog</title>
-  <meta name="description" content="个人简介❤">
+  <meta name="description" content="简介">
 <meta property="og:type" content="website">
 <meta property="og:title" content="关于💥">
 <meta property="og:url" content="http://zhoumoon.github.io/about/index.html">
 <meta property="og:site_name" content="ZhouMoon">
-<meta property="og:description" content="个人简介❤">
+<meta property="og:description" content="简介">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-08-01T01:45:09.868Z">
-<meta property="article:modified_time" content="2023-08-01T01:45:09.868Z">
+<meta property="article:published_time" content="2024-11-13T08:31:11.489Z">
+<meta property="article:modified_time" content="2024-11-13T08:31:11.489Z">
 <meta property="article:author" content="ZhouMoon">
 <meta property="article:tag" content="Java,MySQL,随笔">
 <meta name="twitter:card" content="summary">
@@ -215,16 +215,16 @@
           
           <li class="clearfix">
             <span>Git</span>
-            <span class="pull-right">★★★☆☆</span>
+            <span class="pull-right">★★★★☆</span>
           </li>
           
           <li class="clearfix">
             <span>Linux</span>
-            <span class="pull-right">★★★☆☆</span>
+            <span class="pull-right">★★★★☆</span>
           </li>
           
           <li class="clearfix">
-            <span>Bootstrap</span>
+            <span>Docker</span>
             <span class="pull-right">★★★☆☆</span>
           </li>
           
@@ -255,7 +255,7 @@
   <header class="article-header">
     <h1 itemprop="title">关于💥</h1>
     
-    <p class="text-muted">个人简介❤</p>
+    <p class="text-muted">简介</p>
     
   </header>
   <div class="article-body">
@@ -278,8 +278,8 @@
 </ul>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script><textarea id="flowchart-0-code" style="display: none">st=>start: 开始
 op0=>operation: 印象笔记（开了会员依旧广告轰炸!!!）
-op1=>operation: OneNote（墙人所难）
-op2=>operation: Notion（好,真的好!!! 安全第一!）
+op1=>operation: OneNote（微软的软件确实不错）
+op2=>operation: Notion（好,真的好!!! ）
 op3=>operation: 为知笔记（付费挺好的,但移动端...）
 op4=>operation: Hexo（逐步迁移...）
 end=>end: 结束
@@ -353,6 +353,80 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+  
+    <style>
+      .copy-btn {
+        display: inline-block;
+        padding: 6px 12px;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 20px;
+        color: #333;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        background-color: #eee;
+        background-image: linear-gradient(#fcfcfc, #eee);
+        border: 1px solid #d5d5d5;
+        border-radius: 3px;
+        user-select: none;
+        outline: 0;
+      }
+  
+      .highlight-wrap .copy-btn {
+        transition: opacity .3s ease-in-out;
+        opacity: 0;
+        padding: 2px 6px;
+        position: absolute;
+        right: 4px;
+        top: 8px;
+        z-index: 2;
+      }
+  
+      .highlight-wrap:hover .copy-btn,
+          .highlight-wrap .copy-btn:focus {
+        opacity: 1
+      }
+  
+      .highlight-wrap {
+        position: relative;
+      }
+    </style>
+    
+    <script>
+      addLoadEvent(()=>{
+        $('.highlight').each(function (i, e) {
+          var $wrap = $('<div>').addClass('highlight-wrap')
+          $(e).after($wrap)
+          $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+            var code = $(this).parent().find(".code")[0].innerText
+            
+            var ta = document.createElement('textarea')
+            document.body.appendChild(ta)
+            ta.style.position = 'absolute'
+            ta.style.top = '0px'
+            ta.style.left = '0px'
+            ta.value = code
+            ta.select()
+            ta.focus()
+            var result = document.execCommand('copy')
+            document.body.removeChild(ta)
+            
+              if(result)$(this).text('复制完成')
+              else $(this).text('复制失败')
+            
+            $(this).blur()
+          })).on('mouseleave', function (e) {
+            var $b = $(this).find('.copy-btn')
+            setTimeout(function () {
+              $b.text('复制')
+            }, 300)
+          }).append(e)
+        })
+      })
+    </script>
+  
+  
 </body>
 <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
 </html>

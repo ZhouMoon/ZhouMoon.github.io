@@ -213,6 +213,16 @@
           <div class="collection">
     
     
+<a href="/2019/12/15/Java/SpringBoot%E9%A1%B9%E7%9B%AEjar%E5%8F%91%E5%B8%83%E8%8E%B7%E5%8F%96jar%E5%8C%85%E6%89%80%E5%9C%A8%E7%9B%AE%E5%BD%95%E8%B7%AF%E5%BE%84/" class="collection-item" target="_blank" itemprop="url">
+  <time datetime="2019-12-14T17:21:42.000Z" itemprop="datePublished">2019-12-15</time>
+  <span>&nbsp;&nbsp;&nbsp;</span> SpringBoot项目jar发布获取jar包所在目录路径
+</a>
+
+
+  
+    
+    
+    
 <a href="/2019/12/15/Java/springcloud_%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85_%E6%8A%A5_%E6%B2%A1%E6%9C%89%E4%B8%BB%E6%B8%85%E5%8D%95%E5%B1%9E%E6%80%A7/" class="collection-item" target="_blank" itemprop="url">
   <time datetime="2019-12-14T16:31:12.000Z" itemprop="datePublished">2019-12-15</time>
   <span>&nbsp;&nbsp;&nbsp;</span> Spring Cloud 项目打包报没有主清单属性
@@ -300,16 +310,6 @@
 
 
   
-    
-    
-    
-<a href="/2019/08/13/Java/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E5%86%85%E5%AD%98%E5%8F%AF%E8%A7%81%E6%80%A7/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-08-13T15:59:37.000Z" itemprop="datePublished">2019-08-13</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> Java多线程之内存可见性
-</a>
-
-
-  
   
     </div></div></div></section>
   
@@ -393,6 +393,80 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+  
+    <style>
+      .copy-btn {
+        display: inline-block;
+        padding: 6px 12px;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 20px;
+        color: #333;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        background-color: #eee;
+        background-image: linear-gradient(#fcfcfc, #eee);
+        border: 1px solid #d5d5d5;
+        border-radius: 3px;
+        user-select: none;
+        outline: 0;
+      }
+  
+      .highlight-wrap .copy-btn {
+        transition: opacity .3s ease-in-out;
+        opacity: 0;
+        padding: 2px 6px;
+        position: absolute;
+        right: 4px;
+        top: 8px;
+        z-index: 2;
+      }
+  
+      .highlight-wrap:hover .copy-btn,
+          .highlight-wrap .copy-btn:focus {
+        opacity: 1
+      }
+  
+      .highlight-wrap {
+        position: relative;
+      }
+    </style>
+    
+    <script>
+      addLoadEvent(()=>{
+        $('.highlight').each(function (i, e) {
+          var $wrap = $('<div>').addClass('highlight-wrap')
+          $(e).after($wrap)
+          $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+            var code = $(this).parent().find(".code")[0].innerText
+            
+            var ta = document.createElement('textarea')
+            document.body.appendChild(ta)
+            ta.style.position = 'absolute'
+            ta.style.top = '0px'
+            ta.style.left = '0px'
+            ta.value = code
+            ta.select()
+            ta.focus()
+            var result = document.execCommand('copy')
+            document.body.removeChild(ta)
+            
+              if(result)$(this).text('复制完成')
+              else $(this).text('复制失败')
+            
+            $(this).blur()
+          })).on('mouseleave', function (e) {
+            var $b = $(this).find('.copy-btn')
+            setTimeout(function () {
+              $b.text('复制')
+            }, 300)
+          }).append(e)
+        })
+      })
+    </script>
+  
+  
 </body>
 <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
 </html>

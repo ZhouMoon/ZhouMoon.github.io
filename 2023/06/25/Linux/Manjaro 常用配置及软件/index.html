@@ -249,7 +249,7 @@
         <h2 id="manjaro-常用配置及软件"><a class="markdownIt-Anchor" href="#manjaro-常用配置及软件"></a> Manjaro 常用配置及软件</h2>
 <hr />
 <h4 id="创建用户"><a class="markdownIt-Anchor" href="#创建用户"></a> 创建用户</h4>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">切root用户</span></span><br><span class="line">su root </span><br><span class="line">sudo useradd -r -m -s /bin/bash moon</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置密码</span></span><br><span class="line">sudo passwd</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-r：建立系统账号</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-m：自动建立用户的登入目录</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-s：指定用户登入后所使用的shell</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置sudo</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改/etc/sudoers 权限</span></span><br><span class="line">chmod +w /etc/sudoers</span><br><span class="line">vim /etc/sudoers</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">增加moon用户权限</span></span><br><span class="line">moon    ALL=(ALL:ALL) ALL</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">env_reset下添加, 使sudo 执行命令时走代理</span></span><br><span class="line">Defaults env_keep += &quot;http_proxy https_proxy ftp_proxy all_proxy no_proxy&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">还原权限(否则不生效)</span></span><br><span class="line">chmod 440 /etc/sudoers</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">切root用户</span></span><br><span class="line">su root </span><br><span class="line">sudo useradd -r -m -s /bin/bash moon</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置密码</span></span><br><span class="line">sudo passwd</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-r：建立系统账号</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-m：自动建立用户的登入目录</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-s：指定用户登入后所使用的shell</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置<span class="built_in">sudo</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改/etc/sudoers 权限</span></span><br><span class="line">chmod +w /etc/sudoers</span><br><span class="line">vim /etc/sudoers</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">增加moon用户权限</span></span><br><span class="line">moon    ALL=(ALL:ALL) ALL</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">env_reset下添加, 使<span class="built_in">sudo</span> 执行命令时走代理</span></span><br><span class="line">Defaults env_keep += &quot;http_proxy https_proxy ftp_proxy all_proxy no_proxy&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">还原权限(否则不生效)</span></span><br><span class="line">chmod 440 /etc/sudoers</span><br></pre></td></tr></table></figure>
 <h4 id="sshd-服务"><a class="markdownIt-Anchor" href="#sshd-服务"></a> sshd 服务</h4>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看sshd状态</span></span><br><span class="line">sudo systemctl status sshd</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动sshd</span></span><br><span class="line">sudo systemctl start sshd</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">开机启动sshd</span></span><br><span class="line">sudo systemctl enable sshd</span><br></pre></td></tr></table></figure>
 <h4 id="ssh-登录"><a class="markdownIt-Anchor" href="#ssh-登录"></a> ssh 登录</h4>
@@ -264,7 +264,7 @@
 <p>因为 pacman 包管理器本身并不直接支持 AUR，所以我们要装个 AUR helper，打开通往快乐的大门。<br />
 Manjaro 自带的 pamac 图形化包管理器在设置中即可开启 AUR 支持。命令行下我选用了 yay，可以直接从官方 community 仓库中安装：</p>
 </blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">后面那个是编译包时需要的一些工具，不然会报错缺少 fakeroot 之类的</span></span><br><span class="line">sudo pacman -S yay base-devel</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置 AUR 官方镜像源, 可以是国内的源(!!!清华源不可用,停止代理了!!!)</span></span><br><span class="line">yay --aururl &quot;https://aur.archlinux.org&quot; --save</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">开启 pacman 和 yay 的彩色输出</span></span><br><span class="line">sudo sed -i &quot;s/#Color/Color/g&quot; /etc/pacman.conf</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">加速 AUR 包构建</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo sed -i <span class="string">&quot;s/PKGEXT=&#x27;.pkg.tar.xz&#x27;/PKGEXT=&#x27;.pkg.tar&#x27;/g&quot;</span> /etc/makepkg.conf</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">默认情况下 makepkg 构建 AUR 包时会启用压缩，构建完了安装又要再解压一次，</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">如果只是自己机器上使用的话，实在是没必要（而且大软件包压缩很慢）。</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">后面那个是编译包时需要的一些工具，不然会报错缺少 fakeroot 之类的</span></span><br><span class="line">sudo pacman -S yay base-devel</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置 AUR 官方镜像源, 可以是国内的源(!!!清华源不可用,停止代理了!!!)</span></span><br><span class="line">yay --aururl &quot;https://aur.archlinux.org&quot; --save</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">开启 pacman 和 yay 的彩色输出</span></span><br><span class="line">sudo sed -i &quot;s/#Color/Color/g&quot; /etc/pacman.conf</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">加速 AUR 包构建</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">sudo</span> sed -i <span class="string">&quot;s/PKGEXT=&#x27;.pkg.tar.xz&#x27;/PKGEXT=&#x27;.pkg.tar&#x27;/g&quot;</span> /etc/makepkg.conf</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">默认情况下 makepkg 构建 AUR 包时会启用压缩，构建完了安装又要再解压一次，</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">如果只是自己机器上使用的话，实在是没必要（而且大软件包压缩很慢）。</span></span><br></pre></td></tr></table></figure>
 <h4 id="执行一次更新"><a class="markdownIt-Anchor" href="#执行一次更新"></a> 执行一次更新</h4>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看信息,是否是自己的配置</span></span><br><span class="line">yay -P -g </span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">同步包数据库并升级所有软件包</span></span><br><span class="line">yay -Syu</span><br></pre></td></tr></table></figure>
 <h4 id="常用pacman-yay基本操作"><a class="markdownIt-Anchor" href="#常用pacman-yay基本操作"></a> 常用Pacman &amp; yay基本操作</h4>
@@ -497,6 +497,80 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+  
+    <style>
+      .copy-btn {
+        display: inline-block;
+        padding: 6px 12px;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 20px;
+        color: #333;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        background-color: #eee;
+        background-image: linear-gradient(#fcfcfc, #eee);
+        border: 1px solid #d5d5d5;
+        border-radius: 3px;
+        user-select: none;
+        outline: 0;
+      }
+  
+      .highlight-wrap .copy-btn {
+        transition: opacity .3s ease-in-out;
+        opacity: 0;
+        padding: 2px 6px;
+        position: absolute;
+        right: 4px;
+        top: 8px;
+        z-index: 2;
+      }
+  
+      .highlight-wrap:hover .copy-btn,
+          .highlight-wrap .copy-btn:focus {
+        opacity: 1
+      }
+  
+      .highlight-wrap {
+        position: relative;
+      }
+    </style>
+    
+    <script>
+      addLoadEvent(()=>{
+        $('.highlight').each(function (i, e) {
+          var $wrap = $('<div>').addClass('highlight-wrap')
+          $(e).after($wrap)
+          $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+            var code = $(this).parent().find(".code")[0].innerText
+            
+            var ta = document.createElement('textarea')
+            document.body.appendChild(ta)
+            ta.style.position = 'absolute'
+            ta.style.top = '0px'
+            ta.style.left = '0px'
+            ta.value = code
+            ta.select()
+            ta.focus()
+            var result = document.execCommand('copy')
+            document.body.removeChild(ta)
+            
+              if(result)$(this).text('复制完成')
+              else $(this).text('复制失败')
+            
+            $(this).blur()
+          })).on('mouseleave', function (e) {
+            var $b = $(this).find('.copy-btn')
+            setTimeout(function () {
+              $b.text('复制')
+            }, 300)
+          }).append(e)
+        })
+      })
+    </script>
+  
+  
 </body>
 <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
 </html>
